@@ -41,6 +41,15 @@ export class userService {
     });
   }
 
+  async countByProfileId(profile_id:number): Promise<number> {
+      return await this.prisma.user.count({
+      where: {
+        profile_id
+      },
+    });
+  }
+  
+
   async findByEmail(email: string): Promise<user | null> {
     return await this.prisma.user.findUnique({
       where: { email },
@@ -67,7 +76,5 @@ export class userService {
   async remove(id: number): Promise<void> {
     await this.prisma.user.delete({ where: { id } })
     console.log(`L'utilisateur ${id} a été supprimé`);
-    const users = await this.prisma.user.findMany()
-    console.log(users);
   }
 }

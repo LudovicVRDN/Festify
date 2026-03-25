@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards, NotFoundException } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
@@ -11,6 +11,7 @@ export class ProfileController {
   @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createProfileDto: CreateProfileDto, @Request() req) {
+
     return await this.profileService.create(createProfileDto, req.user.sub);
   }
 
@@ -21,7 +22,11 @@ export class ProfileController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.profileService.findOne(+id);
+    try {
+      return this.profileService.findOne(+id);
+    } catch {
+      throw new NotFoundException(`Utilisateurs ${id} introuvable`)
+    }
   }
 
   @Patch(':id')

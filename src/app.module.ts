@@ -4,9 +4,10 @@ import { PrismaModule } from 'prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { ProfileService } from './profile/profile.service';
 import { ProfileModule } from './profile/profile.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UserModule,PrismaModule, AuthModule, ProfileModule],
+  imports: [UserModule,PrismaModule, AuthModule, ProfileModule,ConfigModule.forRoot({isGlobal:true})],
   providers: [ProfileService],
 })
 export class AppModule {}

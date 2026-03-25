@@ -186,7 +186,7 @@ model profile {
   birthdate       DateTime @db.Date
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt()
-  adress_id Int
+  adress_id Int?
   id              Int      @id @unique(map: "id_UNIQUE") @default(autoincrement())
   adress          adress?  @relation(fields: [adress_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_profile_adress1")
   user            user[]
@@ -246,7 +246,7 @@ model user {
   created_at            DateTime                @default(now())
   updated_at            DateTime                @updatedAt()
   role                  role
-  profile_id            Int?
+  profile_id            Int?                    @unique
   inscription           inscription[]
   notification_has_user notification_has_user[]
   skills_has_user       skills_has_user[]

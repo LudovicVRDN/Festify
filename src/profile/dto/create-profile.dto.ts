@@ -1,3 +1,5 @@
+
+import { Transform } from "class-transformer";
 import { IsDate, IsDateString, IsString } from "class-validator";
 
 export class CreateProfileDto {
@@ -5,6 +7,7 @@ export class CreateProfileDto {
     firstname :string
     @IsString()
     lastname : string
-    @IsDateString()
+     @Transform(({ value }) => new Date(value))
+    @IsDate()
     birthdate : Date
 }

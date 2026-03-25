@@ -1,4 +1,4 @@
-import { Injectable, UseGuards } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UseGuards } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { PrismaService } from 'prisma/prisma.service';
@@ -11,6 +11,7 @@ export class ProfileService {
 
 
   async create(createProfileDto: CreateProfileDto, userId: number) {
+    try{
     const profile = await this.prisma.profile.create({
       data: {
         ...createProfileDto,
@@ -20,23 +21,46 @@ export class ProfileService {
       where: { id: userId },
       data: { profile_id: profile.id }
     })
-    console.log('profile créé :', profile)
-    console.log('user mis à jour :', updatedUser)
+    console.log(updatedUser)
+    return profile
+    }catch (error) {
+    if (error.code === 'P2002') { // P2002 = unique constraint violation
+      throw new ConflictException(`L'utilisateur ${userId} a déjà un profil`);
+    }
+    throw error
+  }
+}
+
+  async findAll() {
+    const profiles = await this.prisma.profile.findMany();
+    console.log(profiles);
+    return profiles
   }
 
-  findAll() {
-    return `This action returns all profile`;
+  async findOne(id: number) {
+    return await this.prisma.profile.findUnique({where : {id}})
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} profile`;
+  async countById(id:number){
+    return await this.prisma.profile.count({
+      where:{ id }
+    })
   }
 
-  update(id: number, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
+  async update(id: number, updateProfileDto: UpdateProfileDto) {
+  try{
+   const newUser = await this.prisma.profile.update({
+    where :{id},
+    data: updateProfileDto,
+   })
+   return newUser
+   }catch{
+      throw new NotFoundException(`Profil ${id} introuvable`);
   }
+}
 
-  remove(id: number) {
-    return `This action removes a #${id} profile`;
+  async remove(id: number) {
+    await this.prisma.profile.delete({where : {id}})
+    return { message: `Profile #${id} deleted successfully` };
   }
 }
