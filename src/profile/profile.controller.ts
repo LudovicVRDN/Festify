@@ -11,7 +11,6 @@ export class ProfileController {
   @UseGuards(AuthGuard)
   @Post()
   async create(@Body() createProfileDto: CreateProfileDto, @Request() req) {
-
     return await this.profileService.create(createProfileDto, req.user.sub);
   }
 
@@ -22,20 +21,17 @@ export class ProfileController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    try {
       return this.profileService.findOne(+id);
-    } catch {
-      throw new NotFoundException(`Utilisateurs ${id} introuvable`)
-    }
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return this.profileService.update(+id, updateProfileDto);
+  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto, @Request() req) {
+    return this.profileService.update(req.user.sub, +id, updateProfileDto);
   }
-
+  @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.profileService.remove(+id);
+  remove(@Param('id') id: string, @Request() req) {
+    return this.profileService.remove(req.user.sub, +id);
   }
 }

@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 
-export class userService {
+export class UserService {
   constructor(private prisma: PrismaService) { }
 
   async create(createuserDto: CreateUserDto): Promise<user> {
@@ -25,7 +25,8 @@ export class userService {
   }
 
   async findOne(id: number): Promise<user | null> {
-    return await this.prisma.user.findUnique({ where: { id } })
+    const user = await this.prisma.user.findUnique({ where: { id } })
+    return user
   }
 
   async countByID(id: number): Promise<number | null> {
