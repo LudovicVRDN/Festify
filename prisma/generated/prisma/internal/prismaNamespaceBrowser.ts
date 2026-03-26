@@ -231,13 +231,13 @@ export type Notification_has_userScalarFieldEnum = (typeof Notification_has_user
 
 
 export const ProfileScalarFieldEnum = {
+  id: 'id',
   firstname: 'firstname',
   lastname: 'lastname',
   birthdate: 'birthdate',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  adress_id: 'adress_id',
-  id: 'id'
+  adress_id: 'adress_id'
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -293,8 +293,7 @@ export const UserScalarFieldEnum = {
   is_validated: 'is_validated',
   created_at: 'created_at',
   updated_at: 'updated_at',
-  role: 'role',
-  profile_id: 'profile_id'
+  role: 'role'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -356,6 +355,14 @@ export const notificationOrderByRelevanceFieldEnum = {
 export type notificationOrderByRelevanceFieldEnum = (typeof notificationOrderByRelevanceFieldEnum)[keyof typeof notificationOrderByRelevanceFieldEnum]
 
 
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
 export const profileOrderByRelevanceFieldEnum = {
   firstname: 'firstname',
   lastname: 'lastname'
@@ -377,14 +384,6 @@ export const stageOrderByRelevanceFieldEnum = {
 } as const
 
 export type stageOrderByRelevanceFieldEnum = (typeof stageOrderByRelevanceFieldEnum)[keyof typeof stageOrderByRelevanceFieldEnum]
-
-
-export const NullsOrder = {
-  first: 'first',
-  last: 'last'
-} as const
-
-export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
 export const userOrderByRelevanceFieldEnum = {

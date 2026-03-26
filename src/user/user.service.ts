@@ -1,5 +1,5 @@
 import { Body, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateProfileDto, CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { user } from 'prisma/generated/prisma/client';
@@ -11,9 +11,17 @@ export class UserService {
   constructor(private prisma: PrismaService) { }
 
   async create(createuserDto: CreateUserDto): Promise<user> {
-    const { password, ...rest } = createuserDto
+    const { password, profile, ...rest } = createuserDto
     const hashedPassword = await bcrypt.hash(createuserDto.password, 10)
-    const user: user = await this.prisma.user.create({ data: { ...rest, password: hashedPassword } })
+    const user: user = await this.prisma.user.create({
+      data: {
+        ...rest,
+        password: hashedPassword,
+        profile: {
+          create: profile
+        }
+      }
+    })
     console.log(user)
     return user
   }
@@ -42,14 +50,14 @@ export class UserService {
     });
   }
 
-  async countByProfileId(profile_id:number): Promise<number> {
-      return await this.prisma.user.count({
-      where: {
-        profile_id
-      },
-    });
-  }
-  
+  // async countByProfileId(profile_id: number): Promise<number> {
+  //   return await this.prisma.user.count({
+  //     where: {
+  //       profile_id
+  //     },
+  //   });
+  // }
+
 
   async findByEmail(email: string): Promise<user | null> {
     return await this.prisma.user.findUnique({
@@ -66,10 +74,15 @@ export class UserService {
 
 
   async update(id: number, updateuserDto: UpdateUserDto): Promise<Pick<user, 'id'> | null> {
+    const { password, profile, ...rest } = updateuserDto
     return await this.prisma.user.update({
-      where: { id },
-      data: updateuserDto,
-      select: { id: true },
+      where:{id},
+      data: {
+        ...rest,
+        profile: {
+          update: profile
+        }
+      }
     });
 
   }

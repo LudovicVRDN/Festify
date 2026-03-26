@@ -1,27 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, HttpStatus, HttpException } from '@nestjs/common';
-import { userService } from './user.service';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, HttpStatus, HttpException, UseGuards, Req } from '@nestjs/common';
+import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { user } from 'prisma/generated/prisma/client';
 import { captureRejectionSymbol } from 'events';
 import { NotFoundError } from 'rxjs';
 import { PickType } from '@nestjs/mapped-types';
+import { AuthGuard } from 'src/auth/guard/auth.guard';
+import type { Request } from 'express';
 
 interface iDate {
   date: Date
 }
 @Controller('user')
 export class userController {
-  constructor(private readonly userService: userService) { }
+  constructor(private readonly userService: UserService) { }
 
-  @Post()
-  async create(@Body() createuserDto: CreateUserDto): Promise<user> {
-    const countEmail = await this.userService.countByEmail(createuserDto.email)
-    if (countEmail) {
-      throw new HttpException('Email already used', HttpStatus.PRECONDITION_FAILED)
-    }
-    return this.userService.create(createuserDto);
-  }
+  // @Post()
+  // async create(@Body() createuserDto: CreateUserDto): Promise<user> {
+  //   const countEmail = await this.userService.countByEmail(createuserDto.email)
+  //   if (countEmail) {
+  //     throw new HttpException('Email already used', HttpStatus.PRECONDITION_FAILED)
+  //   }
+  //   return this.userService.create(createuserDto);
+  // }
 
   @Get()
   async findAll(): Promise<user[]> {
@@ -35,21 +37,11 @@ export class userController {
     console.log(user)
     return user
   }
+  @UseGuards(AuthGuard)
+  @Patch()
+  async update(@Body() updateuserDto: UpdateUserDto, @Req() req): Promise<iDate> {
 
-  @Patch(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() updateuserDto: UpdateUserDto): Promise<iDate> {
-    const userCount = await this.userService.countByID(id)
-    if (!userCount) throw new NotFoundException(`Utilisateurs ${id} introuvable`)
-    if (updateuserDto.email) {
-      const userEmail = await this.userService.findEmailById(id);
-      if (userEmail && userEmail.email !== updateuserDto.email) {
-        const countEmail = await this.userService.countByEmail(updateuserDto.email)
-        if (countEmail)
-          throw new HttpException('Email already used', HttpStatus.PRECONDITION_FAILED)
-      }
-    }
-
-    await this.userService.update(id, updateuserDto);
+    await this.userService.update(req.user, updateuserDto);
     return { date: new Date() }
   }
 

@@ -9,7 +9,7 @@ datasource db {
 }
 
 model adress {
-  id   Int        @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  id         Int        @id @unique(map: "id_UNIQUE") @default(autoincrement())
   street     String     @db.VarChar(85)
   city       String     @db.VarChar(45)
   country    String     @db.VarChar(45)
@@ -20,7 +20,7 @@ model adress {
 }
 
 model artist {
-  id            Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
   artist_name         String                @db.VarChar(45)
   is_coming           Int                   @db.TinyInt
   created_at          DateTime              @default(now())
@@ -32,11 +32,11 @@ model artist {
 
 model artist_has_schedule {
   schedule_id Int
-  artist_id     Int
-  artist              artist   @relation(fields: [artist_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_artist_artist1")
-  schedule            schedule @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_artist_schedule1")
-  created_at          DateTime @default(now())
-  updated_at          DateTime @updatedAt()
+  artist_id   Int
+  artist      artist   @relation(fields: [artist_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_artist_artist1")
+  schedule    schedule @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_artist_schedule1")
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
 
   @@id([schedule_id, artist_id])
   @@index([artist_id], map: "fk_schedule_has_artist_artist1_idx")
@@ -44,12 +44,12 @@ model artist_has_schedule {
 }
 
 model artist_has_stage {
-  artist_id Int
+  artist_id  Int
   stage_id   Int
-  artist          artist   @relation(fields: [artist_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_stage_artist1")
-  stage           stage    @relation(fields: [stage_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_stage_stage1")
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt()
+  artist     artist   @relation(fields: [artist_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_stage_artist1")
+  stage      stage    @relation(fields: [stage_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_stage_stage1")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
 
   @@id([artist_id, stage_id])
   @@index([artist_id], map: "fk_artist_has_stage_artist1_idx")
@@ -57,13 +57,13 @@ model artist_has_stage {
 }
 
 model festival {
-  id          Int                   @unique(map: "id_UNIQUE") @default(autoincrement())
+  id                  Int                   @unique(map: "id_UNIQUE") @default(autoincrement())
   start_date          DateTime              @db.Date
   end_date            DateTime              @db.Date
   name                String                @db.VarChar(45)
   created_at          DateTime              @default(now())
   updated_at          DateTime              @updatedAt()
-  adress_id     Int
+  adress_id           Int
   adress              adress                @relation(fields: [adress_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_festival_adress1")
   festival_has_artist festival_has_artist[]
   festival_has_stage  festival_has_stage[]
@@ -75,14 +75,14 @@ model festival {
 }
 
 model festival_has_artist {
-  artist_id     Int
+  artist_id   Int
   festival_id Int
-  stage_id       Int
-  artist              artist   @relation(fields: [artist_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_festival_artist1")
-  festival            festival @relation(fields: [festival_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_festival_festival1")
-  stage               stage    @relation(fields: [stage_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_festival_stage1")
-  created_at          DateTime @default(now())
-  updated_at          DateTime @updatedAt()
+  stage_id    Int
+  artist      artist   @relation(fields: [artist_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_festival_artist1")
+  festival    festival @relation(fields: [festival_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_festival_festival1")
+  stage       stage    @relation(fields: [stage_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_artist_has_festival_stage1")
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
 
   @@id([artist_id, festival_id, stage_id])
   @@index([artist_id], map: "fk_artist_has_festival_artist1_idx")
@@ -92,11 +92,11 @@ model festival_has_artist {
 
 model festival_has_stage {
   festival_id Int
-  stage_id       Int
-  festival            festival @relation(fields: [festival_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_festival_has_stage_festival1")
-  stage               stage    @relation(fields: [stage_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_festival_has_stage_stage1")
-  created_at          DateTime @default(now())
-  updated_at          DateTime @updatedAt()
+  stage_id    Int
+  festival    festival @relation(fields: [festival_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_festival_has_stage_festival1")
+  stage       stage    @relation(fields: [stage_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_festival_has_stage_stage1")
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
 
   @@id([festival_id, stage_id])
   @@index([festival_id], map: "fk_festival_has_stage_festival1_idx")
@@ -105,11 +105,11 @@ model festival_has_stage {
 
 model inscription {
   mission_id Int
-  user_id       Int
-  mission           mission  @relation(fields: [mission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_mission_has_user_mission1")
-  user              user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_mission_has_user_user1")
-  created_at        DateTime @default(now())
-  updated_at        DateTime @updatedAt()
+  user_id    Int
+  mission    mission  @relation(fields: [mission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_mission_has_user_mission1")
+  user       user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_mission_has_user_user1")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
 
   @@id([mission_id, user_id])
   @@index([mission_id], map: "fk_mission_has_user_mission1_idx")
@@ -117,14 +117,14 @@ model inscription {
 }
 
 model mission {
-  id            Int                    @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  id                   Int                    @id @unique(map: "id_UNIQUE") @default(autoincrement())
   title                String                 @db.VarChar(100)
   volunteer_needed     Int
   description          String                 @db.LongText
   is_full              Int                    @db.TinyInt
   created_at           DateTime               @default(now())
   updated_at           DateTime               @updatedAt()
-  festival_id  Int
+  festival_id          Int
   inscription          inscription[]
   festival             festival               @relation(fields: [festival_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_mission_festival1")
   mission_has_schedule mission_has_schedule[]
@@ -135,11 +135,11 @@ model mission {
 
 model mission_has_schedule {
   schedule_id Int
-  mission_id   Int
-  mission             mission  @relation(fields: [mission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_mission_mission1")
-  schedule            schedule @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_mission_schedule1")
-  created_at          DateTime @default(now())
-  updated_at          DateTime @updatedAt()
+  mission_id  Int
+  mission     mission  @relation(fields: [mission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_mission_mission1")
+  schedule    schedule @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_mission_schedule1")
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
 
   @@id([schedule_id, mission_id])
   @@index([mission_id], map: "fk_schedule_has_mission_mission1_idx")
@@ -147,12 +147,12 @@ model mission_has_schedule {
 }
 
 model mission_needs_skill {
-  skills_id   Int
+  skills_id  Int
   mission_id Int
-  mission           mission  @relation(fields: [mission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_mission_mission1")
-  skills            skills   @relation(fields: [skills_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_mission_skills1")
-  created_at        DateTime @default(now())
-  updated_at        DateTime @updatedAt()
+  mission    mission  @relation(fields: [mission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_mission_mission1")
+  skills     skills   @relation(fields: [skills_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_mission_skills1")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
 
   @@id([skills_id, mission_id])
   @@index([mission_id], map: "fk_skills_has_mission_mission1_idx")
@@ -160,7 +160,7 @@ model mission_needs_skill {
 }
 
 model notification {
-  id        Int                     @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  id                    Int                     @id @unique(map: "id_UNIQUE") @default(autoincrement())
   message               String                  @db.Text
   created_at            DateTime                @default(now())
   updated_at            DateTime                @updatedAt()
@@ -169,11 +169,11 @@ model notification {
 
 model notification_has_user {
   notification_id Int
-  user_id                 Int
-  notification                notification @relation(fields: [notification_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_notification_has_user_notification1")
-  user                        user         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_notification_has_user_user1")
-  created_at                  DateTime     @default(now())
-  updated_at                  DateTime     @updatedAt()
+  user_id         Int
+  notification    notification @relation(fields: [notification_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_notification_has_user_notification1")
+  user            user         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_notification_has_user_user1")
+  created_at      DateTime     @default(now())
+  updated_at      DateTime     @updatedAt()
 
   @@id([notification_id, user_id])
   @@index([notification_id], map: "fk_notification_has_user_notification1_idx")
@@ -181,21 +181,23 @@ model notification_has_user {
 }
 
 model profile {
-  firstname       String   @db.VarChar(45)
-  lastname        String   @db.VarChar(45)
-  birthdate       DateTime @db.Date
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt()
-  adress_id Int?
-  id              Int      @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  adress          adress?  @relation(fields: [adress_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_profile_adress1")
-  user            user[]
+  id         Int      @id
+  firstname  String   @db.VarChar(45)
+  lastname   String   @db.VarChar(45)
+  birthdate  DateTime @db.Date
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+  adress_id  Int?
+ 
+
+  adress     adress?  @relation(fields: [adress_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_profile_adress1")
+  user       user     @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@index([adress_id], map: "fk_profile_adress1_idx")
 }
 
 model schedule {
-  id           Int                    @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  id                   Int                    @id @unique(map: "id_UNIQUE") @default(autoincrement())
   time_start           DateTime               @db.Timestamp(0)
   time_end             DateTime               @db.Timestamp(0)
   created_at           DateTime               @default(now())
@@ -205,7 +207,7 @@ model schedule {
 }
 
 model skills {
-  id            Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
   name                String                @unique(map: "name_UNIQUE") @db.VarChar(45)
   description         String                @db.MediumText
   created_at          DateTime              @default(now())
@@ -215,12 +217,12 @@ model skills {
 }
 
 model skills_has_user {
-  skills_id Int
-  user_id     Int
-  skills          skills   @relation(fields: [skills_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_user_skills1")
-  user            user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_user_user1")
-  created_at      DateTime @default(now())
-  updated_at      DateTime @updatedAt()
+  skills_id  Int
+  user_id    Int
+  skills     skills   @relation(fields: [skills_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_user_skills1")
+  user       user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_user_user1")
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
 
   @@id([skills_id, user_id])
   @@index([skills_id], map: "fk_skills_has_user_skills1_idx")
@@ -228,7 +230,7 @@ model skills_has_user {
 }
 
 model stage {
-  id             Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
   stage_name          String                @db.VarChar(45)
   is_free             Int                   @db.TinyInt
   created_at          DateTime              @default(now())
@@ -239,31 +241,30 @@ model stage {
 }
 
 model user {
-  id                Int                     @unique(map: "id_UNIQUE") @default(autoincrement())
+  id                    Int                     @unique(map: "id_UNIQUE") @default(autoincrement())
   email                 String                  @unique(map: "email_UNIQUE") @db.VarChar(45)
   password              String                  @db.VarChar(90)
   is_validated          Boolean                 @default(false)
   created_at            DateTime                @default(now())
   updated_at            DateTime                @updatedAt()
   role                  role
-  profile_id            Int?                    @unique
   inscription           inscription[]
   notification_has_user notification_has_user[]
   skills_has_user       skills_has_user[]
-  profile               profile?                @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_profile1")
   user_has_festival     user_has_festival[]
 
+  profile profile?
+
   @@id([id])
-  @@index([profile_id], map: "fk_user_profile1_idx")
 }
 
 model user_has_festival {
-  user_id         Int
+  user_id     Int
   festival_id Int
-  festival            festival @relation(fields: [festival_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_has_festival_festival1")
-  user                user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_has_festival_user1")
-  created_at          DateTime @default(now())
-  updated_at          DateTime @updatedAt()
+  festival    festival @relation(fields: [festival_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_has_festival_festival1")
+  user        user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_has_festival_user1")
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
 
   @@id([user_id, festival_id])
   @@index([festival_id], map: "fk_user_has_festival_festival1_idx")

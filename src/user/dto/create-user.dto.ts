@@ -1,4 +1,5 @@
-import { IsEmail, IsEnum, isEnum, IsNotEmpty, IsStrongPassword } from "class-validator";
+import { Transform, Type } from "class-transformer";
+import { IsDate, IsEmail, IsEnum, isEnum, IsNotEmpty, IsString, IsStrongPassword, ValidateNested } from "class-validator";
 import { role } from "prisma/generated/prisma/enums";
 
 export class CreateUserDto {
@@ -16,4 +17,16 @@ export class CreateUserDto {
     is_validated : boolean;
     @IsEnum(role)
     role : role;
+    @ValidateNested()
+    @Type(()=> CreateProfileDto)
+    profile :CreateProfileDto
+}
+export class CreateProfileDto {
+    @IsString()
+    firstname :string
+    @IsString()
+    lastname : string
+     @Transform(({ value }) => new Date(value))
+    @IsDate()
+    birthdate : Date
 }
