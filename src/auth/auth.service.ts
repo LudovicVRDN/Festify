@@ -13,25 +13,33 @@ export class AuthService {
     ) { }
 
     async compare(
-        password:string,
+        password: string,
         userPassword: string
-    ): Promise<boolean>{
-         return await bcrypt.compare(password,userPassword)
+    ): Promise<boolean> {
+        return await bcrypt.compare(password, userPassword)
     }
 
-    async createToken(userID:number):Promise<{access_token:string ,refresh_token:string}>{
-        const payload = { sub: userID }
+    async createToken(userID: number, userRole: string): Promise<{ access_token: string, refresh_token: string }> {
+        const payload = { sub: userID, role: userRole }
         const access_token = await this.jwtService.signAsync(payload);
-        const refresh_token = await this.jwtService.signAsync(payload,{
-            expiresIn : process.env.refresh_expire ?? "7d" as any,
-            algorithm : process.env.JWTAlgorithm ?? "HS512" as any,
+        const refresh_token = await this.jwtService.signAsync(payload, {
+            expiresIn: process.env.refresh_expire ?? "7d" as any,
+            algorithm: process.env.JWTAlgorithm ?? "HS512" as any,
             secret: process.env.refresh_token as any
 
         });
-        return  {
+        return {
             access_token,
             refresh_token
         }
+    }
+
+    async verifyToken(token: string) {
+        const payload = await this.jwtService.verifyAsync(token, {
+            secret: process.env.JWT_ACCESS_SECRET,
+        });
+
+        return payload
     }
 
 

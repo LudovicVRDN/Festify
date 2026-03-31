@@ -1,5 +1,5 @@
 import { Body, Injectable } from '@nestjs/common';
-import {  CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { user } from 'prisma/generated/prisma/client';
@@ -18,7 +18,14 @@ export class UserService {
         ...rest,
         password: hashedPassword,
         profile: {
-          create: profile
+          create: {
+            firstname: profile.firstname,
+            lastname: profile.lastname,
+            birthdate: profile.birthdate,
+            adress: {
+              create: profile.adress
+            }
+          }
         }
       }
     })
@@ -74,13 +81,18 @@ export class UserService {
 
 
   async update(id: number, updateuserDto: UpdateUserDto): Promise<Pick<user, 'id'> | null> {
-    const { password, profile, ...rest } = updateuserDto 
+    const { password, profile, ...rest } = updateuserDto
     return await this.prisma.user.update({
-      where:{id},
+      where: { id },
       data: {
         ...rest,
         profile: {
-          update: profile
+          update: {
+            ...profile,
+            adress: {
+              update: profile?.adress
+            }
+          }
         }
       }
     });

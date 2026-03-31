@@ -7,6 +7,8 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/log-in.dto';
 import { IResponse } from 'src/utils/IResponse.interface';
+import { get } from 'http';
+import { request } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -16,13 +18,13 @@ export class AuthController {
   @Post("register")
   async register(
     @Body() createUserDto: CreateUserDto): Promise< string > {
-    const countUser = await this.userService.countByEmail(createUserDto.email);
-    if (countUser) throw new ConflictException('Cette adresse EMail est déja utilisée');
+    if (await this.userService.countByEmail(createUserDto.email)) throw new ConflictException('Cette adresse EMail est déja utilisée');
     const user = await this.userService.create(createUserDto);
-    const payload = {
-      sub: user.id,
-      userEmail: user.email
-    }
+    // const payload = {
+    //   sub: user.id,
+    //   userEmail: user.email,
+    //   userRole : user.role
+    // }
     return "Ton compte est crée ! "
   }
 
@@ -34,7 +36,7 @@ export class AuthController {
     if (!user) throw new NotFoundException(`L'adresse EMail ou le mot de passe ne correspond pas.`);
 
     if (!await this.authService.compare(LoginDto.password,user.password)) throw new NotFoundException(`L'adresse EMail ou le mot de passe ne correspond pas.`);
-    const { access_token, refresh_token } = await this.authService.createToken(user.id)
+    const { access_token, refresh_token } = await this.authService.createToken(user.id,user.role)
     
     return {
       data: { access_token, refresh_token },
@@ -42,6 +44,14 @@ export class AuthController {
       url: "auth/login"
     }
 
+  }
+
+  @Get('refresh_token')
+  async refresh_token(){
+     const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    //  try{
+    //   const payload = await this.authService.verifyToken()
+    //  }
   }
 }
 

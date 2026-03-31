@@ -6,9 +6,10 @@ import { ProfileService } from './profile/profile.service';
 import { ProfileModule } from './profile/profile.module';
 import { ConfigModule } from '@nestjs/config';
 import { FestivalModule } from './festival/festival.module';
+import { AdressModule } from './adress/adress.module';
 
 @Module({
-  imports: [UserModule,PrismaModule, AuthModule, ProfileModule,ConfigModule.forRoot({isGlobal:true}), FestivalModule],
+  imports: [UserModule,PrismaModule, AuthModule, ProfileModule,ConfigModule.forRoot({isGlobal:true}), FestivalModule, AdressModule],
   providers: [ProfileService],
 })
 export class AppModule {}
