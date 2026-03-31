@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, HttpStatus, HttpException, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, HttpStatus, HttpException, UseGuards, Req, ConflictException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -16,15 +16,6 @@ interface iDate {
 export class userController {
   constructor(private readonly userService: UserService) { }
 
-  // @Post()
-  // async create(@Body() createuserDto: CreateUserDto): Promise<user> {
-  //   const countEmail = await this.userService.countByEmail(createuserDto.email)
-  //   if (countEmail) {
-  //     throw new HttpException('Email already used', HttpStatus.PRECONDITION_FAILED)
-  //   }
-  //   return this.userService.create(createuserDto);
-  // }
-
   @Get()
   async findAll(): Promise<user[]> {
     return this.userService.findAll();
@@ -37,20 +28,18 @@ export class userController {
     console.log(user)
     return user
   }
+
   @UseGuards(AuthGuard)
   @Patch()
   async update(@Body() updateuserDto: UpdateUserDto, @Req() req): Promise<iDate> {
-
+    if(await this.userService.countByEmail(updateuserDto.email)) throw new ConflictException('Cette adresse EMail est déja utilisée !');
     await this.userService.update(req.user, updateuserDto);
     return { date: new Date() }
   }
 
-  @Delete(':id')
-  async remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    try {
-      return this.userService.remove(+id);
-    } catch {
-      throw new NotFoundException(`Utilisateurs ${id} introuvable`)
-    }
+  @UseGuards(AuthGuard)
+  @Delete()
+  async remove(@Req() req): Promise<void> {
+      return this.userService.remove(req.user);
   }
 }

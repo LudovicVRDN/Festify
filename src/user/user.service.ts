@@ -1,5 +1,5 @@
 import { Body, Injectable } from '@nestjs/common';
-import { CreateProfileDto, CreateUserDto } from './dto/create-user.dto';
+import {  CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { user } from 'prisma/generated/prisma/client';
@@ -41,7 +41,7 @@ export class UserService {
     return await this.prisma.user.count({ where: { id } })
   }
 
-  async countByEmail(email: string): Promise<number> {
+  async countByEmail(email: string | undefined): Promise<number> {
     return await this.prisma.user.count({
       where: {
         // email : email
@@ -74,7 +74,7 @@ export class UserService {
 
 
   async update(id: number, updateuserDto: UpdateUserDto): Promise<Pick<user, 'id'> | null> {
-    const { password, profile, ...rest } = updateuserDto
+    const { password, profile, ...rest } = updateuserDto 
     return await this.prisma.user.update({
       where:{id},
       data: {

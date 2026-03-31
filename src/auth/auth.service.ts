@@ -9,7 +9,6 @@ import { signInDTO } from './dto/registe.dto';
 @Injectable()
 export class AuthService {
     constructor(
-        private userService: UserService,
         private jwtService: JwtService,
     ) { }
 
@@ -18,6 +17,21 @@ export class AuthService {
         userPassword: string
     ): Promise<boolean>{
          return await bcrypt.compare(password,userPassword)
+    }
+
+    async createToken(userID:number):Promise<{access_token:string ,refresh_token:string}>{
+        const payload = { sub: userID }
+        const access_token = await this.jwtService.signAsync(payload);
+        const refresh_token = await this.jwtService.signAsync(payload,{
+            expiresIn : process.env.refresh_expire ?? "7d" as any,
+            algorithm : process.env.JWTAlgorithm ?? "HS512" as any,
+            secret: process.env.refresh_token as any
+
+        });
+        return  {
+            access_token,
+            refresh_token
+        }
     }
 
 

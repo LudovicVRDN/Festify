@@ -9,8 +9,8 @@ import { JwtModule } from '@nestjs/jwt';
     global: true,
     secret: process.env.access_secret,
     signOptions: {
-      algorithm: 'HS512',
-      expiresIn: "5m"
+      algorithm: process.env.JWTAlgorithm as any,
+      expiresIn: process.env.acces_expire as any
     }
   })],
   controllers: [AuthController],
