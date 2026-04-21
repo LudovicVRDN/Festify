@@ -1,2 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+@theme {
+  
+  --font-metal: "Metal Mania", system-ui;
+  
+
+  --font-sans: "Noto Serif", sans-serif;
+}
+html{
+    background-color: #171717;
+    margin: 0;
+    padding: 0;
+}

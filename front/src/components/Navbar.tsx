@@ -3,7 +3,8 @@ import logo from "../assets/logo.png"
 
 const Navbar = () => {
   return (
-    <div className="navbar bg-gray-950  m-2 w-[99%] rounded-4xl shadow-2xl shadow-gray-900 px-5">
+    
+    <div className="navbar bg-black  w-[99%] rounded-4xl  px-5">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -78,6 +79,7 @@ const Navbar = () => {
         </button>
       </div>
     </div>
+   
   );
 };
 
