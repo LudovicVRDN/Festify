@@ -1,10 +1,11 @@
 import React from "react";
 import logo from "../assets/logo.png"
+import { Link } from "react-router";
 
 const Navbar = () => {
   return (
     
-    <div className="navbar bg-black  w-[99%] rounded-4xl  px-5">
+    <div className="navbar bg-black  w-[99%] rounded-4xl m-auto px-5 mb-10">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -38,7 +39,7 @@ const Navbar = () => {
         </div>
       </div>
       <div className="navbar-center">
-        <a><img src={logo} alt="Logo" className="h-25 w-55" /></a>
+        <Link to="/"><img src={logo} alt="Logo" className="h-25 w-55" /></Link>
       </div>
       <div className="navbar-end gap-5">
         <button className="btn btn-ghost btn-circle">

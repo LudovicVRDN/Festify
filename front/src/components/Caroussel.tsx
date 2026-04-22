@@ -5,6 +5,7 @@ import photo3 from "../assets/photo3.jpg";
 import photo4 from "../assets/photo4.jpg";
 import photo5 from "../assets/photo5.jpg";
 import photo6 from "../assets/photo6.jpg";
+import { Fade, Slide } from "react-awesome-reveal";
 
 const Caroussel = () => {
   interface IPicture {
@@ -48,9 +49,9 @@ const Caroussel = () => {
   const [currentPic, setPicture] = useState(0);
   useEffect(() => {
     const timer = setTimeout(() => {
-      const nextIndex = currentPic === totalPic-1 ? 1 : currentPic + 1;
+      const nextIndex = currentPic === totalPic - 1 ? 1 : currentPic + 1;
       setPicture(nextIndex);
-    }, 2000);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [currentPic]);
@@ -58,14 +59,15 @@ const Caroussel = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="carousel w-full ">
-          <div id="picture.id" className="carousel-item w-225 h-130   ">
+        <div id="picture.id" className="carousel-item w-100 lg:w-200 h-130   ">
+          <Fade key={currentPic} direction="right" duration={1500} triggerOnce={false} >
             <img
               src={pictures[currentPic].src}
               alt={pictures[currentPic].alt}
-              className="rounded-3xl w-200 h-120 m-auto "
+              className="rounded-3xl w-100 h-80 lg:w-205 lg:h-120 "
             />
-          </div>
-   
+          </Fade>
+        </div>
       </div>
     </div>
   );
