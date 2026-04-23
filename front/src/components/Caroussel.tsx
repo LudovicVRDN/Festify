@@ -5,7 +5,12 @@ import photo3 from "../assets/photo3.jpg";
 import photo4 from "../assets/photo4.jpg";
 import photo5 from "../assets/photo5.jpg";
 import photo6 from "../assets/photo6.jpg";
-import { Fade, Slide } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
+
+interface ICaroussel {
+  width: string | number;
+  widthMobile: string | number;
+}
 
 const Caroussel = () => {
   interface IPicture {
@@ -57,20 +62,20 @@ const Caroussel = () => {
   }, [currentPic]);
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="carousel w-full ">
-        <div id="picture.id" className="carousel-item w-100 lg:w-200 h-130   ">
-          <Fade key={currentPic} direction="right" duration={1500} triggerOnce={false} >
-            <img
-              src={pictures[currentPic].src}
-              alt={pictures[currentPic].alt}
-              className="rounded-3xl w-100 h-80 lg:w-205 lg:h-120 "
-            />
-          </Fade>
-        </div>
-      </div>
+  <div className="w-full flex justify-center overflow-hidden">
+   
+    <div 
+      className="relative overflow-hidden  bg-neutral-900 w-full h-[300px] lg:h-[500px]"
+    >
+      <img
+        key={currentPic}
+        src={pictures[currentPic].src}
+        alt={pictures[currentPic].alt}
+        className="w-full h-full object-cover object-center transition-opacity duration-700"
+      />
     </div>
-  );
-};
+  </div>
+);
+}
 
 export default Caroussel;

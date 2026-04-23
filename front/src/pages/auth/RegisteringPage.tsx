@@ -7,6 +7,8 @@ import {
   type SubmitHandler,
 } from "react-hook-form";
 import { useNavigate } from "react-router";
+import registerPic from "../../assets/registerPic.jpg"
+import TornEdge from "../../components/TornEdge";
 
 interface IForm {
   email: string;
@@ -64,9 +66,9 @@ const RegisteringPage = () => {
       placeholder: "Confirmer le mot de passe",
       rules: {
         required: "Confirmation requise",
-        validate: (value: any) => 
-          value === password || "Les mots de passe ne correspondent pas"
-      }
+        validate: (value: any) =>
+          value === password || "Les mots de passe ne correspondent pas",
+      },
     },
     {
       name: "nom",
@@ -127,62 +129,42 @@ const RegisteringPage = () => {
   const password = watch("password");
 
   return (
-    <Fade direction="down" delay={400} className="w-full flex justify-center">
-      <article className="flex flex-col-reverse lg:flex-row-reverse gap-5 p-2">
-        <form
-          onSubmit={handleSubmit(handleForm)}
-          className="fieldset bg-neutral-800  border-red-950 rounded-box border p-4 "
-        >
-          <legend className="fieldset-legend">Login</legend>
-          <section className="flex flex-col lg:flex-row  justify-between items-center">
-            <div className="grid grid-cols-2 grid-rows-3 gap-5 justify-items-end">
-              {formFields.map((field) => (
-                <div key={field.name}>
-                  <label className="label">{field.label}</label>
-                  <input
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    className="input lg:w-60"
-                    {...register(field.name, field.rules)}
-                  />
-                  {errors[field.name] && (
-                    <p className="text-red-500 text-xs italic mt-2 ml-2">
-                      {errors[field.name]?.message}
-                    </p>
-                  )}
-                </div>
-              ))}
-             
-            </div>
-          </section>
-          <Button textButton="S'inscrire" />
-        </form>
-        <div className=" border-l-6 border-red-950 rounded-lg p-6 bg-neutral-800 lg:w-180 ">
-          <h1 className="font-metal text-xl lg:text-4xl text-red-900">
-            Rejoins Festify !{" "}
-          </h1>
-          <p className="lg:text-xl text-md">
-            "Derrière chaque mur de son, chaque faisceau de lumière et chaque
-            émotion partagée dans la poussière d'un festival, se cache une armée
-            de passionnés. De l'organisation millimétrée en amont au bénévolat
-            pur sur le terrain, rejoins dès maintenant les rangs de ceux qui
-            font vibrer la terre sous les pieds de milliers de personnes.
-            <br />
-            Festify te donne les clés de la machine : parce qu'on n'a pas besoin
-            d'être sous les projecteurs pour faire briller la scène, nous avons
-            créé un espace où ta rigueur, ton énergie et ton dévouement trouvent
-            leur place. Que tu sois là pour piloter la logistique, gérer
-            l'accueil ou orchestrer l'ombre, ton engagement est le moteur de
-            l'événement.
-            <br />
-            Ne te contente plus de participer, viens bâtir l'expérience. Crée
-            ton profil, rejoins la communauté et prépare-toi à vivre
-            l'adrénaline des coulisses. L'aventure humaine commence ici, au cœur
-            de l'organisation, là où le chaos devient harmonie."
-          </p>
+    <div className="my-5">
+    <TornEdge position="top" />
+      <article className="flex flex-col items-center gap-5 p-2 bg-black">
+        <h1 className="font-metal text-xl lg:text-4xl text-festify-red">
+          Rejoins Festify !{" "}
+        </h1>
+        <div className="flex flex-col lg:flex-row justify-center lg:h-115">
+  
+          
+          <form className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-3 justify-center items-center gap-6 bg-black lg:w-150 p-5">
+            {formFields.map((field) => (
+              <div key={field.name} className="flex flex-col">
+                <label className="text-zinc-300 text-xs tracking-widest uppercase">{field.label}</label>
+                <input
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
+                  {...register(field.name, field.rules)}
+                />
+                {errors[field.name] && (
+                  <p className="text-red-500 text-xs italic mt-2 ml-2">
+                    {errors[field.name]?.message}
+                  </p>
+                )}
+              </div>
+            ))}
+
+            <Button textButton="S'inscrire" />
+          </form>
+         
+         
+        <img src={registerPic} alt="Stage picture" className="lg:w-200 "/>
         </div>
       </article>
-    </Fade>
+       <TornEdge position="bottom" />
+    </div>
   );
 };
 

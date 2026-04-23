@@ -6,7 +6,7 @@ interface ButtonProps {
 
 const Button = ({ textButton }: ButtonProps) => {
   return (
-    <button className="btn btn-neutral bg-red-900 mt-4">
+    <button className="btn btn-neutral bg-festify-red text-zinc-400 font-bold tracking-wide mt-4">
       {textButton}
     </button>
   );

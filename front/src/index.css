@@ -5,10 +5,10 @@
 
 
 @theme {
-  
   --font-metal: "Metal Mania", system-ui;
-  
-
+  --color-festify-red: oklch(50% 0.18 25);
+  --color-festify-glassred: oklch(50% 0.18 25 / 0.35);
+  --color-black-glass: oklch(10% 0 0 / 0.5);
   --font-sans: "Noto Serif", sans-serif;
 }
 html{

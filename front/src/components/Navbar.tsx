@@ -1,11 +1,10 @@
 import React from "react";
-import logo from "../assets/logo.png"
+import logo from "../assets/logo.png";
 import { Link } from "react-router";
 
 const Navbar = () => {
   return (
-    
-    <div className="navbar bg-black  w-[99%] rounded-4xl m-auto px-5 mb-10">
+    <div className="navbar bg-black  w-full ">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -27,22 +26,24 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={-1}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow "
+            className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-1 mt-3 w-50 p-2 shadow "
           >
-            <li >
-              <a>Festivals</a>
+            <li>
+              <a className="text-lg">Festivals</a>
             </li>
             <li>
-              <a>Festify</a>
+              <a className="text-lg">Festify</a>
             </li>
           </ul>
         </div>
       </div>
       <div className="navbar-center">
-        <Link to="/"><img src={logo} alt="Logo" className="h-25 w-55" /></Link>
+        <Link to="/">
+          <img src={logo} alt="Logo" className="h-25  w-50 " />
+        </Link>
       </div>
-      <div className="navbar-end gap-5">
-        <button className="btn btn-ghost btn-circle">
+      <div className="navbar-end lg:gap-5 ">
+        <button className="btn btn-ghost btn-circle ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-8"
@@ -50,13 +51,20 @@ const Navbar = () => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            {" "}
+            <circle
+              cx="12"
+              cy="8"
+              r="4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+            />
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />{" "}
+              d="M4 20c0-4 3.6-7 8-7s8 3 8 7"
+            />
           </svg>
         </button>
         <button className="btn btn-ghost btn-circle">
@@ -80,7 +88,6 @@ const Navbar = () => {
         </button>
       </div>
     </div>
-   
   );
 };
 
