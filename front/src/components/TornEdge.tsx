@@ -34,7 +34,7 @@ const TornEdge = ({ position,  height = 60 }: TornEdgeProps) => {
       viewBox={isHorizontal ? "0 0 1400 60" : "0 0 40 1400"}
       preserveAspectRatio="none"
     >
-      <path  d={paths[position]} />
+      <path d={paths[position]} />
     </svg>
   );
 };
