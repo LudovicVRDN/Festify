@@ -8,6 +8,7 @@ import PrivateRoute from "./guards/PrivateRoute";
 import UnauthorizedPage from "./pages/base/UnauthorizedPage";
 import Profile from "./pages/profile/ProfileEdit";
 import OrganizerHomePage from "./pages/organizer/OrganizerHomePage";
+import VolunteerHomePage from "./pages/volunteer/VolunteerHomePage";
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
         <Route path="/organizer" element={<OrganizerHomePage />}></Route>
 
         {/* </Route> */}
+
+         <Route path="/volunteer" element={<VolunteerHomePage />}></Route>
 
 
         <Route path="/unauthorized" element={<UnauthorizedPage />} />

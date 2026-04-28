@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import TornEdge from "../../components/TornEdge";
 import FestivalDetailPage from "../festival/FestivalDetailPage";
 import Button from "../../components/ui/button";
+import Slider from "../../components/Slider";
 
 interface IFestival {
   name: string;
@@ -132,20 +133,26 @@ const OrganizerHomePage = () => {
   ];
 
   return (
-    <div>
+    <div className="lg:mt-10">
+      <h1 className="font-metal text-xl text-festify-red lg:text-4xl  text-center ">
+        Et si c'était ton festival ?{" "}
+      </h1>
+      <Slider />
       <TornEdge position="top" />
       <section className="bg-black flex  flex-col items-center gap-5   px-5 ">
         <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
           Prêt à créer le festival qui va marquer l'histoire ?
         </h1>
-        <Link to='festival/create'><Button textButton="Organise un nouveau Festival" /></Link>
-        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-100 lg:w-300 h-80 rounded-2xl">
+        <Link to="festival/create">
+          <Button textButton="Organise un nouveau Festival" />
+        </Link>
+        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-95 md:w-150 lg:w-225 xl:w-300 h-80 rounded-2xl">
           {festivalList.map((festival) => (
             <div
               key={festival.name}
               className="w-full lg:h-25 flex justify-between items-center bg-transparent border-b border-zinc-700  py-2 text-white "
             >
-              <h2 className="text-zinc-300 text-xs tracking-widest uppercase max-w-30 ">
+              <h2 className="text-zinc-300 text-xs tracking-widest uppercase max-w-15 lg:max-w-30 wrap-break-word">
                 {festival.name}
               </h2>
               <div className="max-w-30 lg:max-w-45">
@@ -155,7 +162,7 @@ const OrganizerHomePage = () => {
                   {festival.country}
                 </p>
               </div>
-              <div className="flex flex-col ">
+              <div className="flex flex-col gap-1">
                 <Link to={"/festival/:id"}>
                   {" "}
                   <Button textButton="Plus d'infos" />{" "}
@@ -168,14 +175,16 @@ const OrganizerHomePage = () => {
         <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
           Organise tes missions :
         </h1>
-        <Link to='missions/create'><Button textButton="Plannifie tes nouvelles missions" /></Link>
-        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 h-80 w-100 lg:w-300 rounded-2xl">
+        <Link to="missions/create">
+          <Button textButton="Planifie tes nouvelles missions" />
+        </Link>
+        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 h-80 w-95 md:w-150  lg:w-225 xl:w-300 rounded-2xl">
           {missionList.map((mission) => (
             <div
               key={mission.title}
               className="w-full lg:h-25 flex justify-between items-center bg-transparent border-b border-zinc-700  py-2 text-white "
             >
-              <h2 className="text-zinc-300 text-xs tracking-widest uppercase max-w-30 ">
+              <h2 className="text-zinc-300 text-xs tracking-widest uppercase max-w-15 lg:max-w-30 wrap-break-word   ">
                 {mission.title}
               </h2>
               <div className="max-w-30 lg:max-w-45 ">
