@@ -1,6 +1,6 @@
-import React from "react";
+
 import Caroussel from "../components/Caroussel";
-import { Fade, Slide } from "react-awesome-reveal";
+import { Fade } from "react-awesome-reveal";
 import { Link, useNavigate } from "react-router";
 import Button from "../components/ui/button";
 import TornEdge from "../components/TornEdge";
@@ -35,22 +35,28 @@ const HomePage = () => {
     formState: { errors, isSubmitting },
   } = useForm<SigninFormData>();
 
-  
-  const Password :string = "Chat12345789."
+  // 1. On récupère la string (ou une string vide pour éviter le null)
+  const rawData = localStorage.getItem("auth-storage") ?? "{}";
+
+  // 2. On parse
+  const storage = JSON.parse(rawData);
+
+  // 3. On accède au password (souvent caché dans .state)
+  const password = storage.state?.user?.password;
+  console.log(password)
+  // Ou selon ta structure : storage.password
 
   const onSubmit = async (data: SigninFormData) => {
     const user = {
       id: 19,
       email: data.email,
-      password: Password,
+      password: password,
       role: "organisateur",
     };
     setUser(user);
     setAccessToken("eyjkr5fre4h4t4j6y5t4jt4uy465uy");
     navigate("/profile");
   };
-
-  
 
   const loginInput: Iinputs[] = [
     {
@@ -70,7 +76,8 @@ const HomePage = () => {
       placeholder: "Mot De Passe",
       rules: {
         required: "Mot de passe requis",
-       validate: (v: string) => v === Password|| "Mot de passe ou email incorrect",
+        validate: (v: string) =>
+          v === password || "Mot de passe ou email incorrect",
       },
     },
   ];
@@ -122,17 +129,6 @@ const HomePage = () => {
                     )}
                   </div>
                 ))}
-                {/* Input Mot de passe
-                <div className="flex flex-col gap-1">
-                  <label className="text-zinc-300 text-xs tracking-widest uppercase">
-                    Mot de passe
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="••••••••"
-                    className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
-                  />
-                </div> */}
                 <a className="text-zinc-600 text-xs hover:text-red-700 transition-colors cursor-pointer self-start">
                   Mot de passe oublié ?
                 </a>

@@ -6,7 +6,8 @@ import RegisteringPage from "./pages/auth/RegisteringPage";
 import HomePage from "./pages/HomePage";
 import PrivateRoute from "./guards/PrivateRoute";
 import UnauthorizedPage from "./pages/base/UnauthorizedPage";
-import Profile from "./pages/profile/Profile";
+import Profile from "./pages/profile/ProfileEdit";
+import OrganizerHomePage from "./pages/organizer/OrganizerHomePage";
 
 function App() {
   return (
@@ -29,6 +30,12 @@ function App() {
         <Route path="/missions" element></Route>
 
         </Route>
+
+        {/* <Route element={<PrivateRoute allowedRoles="benevole" />}> */}
+
+        <Route path="/organizer" element={<OrganizerHomePage />}></Route>
+
+        {/* </Route> */}
 
 
         <Route path="/unauthorized" element={<UnauthorizedPage />} />

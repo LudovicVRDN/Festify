@@ -5,7 +5,7 @@ import type { IUser } from "../types/user.type"
 interface AuthState {
     user: IUser | null;
     accessToken: string | null;
-    setUser: (user: IUser | null) => void;
+    setUser: (user: IUser  | null) => void;
     setAccessToken: (token: string | null) => void;
     setRole: (role: string) => void;
     clearAuth: () => void;

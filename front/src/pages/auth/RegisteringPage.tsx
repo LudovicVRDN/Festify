@@ -1,34 +1,18 @@
-import React from "react";
 import { Fade } from "react-awesome-reveal";
 import Button from "../../components/ui/button";
-import {
-  useForm,
-  type RegisterOptions,
-  type SubmitHandler,
-} from "react-hook-form";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router";
-import registerPic from "../../assets/registerPic.jpg"
+import registerPic from "../../assets/registerPic.jpg";
 import TornEdge from "../../components/TornEdge";
-
-interface IForm {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  nom: string;
-  prenom: string;
-  adresse: string;
-  codePostal: number;
-  ville: string;
-}
-interface Iinputs {
-  name: keyof IForm;
-  label: string;
-  type: string;
-  placeholder?: string;
-  rules?: RegisterOptions<IForm, keyof IForm>;
-}
+import { useAuthStore } from "../../stores/auth.store";
+import type { IUser } from "../../types/user.type";
+import type { Iinputs } from "../../types/inputsForm.interface";
 
 const RegisteringPage = () => {
+  const navigate = useNavigate();
+  const setUser = useAuthStore((state) => state.setUser);
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+
   const formFields: Iinputs[] = [
     {
       name: "email",
@@ -47,7 +31,7 @@ const RegisteringPage = () => {
       placeholder: "Mot De Passe",
       rules: {
         required: "Mot de passe requis",
-        minLength: { value: 12, message: "Trop court (12 min)" },
+        minLength: { value: 8, message: "Trop court (8 min)" },
         validate: {
           hasUpperCase: (v: any) =>
             /[A-Z]/.test(v) || "Doit contenir une majuscule",
@@ -65,64 +49,79 @@ const RegisteringPage = () => {
       type: "password",
       placeholder: "Confirmer le mot de passe",
       rules: {
-        required: "Confirmation requise",
+        required: "Veuillez confirmer le mot de passe",
         validate: (value: any) =>
           value === password || "Les mots de passe ne correspondent pas",
       },
     },
     {
-      name: "nom",
+      name: "role",
+      label: "Statut",
+      type: "radio",
+      options: [
+        { label: "Bénévole", value: "benevole" },
+        { label: "Organisateur", value: "organisateur" },
+      ],
+      rules: {
+        required: "Veuillez sélectionner un statut",
+      },
+    },
+    {
+      name: "profile.nom",
       label: "Nom",
       type: "text",
       placeholder: "Nom",
       rules: { required: "Inscrit ton nom" },
     },
     {
-      name: "prenom",
+      name: "profile.prenom",
       label: "Prénom",
       type: "text",
       placeholder: "Prénom",
       rules: { required: "Inscrit ton prénom" },
     },
     {
-      name: "adresse",
+      name: "profile.adresse",
       label: "Adresse",
       type: "text",
       placeholder: "Adresse",
       rules: { required: "Adresse obligatoire" },
     },
     {
-      name: "codePostal",
+      name: "profile.codePostal",
       label: "Code Postal",
       type: "number",
       placeholder: "Code Postal",
       rules: { required: "Code postal obligatoire" },
     },
     {
-      name: "ville",
+      name: "profile.ville",
       label: "Ville",
       type: "text",
       placeholder: "Ville",
       rules: { required: "Ville obligatoire" },
     },
   ];
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<IForm>();
+  } = useForm<IUser>({
+  mode: "onChange" 
+});
 
-  const handleForm: SubmitHandler<IForm> = (data: IForm) => {
+  const handleForm: SubmitHandler<IUser> = (data: IUser) => {
     if (data.password === data.confirmPassword) {
       console.log("http !!");
-      //send request http
       console.log(data);
-      //response from server
       const response = "ok";
       if (response === "ok") {
-        navigate("/signin");
+        setUser(data);
+        setAccessToken("eyjkr5fre4h4t4j6y5t4jt4uy465uy");
+        navigate("/profile");
+
+        navigate("/");
       }
     }
   };
@@ -130,40 +129,74 @@ const RegisteringPage = () => {
 
   return (
     <div className="my-5">
-    <TornEdge position="top" />
+      <TornEdge position="top" />
       <article className="flex flex-col items-center gap-5 p-2 bg-black">
-        <h1 className="font-metal text-xl lg:text-4xl text-festify-red">
-          Rejoins Festify !{" "}
-        </h1>
-        <div className="flex flex-col lg:flex-row justify-center lg:h-115">
-  
-          
-          <form className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-rows-3 justify-center items-center gap-6 bg-black lg:w-150 p-5">
-            {formFields.map((field) => (
-              <div key={field.name} className="flex flex-col">
-                <label className="text-zinc-300 text-xs tracking-widest uppercase">{field.label}</label>
-                <input
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
-                  {...register(field.name, field.rules)}
-                />
-                {errors[field.name] && (
-                  <p className="text-red-500 text-xs italic mt-2 ml-2">
-                    {errors[field.name]?.message}
-                  </p>
-                )}
-              </div>
-            ))}
+        <Fade direction="down" delay={500}>
+          <h1 className="font-metal text-xl lg:text-4xl text-festify-red">
+            Rejoins Festify !{" "}
+          </h1>
+          <div className="flex flex-col lg:flex-row justify-center lg:min-h-115">
+            <form
+              onSubmit={handleSubmit(handleForm)}
+             className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-12 lg:gap-y-8 justify-center items-start bg-black lg:w-150 p-5"
+            >
+              {formFields.map((field) => {
+                const fieldError = field.name
+                  .split(".")
+                  .reduce((obj: any, key: string) => obj?.[key], errors);
 
-            <Button textButton="S'inscrire" />
-          </form>
-         
-         
-        <img src={registerPic} alt="Stage picture" className="lg:w-200 "/>
-        </div>
+                return (
+                  <div key={field.name} className="flex flex-col ">
+                    <label className="text-zinc-300 text-xs tracking-widest uppercase mb-2">
+                      {field.label}
+                    </label>
+
+                    {field.type === "radio" ? (
+                      // CAS RADIO : On boucle sur les options
+                      <div className="flex gap-6 py-2">
+                        {field.options?.map((option) => (
+                          <label
+                            key={option.value}
+                            className="flex items-center gap-2 cursor-pointer text-white"
+                          >
+                            <input
+                              type="radio"
+                              value={option.value}
+                            
+                              {...register(field.name, field.rules)}
+                            />
+                            <span className="text-sm">{option.label}</span>
+                          </label>
+                        ))}
+                      </div>
+                    ) : (
+                      // CAS CLASSIQUE (text, password, etc.)
+                      <input
+                        type={field.type}
+                        placeholder={field.placeholder}
+                        className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
+                        {...register(field.name, field.rules)}
+                      />
+                    )}
+
+                    {/* L'erreur s'affiche de la même façon pour les deux ! */}
+                    {fieldError && (
+                      <p className="text-red-500 text-xs italic mt-2 ml-2">
+                        {fieldError.message}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+
+              <Button textButton="S'inscrire" />
+            </form>
+
+            <img src={registerPic} alt="Stage picture" className="lg:w-200 " />
+          </div>
+        </Fade>
       </article>
-       <TornEdge position="bottom" />
+      <TornEdge position="bottom" />
     </div>
   );
 };

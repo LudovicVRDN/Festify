@@ -13,11 +13,11 @@ export default function PrivateRoute ({ allowedRoles }:Props){
         return <Navigate to="/" />;
     }
 
-    if(allowedRoles){
-        if(!user || !allowedRoles.includes(user.role)){
-            return <Navigate to="/unauthorized" />
-        }
-    }
+    // if(allowedRoles){
+    //     if(!user || !allowedRoles.includes(user.role)){
+    //         return <Navigate to="/unauthorized" />
+    //     }
+    // }
 
     return <Outlet />;
 }
