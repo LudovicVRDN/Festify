@@ -20,26 +20,21 @@ function App() {
         <Route path="register" element={<RegisteringPage />}></Route>
 
         <Route element={<PrivateRoute />}>
-          
           <Route path="/profile" element={<Profile />}></Route>
           <Route path="/profile/edit" element></Route>
-
         </Route>
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>
-
-        <Route path="/missions" element></Route>
-
+          <Route path="/missions" element></Route>
         </Route>
 
-        {/* <Route element={<PrivateRoute allowedRoles="benevole" />}> */}
+        <Route element={<PrivateRoute allowedRoles="organisateur" />}>
+          <Route path="/organisateur" element={<OrganizerHomePage />}></Route>
+        </Route>
 
-        <Route path="/organizer" element={<OrganizerHomePage />}></Route>
-
-        {/* </Route> */}
-
-         <Route path="/volunteer" element={<VolunteerHomePage />}></Route>
-
+        <Route element={<PrivateRoute allowedRoles="organisateur" />}>
+          <Route path="/benevole" element={<VolunteerHomePage />}></Route>
+        </Route>
 
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         {/* <Route path="*" element={<NotFoundPage />} /> */}

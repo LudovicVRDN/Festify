@@ -15,6 +15,7 @@
     "@tanstack/react-query": "^5.99.2",
     "@tanstack/react-query-devtools": "^5.99.2",
     "axios": "^1.15.0",
+    "jwt-decode": "^4.0.0",
     "react": "^19.2.4",
     "react-awesome-reveal": "^4.3.1",
     "react-dom": "^19.2.4",

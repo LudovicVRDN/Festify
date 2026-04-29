@@ -121,6 +121,7 @@ const notificationsFestival: NotificationBenevole[] = [
                 <Link to={"/festival/:id/mission"}>
                   <Button textButton="Missions" />
                 </Link>
+                
               </div>
             </div>
           ))}
@@ -172,8 +173,10 @@ const notificationsFestival: NotificationBenevole[] = [
             </div>
           ))}
         </article>
-
+        <div className="flex flex-col gap-2">
         <Button textButton="Voir tes missions" />
+         <Button textButton="Voir tes compétences" />
+         </div>
       </section>
 
       <TornEdge position="bottom" />

@@ -1,4 +1,3 @@
-
 import Caroussel from "../components/Caroussel";
 import { Fade } from "react-awesome-reveal";
 import { Link, useNavigate } from "react-router";
@@ -6,6 +5,10 @@ import Button from "../components/ui/button";
 import TornEdge from "../components/TornEdge";
 import { useForm, type RegisterOptions } from "react-hook-form";
 import { useAuthStore } from "../stores/auth.store";
+import axios from "axios";
+import { useEffect } from "react";
+import type { IUser } from "../types/user.type";
+
 
 interface SigninFormData {
   email: string;
@@ -16,6 +19,10 @@ interface IForm {
   email: string;
   password: string;
 }
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
 
 interface Iinputs {
   name: keyof IForm;
@@ -23,6 +30,15 @@ interface Iinputs {
   type: string;
   placeholder?: string;
   rules?: RegisterOptions<IForm, keyof IForm>;
+}
+interface Idata{
+  access_token: string,
+  refreshToken:string
+}
+export interface AuthResponse {
+  accessToken: string;
+  data:Idata,
+  user: IUser;
 }
 
 const HomePage = () => {
@@ -35,27 +51,29 @@ const HomePage = () => {
     formState: { errors, isSubmitting },
   } = useForm<SigninFormData>();
 
-  // 1. On récupère la string (ou une string vide pour éviter le null)
-  const rawData = localStorage.getItem("auth-storage") ?? "{}";
+  const onSubmit = async (formdata: SigninFormData) => {
+    console.log("Données envoyées au serveur :", formdata);
 
-  // 2. On parse
-  const storage = JSON.parse(rawData);
-
-  // 3. On accède au password (souvent caché dans .state)
-  const password = storage.state?.user?.password;
-  console.log(password)
-  // Ou selon ta structure : storage.password
-
-  const onSubmit = async (data: SigninFormData) => {
-    const user = {
-      id: 19,
-      email: data.email,
-      password: password,
-      role: "organisateur",
-    };
-    setUser(user);
-    setAccessToken("eyjkr5fre4h4t4j6y5t4jt4uy465uy");
-    navigate("/profile");
+    try {
+      const { data } = await axios.post<AuthResponse>(
+        "http://localhost:3000/auth/login",
+        formdata,
+      );
+      setUser(data.user);
+     
+      setAccessToken(data.data.access_token);
+      const role = useAuthStore.getState().user?.role;
+        navigate(`/${role}`)
+      
+    } catch (error: any) {
+      // Gestion des erreurs (401, 404, etc.)
+      if (error.response) {
+        console.log("Erreur :", error.response.status);
+        alert(error.response.data.message || "Identifiants incorrects");
+      } else {
+        console.log("Erreur réseau (vérifie si NestJS est lancé)");
+      }
+    }
   };
 
   const loginInput: Iinputs[] = [
@@ -76,8 +94,6 @@ const HomePage = () => {
       placeholder: "Mot De Passe",
       rules: {
         required: "Mot de passe requis",
-        validate: (v: string) =>
-          v === password || "Mot de passe ou email incorrect",
       },
     },
   ];
