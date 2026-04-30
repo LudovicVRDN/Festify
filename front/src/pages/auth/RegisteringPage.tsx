@@ -36,7 +36,7 @@ const RegisteringPage = () => {
         validate: {
           hasUpperCase: (v: any) =>
             /[A-Z]/.test(v) || "Doit contenir une majuscule",
-          hasLowerCase: (v: any) =>
+          hasLowerCase: (v: any) => 
             /[a-z]/.test(v) || "Doit contenir une minuscule",
           hasNumber: (v: any) => /[0-9]/.test(v) || "Doit contenir un chiffre",
           hasSpecial: (v: any) =>
@@ -117,7 +117,7 @@ const RegisteringPage = () => {
     if (data.password === data.confirmPassword) {
       const { confirmPassword, ...userToSend } = data;
       try{
-      const dataDB = await axios.post<String>(
+      await axios.post<String>(
         "http://localhost:3000/auth/register",
         userToSend,
       )
@@ -131,15 +131,6 @@ const RegisteringPage = () => {
       }
     }
       
-      
-      // const response = "ok";
-      // if (response === "ok") {
-      //   setUser(data);
-      //   setAccessToken("eyjkr5fre4h4t4j6y5t4jt4uy465uy");
-      //   navigate("/profile");
-
-      //   navigate("/");
-      // }
     }
   };
   const password = watch("password");
@@ -206,7 +197,7 @@ const RegisteringPage = () => {
                 );
               })}
 
-              <Button textButton="S'inscrire" />
+              <Button textButton="S'inscrire" variant="red" />
             </form>
 
             <img src={registerPic} alt="Stage picture" className="lg:w-200 " />

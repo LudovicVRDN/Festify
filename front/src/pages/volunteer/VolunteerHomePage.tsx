@@ -93,7 +93,7 @@ const notificationsFestival: NotificationBenevole[] = [
       </h1>
       <Slider />
       <TornEdge position="top" />
-      <section className="bg-black flex  flex-col items-center gap-5   px-5 ">
+      <section className="bg-black flex  flex-col items-center gap-5 lg:gap-10  px-5 ">
         <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
           Ces festivals sont proches de chez toi ! Alors ? Let's go ?
         </h1>
@@ -101,13 +101,13 @@ const notificationsFestival: NotificationBenevole[] = [
           {festivalList.map((festival) => (
             <div
               key={festival.name}
-              className="w-full lg:h-25 flex justify-between items-center bg-transparent border-b border-zinc-700  py-2 text-white "
+              className="w-full lg:h-30  flex justify-between items-center bg-transparent border-b border-zinc-700  py-2 text-white "
             >
-              <h2 className="text-zinc-300 text-xs tracking-widest uppercase max-w-30 ">
+              <h2 className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase max-w-30 ">
                 {festival.name}
               </h2>
-              <div className="max-w-30 lg:max-w-45">
-                <p className="text-zinc-300 text-xs tracking-widest uppercase">
+              <div className="max-w-30 lg:max-w-60">
+                <p className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase">
                   Ton festival aura lieu <br />
                   le : {festival.date}, <br />a : {festival.city} en{" "}
                   {festival.country}
@@ -116,10 +116,10 @@ const notificationsFestival: NotificationBenevole[] = [
               <div className="flex flex-col gap-1 ">
                 <Link to={"/festival/:id"}>
                   {" "}
-                  <Button textButton="Plus d'infos" />{" "}
+                  <Button textButton="Plus d'infos" variant="grey" />{" "}
                 </Link>
                 <Link to={"/festival/:id/mission"}>
-                  <Button textButton="Missions" />
+                  <Button textButton="Missions" variant="red" />
                 </Link>
                 
               </div>
@@ -129,32 +129,7 @@ const notificationsFestival: NotificationBenevole[] = [
         <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
           Voici toutes tes missions :
         </h1>
-        {/* <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 h-80 w-100 lg:w-300 rounded-2xl">
-          {missionList.map((mission) => (
-            <div
-              key={mission.title}
-              className="w-full lg:h-25 flex justify-between items-center bg-transparent border-b border-zinc-700  py-2 text-white "
-            >
-              <h2 className="text-zinc-300 text-xs tracking-widest uppercase max-w-30 ">
-                {mission.title}
-              </h2>
-              <div className="max-w-30 lg:max-w-45 ">
-                <p className="text-zinc-300 text-xs tracking-widest uppercase">
-                  Cette mission a lieu <br />
-                  le : {mission.festival.date}, <br />
-                  pour le festival : {mission.festival.name}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1 ">
-                <Link to={"/missions/:id"}>
-                  {" "}
-                  <Button textButton="Plus d'infos" />{" "}
-                </Link>
-                <Button textButton="Se désister" />
-              </div>
-            </div>
-          ))}
-        </article> */}
+   
       </section>
       <section className="flex flex-col lg:flex-row bg-black justify-center items-center lg:gap-10">
         <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-90 md:w-150 h-50 rounded-2xl">
@@ -163,19 +138,19 @@ const notificationsFestival: NotificationBenevole[] = [
               key={notification.id}
               className="w-full lg:h-25 flex justify-between items-center bg-transparent border-b border-zinc-700  py-2 text-white "
             >
-              <h2 className="text-zinc-300 text-xs tracking-widest uppercase max-w-50">
+              <h2 className="text-zinc-300 text-xs lg:text-base  tracking-widest uppercase max-w-50 lg:max-w-80">
                 {notification.message}
               </h2>
 
-              <p className="text-zinc-300 text-xs tracking-widest uppercase">
+              <p className="text-zinc-300 text-xs lg:text-base  tracking-widest uppercase">
                 le : {notification.date}
               </p>
             </div>
           ))}
         </article>
         <div className="flex flex-col gap-2">
-        <Button textButton="Voir tes missions" />
-         <Button textButton="Voir tes compétences" />
+        <Button textButton="Voir tes missions" variant="red"/>
+         <Button textButton="Voir tes compétences" variant="grey"/>
          </div>
       </section>
 

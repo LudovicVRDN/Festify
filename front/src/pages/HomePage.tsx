@@ -148,13 +148,11 @@ const HomePage = () => {
                   Mot de passe oublié ?
                 </a>
                 {/* Bouton principal */}
-                <Button textButton="SE CONNECTER" />
+                <Button textButton="SE CONNECTER" variant="red"/>
                 {/* Bouton secondaire */}
-                <Link
-                  to="/register"
-                  className="w-full border border-zinc-700 hover:border-red-700 text-zinc-400 hover:text-red-500 py-3 text-sm font-bold tracking-widest uppercase text-center transition-colors"
-                >
-                  S'inscrire
+                
+                <Link to="/register">
+                 <Button textButton="S'inscrire" variant="grey" />
                 </Link>
               </form>
             </div>
