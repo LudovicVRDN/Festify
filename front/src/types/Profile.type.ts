@@ -1,7 +1,11 @@
 export interface IProfile {
-    nom?: string;
-    prenom?: string;
-    adresse?: string;
-    codePostal?: number;
-    ville?: string;
+    firstname?: string;
+    lastname?: string;
+    adress?: IAdresse
+}
+
+export interface IAdresse{
+    street ? :string
+    city?: string;
+    postalCode?: string;
 }

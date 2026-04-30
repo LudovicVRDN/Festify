@@ -66,7 +66,6 @@ const HomePage = () => {
         navigate(`/${role}`)
       
     } catch (error: any) {
-      // Gestion des erreurs (401, 404, etc.)
       if (error.response) {
         console.log("Erreur :", error.response.status);
         alert(error.response.data.message || "Identifiants incorrects");

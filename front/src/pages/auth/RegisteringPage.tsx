@@ -7,6 +7,7 @@ import TornEdge from "../../components/TornEdge";
 import { useAuthStore } from "../../stores/auth.store";
 import type { IUser } from "../../types/user.type";
 import type { Iinputs } from "../../types/inputsForm.interface";
+import axios from "axios";
 
 const RegisteringPage = () => {
   const navigate = useNavigate();
@@ -67,35 +68,35 @@ const RegisteringPage = () => {
       },
     },
     {
-      name: "profile.nom",
+      name: "profile.lastname",
       label: "Nom",
       type: "text",
       placeholder: "Nom",
       rules: { required: "Inscrit ton nom" },
     },
     {
-      name: "profile.prenom",
+      name: "profile.firstname",
       label: "Prénom",
       type: "text",
       placeholder: "Prénom",
       rules: { required: "Inscrit ton prénom" },
     },
     {
-      name: "profile.adresse",
+      name: "profile.adress.street",
       label: "Adresse",
       type: "text",
       placeholder: "Adresse",
       rules: { required: "Adresse obligatoire" },
     },
     {
-      name: "profile.codePostal",
+      name: "profile.adress.postalCode",
       label: "Code Postal",
-      type: "number",
+      type: "string",
       placeholder: "Code Postal",
       rules: { required: "Code postal obligatoire" },
     },
     {
-      name: "profile.ville",
+      name: "profile.adress.city",
       label: "Ville",
       type: "text",
       placeholder: "Ville",
@@ -111,18 +112,34 @@ const RegisteringPage = () => {
   mode: "onChange" 
 });
 
-  const handleForm: SubmitHandler<IUser> = (data: IUser) => {
+  const handleForm: SubmitHandler<IUser> = async (data: IUser) => {
+    console.log(`Data envoyées : ${data}`);
     if (data.password === data.confirmPassword) {
-      console.log("http !!");
-      console.log(data);
-      const response = "ok";
-      if (response === "ok") {
-        setUser(data);
-        setAccessToken("eyjkr5fre4h4t4j6y5t4jt4uy465uy");
-        navigate("/profile");
-
-        navigate("/");
+      const { confirmPassword, ...userToSend } = data;
+      try{
+      const dataDB = await axios.post<String>(
+        "http://localhost:3000/auth/register",
+        userToSend,
+      )
+      navigate("/")
+      }catch (error: any) {
+      if (error.response) {
+        console.log("Erreur :", error.response.status);
+        alert(error.response.data.message || "Identifiants incorrects");
+      } else {
+        console.log("Erreur réseau (vérifie si NestJS est lancé)");
       }
+    }
+      
+      
+      // const response = "ok";
+      // if (response === "ok") {
+      //   setUser(data);
+      //   setAccessToken("eyjkr5fre4h4t4j6y5t4jt4uy465uy");
+      //   navigate("/profile");
+
+      //   navigate("/");
+      // }
     }
   };
   const password = watch("password");

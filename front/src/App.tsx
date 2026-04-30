@@ -32,7 +32,7 @@ function App() {
           <Route path="/organisateur" element={<OrganizerHomePage />}></Route>
         </Route>
 
-        <Route element={<PrivateRoute allowedRoles="organisateur" />}>
+        <Route element={<PrivateRoute allowedRoles="benevole" />}>
           <Route path="/benevole" element={<VolunteerHomePage />}></Route>
         </Route>
 
