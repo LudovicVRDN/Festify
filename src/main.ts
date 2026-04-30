@@ -8,10 +8,17 @@ import { AuthGuard } from './auth/guard/auth.guard';
 import { JwtService } from '@nestjs/jwt';
 
 
+
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: 'http://localhost:5173', // ✅ bien à l'intérieur
+  });
+
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.useGlobalFilters(new PrismaExceptionFilter(),new HttpExceptionFilter());
+  app.useGlobalFilters(new PrismaExceptionFilter(), new HttpExceptionFilter());
   // app.useGlobalGuards(new AuthGuard(new JwtService()))
   await app.listen(process.env.PORT ?? 3000);
 }

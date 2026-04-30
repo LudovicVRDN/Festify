@@ -21,7 +21,6 @@ export class UserService {
           create: {
             firstname: profile.firstname,
             lastname: profile.lastname,
-            birthdate: profile.birthdate,
             adress: {
               create: profile.adress
             }

@@ -10,7 +10,7 @@ export class ProfileService {
   constructor(private prisma: PrismaService, private userService: UserService) { }
 
 
-  // async createAndUpdateProfile(createProfileDto: CreateProfileDto, userId: number) {
+  // async createAndUpdateProfile( userId: number) {
   //   //Check if user already got profile_id
   //   const update = await this.prisma.$transaction(async (tx) => {
   //     const profile = await tx.profile.create({

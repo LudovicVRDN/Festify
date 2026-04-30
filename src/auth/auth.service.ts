@@ -2,8 +2,8 @@ import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/co
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
-;
 import { signInDTO } from './dto/registe.dto';
+import type { Response } from 'express';
 
 
 @Injectable()
@@ -20,7 +20,10 @@ export class AuthService {
     }
 
     async createToken(userID: number, userRole: string): Promise<{ access_token: string, refresh_token: string }> {
-        const payload = { sub: userID, role: userRole }
+        const payload = {
+            sub: userID,
+            role: userRole
+        }
         const access_token = await this.jwtService.signAsync(payload);
         const refresh_token = await this.jwtService.signAsync(payload, {
             expiresIn: process.env.refresh_expire ?? "7d" as any,
@@ -33,13 +36,24 @@ export class AuthService {
             refresh_token
         }
     }
-
     async verifyToken(token: string) {
         const payload = await this.jwtService.verifyAsync(token, {
             secret: process.env.JWT_ACCESS_SECRET,
         });
 
         return payload
+    }
+    async instertIntoCookies(token:string,cookieName:string,response:Response, option? : {maxAge: number; }){
+        response.cookie(cookieName,token,{
+            ...option,
+            secure: false, //TODO : a changer en prod
+            httpOnly: true,
+            sameSite: 'strict',
+            path: "auth/refresh_token/"
+            //signed: true,
+            // domain: "shop.mon_nom_de_domaine.fr"
+        })
+        
     }
 
 

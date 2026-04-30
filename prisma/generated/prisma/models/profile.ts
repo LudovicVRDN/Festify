@@ -40,7 +40,6 @@ export type ProfileMinAggregateOutputType = {
   id: number | null
   firstname: string | null
   lastname: string | null
-  birthdate: Date | null
   created_at: Date | null
   updated_at: Date | null
   adress_id: number | null
@@ -50,7 +49,6 @@ export type ProfileMaxAggregateOutputType = {
   id: number | null
   firstname: string | null
   lastname: string | null
-  birthdate: Date | null
   created_at: Date | null
   updated_at: Date | null
   adress_id: number | null
@@ -60,7 +58,6 @@ export type ProfileCountAggregateOutputType = {
   id: number
   firstname: number
   lastname: number
-  birthdate: number
   created_at: number
   updated_at: number
   adress_id: number
@@ -82,7 +79,6 @@ export type ProfileMinAggregateInputType = {
   id?: true
   firstname?: true
   lastname?: true
-  birthdate?: true
   created_at?: true
   updated_at?: true
   adress_id?: true
@@ -92,7 +88,6 @@ export type ProfileMaxAggregateInputType = {
   id?: true
   firstname?: true
   lastname?: true
-  birthdate?: true
   created_at?: true
   updated_at?: true
   adress_id?: true
@@ -102,7 +97,6 @@ export type ProfileCountAggregateInputType = {
   id?: true
   firstname?: true
   lastname?: true
-  birthdate?: true
   created_at?: true
   updated_at?: true
   adress_id?: true
@@ -199,7 +193,6 @@ export type ProfileGroupByOutputType = {
   id: number
   firstname: string
   lastname: string
-  birthdate: Date
   created_at: Date
   updated_at: Date
   adress_id: number | null
@@ -232,7 +225,6 @@ export type profileWhereInput = {
   id?: Prisma.IntFilter<"profile"> | number
   firstname?: Prisma.StringFilter<"profile"> | string
   lastname?: Prisma.StringFilter<"profile"> | string
-  birthdate?: Prisma.DateTimeFilter<"profile"> | Date | string
   created_at?: Prisma.DateTimeFilter<"profile"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"profile"> | Date | string
   adress_id?: Prisma.IntNullableFilter<"profile"> | number | null
@@ -244,7 +236,6 @@ export type profileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  birthdate?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   adress_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -260,7 +251,6 @@ export type profileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.profileWhereInput | Prisma.profileWhereInput[]
   firstname?: Prisma.StringFilter<"profile"> | string
   lastname?: Prisma.StringFilter<"profile"> | string
-  birthdate?: Prisma.DateTimeFilter<"profile"> | Date | string
   created_at?: Prisma.DateTimeFilter<"profile"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"profile"> | Date | string
   adress_id?: Prisma.IntNullableFilter<"profile"> | number | null
@@ -272,7 +262,6 @@ export type profileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  birthdate?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   adress_id?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -290,7 +279,6 @@ export type profileScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"profile"> | number
   firstname?: Prisma.StringWithAggregatesFilter<"profile"> | string
   lastname?: Prisma.StringWithAggregatesFilter<"profile"> | string
-  birthdate?: Prisma.DateTimeWithAggregatesFilter<"profile"> | Date | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"profile"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"profile"> | Date | string
   adress_id?: Prisma.IntNullableWithAggregatesFilter<"profile"> | number | null
@@ -299,7 +287,6 @@ export type profileScalarWhereWithAggregatesInput = {
 export type profileCreateInput = {
   firstname: string
   lastname: string
-  birthdate: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   adress?: Prisma.adressCreateNestedOneWithoutProfileInput
@@ -310,7 +297,6 @@ export type profileUncheckedCreateInput = {
   id: number
   firstname: string
   lastname: string
-  birthdate: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   adress_id?: number | null
@@ -319,7 +305,6 @@ export type profileUncheckedCreateInput = {
 export type profileUpdateInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adress?: Prisma.adressUpdateOneWithoutProfileNestedInput
@@ -330,7 +315,6 @@ export type profileUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adress_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -340,7 +324,6 @@ export type profileCreateManyInput = {
   id: number
   firstname: string
   lastname: string
-  birthdate: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   adress_id?: number | null
@@ -349,7 +332,6 @@ export type profileCreateManyInput = {
 export type profileUpdateManyMutationInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -358,7 +340,6 @@ export type profileUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adress_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -384,7 +365,6 @@ export type profileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  birthdate?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   adress_id?: Prisma.SortOrder
@@ -399,7 +379,6 @@ export type profileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  birthdate?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   adress_id?: Prisma.SortOrder
@@ -409,7 +388,6 @@ export type profileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  birthdate?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   adress_id?: Prisma.SortOrder
@@ -510,7 +488,6 @@ export type profileUncheckedUpdateOneWithoutUserNestedInput = {
 export type profileCreateWithoutAdressInput = {
   firstname: string
   lastname: string
-  birthdate: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   user: Prisma.userCreateNestedOneWithoutProfileInput
@@ -520,7 +497,6 @@ export type profileUncheckedCreateWithoutAdressInput = {
   id: number
   firstname: string
   lastname: string
-  birthdate: Date | string
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -558,7 +534,6 @@ export type profileScalarWhereInput = {
   id?: Prisma.IntFilter<"profile"> | number
   firstname?: Prisma.StringFilter<"profile"> | string
   lastname?: Prisma.StringFilter<"profile"> | string
-  birthdate?: Prisma.DateTimeFilter<"profile"> | Date | string
   created_at?: Prisma.DateTimeFilter<"profile"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"profile"> | Date | string
   adress_id?: Prisma.IntNullableFilter<"profile"> | number | null
@@ -567,7 +542,6 @@ export type profileScalarWhereInput = {
 export type profileCreateWithoutUserInput = {
   firstname: string
   lastname: string
-  birthdate: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   adress?: Prisma.adressCreateNestedOneWithoutProfileInput
@@ -576,7 +550,6 @@ export type profileCreateWithoutUserInput = {
 export type profileUncheckedCreateWithoutUserInput = {
   firstname: string
   lastname: string
-  birthdate: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   adress_id?: number | null
@@ -601,7 +574,6 @@ export type profileUpdateToOneWithWhereWithoutUserInput = {
 export type profileUpdateWithoutUserInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adress?: Prisma.adressUpdateOneWithoutProfileNestedInput
@@ -610,7 +582,6 @@ export type profileUpdateWithoutUserInput = {
 export type profileUncheckedUpdateWithoutUserInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adress_id?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -620,7 +591,6 @@ export type profileCreateManyAdressInput = {
   id: number
   firstname: string
   lastname: string
-  birthdate: Date | string
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -628,7 +598,6 @@ export type profileCreateManyAdressInput = {
 export type profileUpdateWithoutAdressInput = {
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.userUpdateOneRequiredWithoutProfileNestedInput
@@ -638,7 +607,6 @@ export type profileUncheckedUpdateWithoutAdressInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -647,7 +615,6 @@ export type profileUncheckedUpdateManyWithoutAdressInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  birthdate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -658,7 +625,6 @@ export type profileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   firstname?: boolean
   lastname?: boolean
-  birthdate?: boolean
   created_at?: boolean
   updated_at?: boolean
   adress_id?: boolean
@@ -672,13 +638,12 @@ export type profileSelectScalar = {
   id?: boolean
   firstname?: boolean
   lastname?: boolean
-  birthdate?: boolean
   created_at?: boolean
   updated_at?: boolean
   adress_id?: boolean
 }
 
-export type profileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstname" | "lastname" | "birthdate" | "created_at" | "updated_at" | "adress_id", ExtArgs["result"]["profile"]>
+export type profileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstname" | "lastname" | "created_at" | "updated_at" | "adress_id", ExtArgs["result"]["profile"]>
 export type profileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   adress?: boolean | Prisma.profile$adressArgs<ExtArgs>
   user?: boolean | Prisma.userDefaultArgs<ExtArgs>
@@ -694,7 +659,6 @@ export type $profilePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: number
     firstname: string
     lastname: string
-    birthdate: Date
     created_at: Date
     updated_at: Date
     adress_id: number | null
@@ -1072,7 +1036,6 @@ export interface profileFieldRefs {
   readonly id: Prisma.FieldRef<"profile", 'Int'>
   readonly firstname: Prisma.FieldRef<"profile", 'String'>
   readonly lastname: Prisma.FieldRef<"profile", 'String'>
-  readonly birthdate: Prisma.FieldRef<"profile", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"profile", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"profile", 'DateTime'>
   readonly adress_id: Prisma.FieldRef<"profile", 'Int'>

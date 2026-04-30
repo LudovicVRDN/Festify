@@ -20,6 +20,13 @@ export class userController {
   async findAll(): Promise<user[]> {
     return this.userService.findAll();
   }
+  @Get('email/:email')
+ async findByEmail(@Param('email') email: string): Promise<user | null> {
+   const user = await this.userService.findByEmail(email)
+   if (!user) throw new NotFoundException(`Utilisateurs  introuvable`)
+   console.log(user)
+   return user
+ }
 
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number): Promise<user | null> {
@@ -43,3 +50,4 @@ export class userController {
       return this.userService.remove(req.user);
   }
 }
+//HACKED

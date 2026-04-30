@@ -12,7 +12,7 @@ model adress {
   id         Int        @id @unique(map: "id_UNIQUE") @default(autoincrement())
   street     String     @db.VarChar(85)
   city       String     @db.VarChar(45)
-  country    String     @db.VarChar(45)
+  postalCode String     @db.VarChar(30)
   created_at DateTime   @default(now())
   updated_at DateTime   @updatedAt()
   festival   festival[]
@@ -184,7 +184,6 @@ model profile {
   id         Int      @id
   firstname  String   @db.VarChar(45)
   lastname   String   @db.VarChar(45)
-  birthdate  DateTime @db.Date
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt()
   adress_id  Int?

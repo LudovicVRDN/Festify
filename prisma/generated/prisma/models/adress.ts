@@ -38,7 +38,7 @@ export type AdressMinAggregateOutputType = {
   id: number | null
   street: string | null
   city: string | null
-  country: string | null
+  postalCode: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -47,7 +47,7 @@ export type AdressMaxAggregateOutputType = {
   id: number | null
   street: string | null
   city: string | null
-  country: string | null
+  postalCode: string | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -56,7 +56,7 @@ export type AdressCountAggregateOutputType = {
   id: number
   street: number
   city: number
-  country: number
+  postalCode: number
   created_at: number
   updated_at: number
   _all: number
@@ -75,7 +75,7 @@ export type AdressMinAggregateInputType = {
   id?: true
   street?: true
   city?: true
-  country?: true
+  postalCode?: true
   created_at?: true
   updated_at?: true
 }
@@ -84,7 +84,7 @@ export type AdressMaxAggregateInputType = {
   id?: true
   street?: true
   city?: true
-  country?: true
+  postalCode?: true
   created_at?: true
   updated_at?: true
 }
@@ -93,7 +93,7 @@ export type AdressCountAggregateInputType = {
   id?: true
   street?: true
   city?: true
-  country?: true
+  postalCode?: true
   created_at?: true
   updated_at?: true
   _all?: true
@@ -189,7 +189,7 @@ export type AdressGroupByOutputType = {
   id: number
   street: string
   city: string
-  country: string
+  postalCode: string
   created_at: Date
   updated_at: Date
   _count: AdressCountAggregateOutputType | null
@@ -221,7 +221,7 @@ export type adressWhereInput = {
   id?: Prisma.IntFilter<"adress"> | number
   street?: Prisma.StringFilter<"adress"> | string
   city?: Prisma.StringFilter<"adress"> | string
-  country?: Prisma.StringFilter<"adress"> | string
+  postalCode?: Prisma.StringFilter<"adress"> | string
   created_at?: Prisma.DateTimeFilter<"adress"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"adress"> | Date | string
   festival?: Prisma.FestivalListRelationFilter
@@ -232,7 +232,7 @@ export type adressOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   street?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  country?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   festival?: Prisma.festivalOrderByRelationAggregateInput
@@ -247,7 +247,7 @@ export type adressWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.adressWhereInput | Prisma.adressWhereInput[]
   street?: Prisma.StringFilter<"adress"> | string
   city?: Prisma.StringFilter<"adress"> | string
-  country?: Prisma.StringFilter<"adress"> | string
+  postalCode?: Prisma.StringFilter<"adress"> | string
   created_at?: Prisma.DateTimeFilter<"adress"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"adress"> | Date | string
   festival?: Prisma.FestivalListRelationFilter
@@ -258,7 +258,7 @@ export type adressOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   street?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  country?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   _count?: Prisma.adressCountOrderByAggregateInput
@@ -275,7 +275,7 @@ export type adressScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"adress"> | number
   street?: Prisma.StringWithAggregatesFilter<"adress"> | string
   city?: Prisma.StringWithAggregatesFilter<"adress"> | string
-  country?: Prisma.StringWithAggregatesFilter<"adress"> | string
+  postalCode?: Prisma.StringWithAggregatesFilter<"adress"> | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"adress"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"adress"> | Date | string
 }
@@ -283,7 +283,7 @@ export type adressScalarWhereWithAggregatesInput = {
 export type adressCreateInput = {
   street: string
   city: string
-  country: string
+  postalCode: string
   created_at?: Date | string
   updated_at?: Date | string
   festival?: Prisma.festivalCreateNestedManyWithoutAdressInput
@@ -294,7 +294,7 @@ export type adressUncheckedCreateInput = {
   id?: number
   street: string
   city: string
-  country: string
+  postalCode: string
   created_at?: Date | string
   updated_at?: Date | string
   festival?: Prisma.festivalUncheckedCreateNestedManyWithoutAdressInput
@@ -304,7 +304,7 @@ export type adressUncheckedCreateInput = {
 export type adressUpdateInput = {
   street?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  country?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival?: Prisma.festivalUpdateManyWithoutAdressNestedInput
@@ -315,7 +315,7 @@ export type adressUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   street?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  country?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival?: Prisma.festivalUncheckedUpdateManyWithoutAdressNestedInput
@@ -326,7 +326,7 @@ export type adressCreateManyInput = {
   id?: number
   street: string
   city: string
-  country: string
+  postalCode: string
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -334,7 +334,7 @@ export type adressCreateManyInput = {
 export type adressUpdateManyMutationInput = {
   street?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  country?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -343,7 +343,7 @@ export type adressUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   street?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  country?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -358,7 +358,7 @@ export type adressCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   street?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  country?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -371,7 +371,7 @@ export type adressMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   street?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  country?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -380,7 +380,7 @@ export type adressMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   street?: Prisma.SortOrder
   city?: Prisma.SortOrder
-  country?: Prisma.SortOrder
+  postalCode?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -448,7 +448,7 @@ export type adressUpdateOneWithoutProfileNestedInput = {
 export type adressCreateWithoutFestivalInput = {
   street: string
   city: string
-  country: string
+  postalCode: string
   created_at?: Date | string
   updated_at?: Date | string
   profile?: Prisma.profileCreateNestedManyWithoutAdressInput
@@ -458,7 +458,7 @@ export type adressUncheckedCreateWithoutFestivalInput = {
   id?: number
   street: string
   city: string
-  country: string
+  postalCode: string
   created_at?: Date | string
   updated_at?: Date | string
   profile?: Prisma.profileUncheckedCreateNestedManyWithoutAdressInput
@@ -483,7 +483,7 @@ export type adressUpdateToOneWithWhereWithoutFestivalInput = {
 export type adressUpdateWithoutFestivalInput = {
   street?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  country?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.profileUpdateManyWithoutAdressNestedInput
@@ -493,7 +493,7 @@ export type adressUncheckedUpdateWithoutFestivalInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   street?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  country?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.profileUncheckedUpdateManyWithoutAdressNestedInput
@@ -502,7 +502,7 @@ export type adressUncheckedUpdateWithoutFestivalInput = {
 export type adressCreateWithoutProfileInput = {
   street: string
   city: string
-  country: string
+  postalCode: string
   created_at?: Date | string
   updated_at?: Date | string
   festival?: Prisma.festivalCreateNestedManyWithoutAdressInput
@@ -512,7 +512,7 @@ export type adressUncheckedCreateWithoutProfileInput = {
   id?: number
   street: string
   city: string
-  country: string
+  postalCode: string
   created_at?: Date | string
   updated_at?: Date | string
   festival?: Prisma.festivalUncheckedCreateNestedManyWithoutAdressInput
@@ -537,7 +537,7 @@ export type adressUpdateToOneWithWhereWithoutProfileInput = {
 export type adressUpdateWithoutProfileInput = {
   street?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  country?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival?: Prisma.festivalUpdateManyWithoutAdressNestedInput
@@ -547,7 +547,7 @@ export type adressUncheckedUpdateWithoutProfileInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   street?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
-  country?: Prisma.StringFieldUpdateOperationsInput | string
+  postalCode?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival?: Prisma.festivalUncheckedUpdateManyWithoutAdressNestedInput
@@ -597,7 +597,7 @@ export type adressSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   street?: boolean
   city?: boolean
-  country?: boolean
+  postalCode?: boolean
   created_at?: boolean
   updated_at?: boolean
   festival?: boolean | Prisma.adress$festivalArgs<ExtArgs>
@@ -611,12 +611,12 @@ export type adressSelectScalar = {
   id?: boolean
   street?: boolean
   city?: boolean
-  country?: boolean
+  postalCode?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type adressOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "street" | "city" | "country" | "created_at" | "updated_at", ExtArgs["result"]["adress"]>
+export type adressOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "street" | "city" | "postalCode" | "created_at" | "updated_at", ExtArgs["result"]["adress"]>
 export type adressInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   festival?: boolean | Prisma.adress$festivalArgs<ExtArgs>
   profile?: boolean | Prisma.adress$profileArgs<ExtArgs>
@@ -633,7 +633,7 @@ export type $adressPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     id: number
     street: string
     city: string
-    country: string
+    postalCode: string
     created_at: Date
     updated_at: Date
   }, ExtArgs["result"]["adress"]>
@@ -1010,7 +1010,7 @@ export interface adressFieldRefs {
   readonly id: Prisma.FieldRef<"adress", 'Int'>
   readonly street: Prisma.FieldRef<"adress", 'String'>
   readonly city: Prisma.FieldRef<"adress", 'String'>
-  readonly country: Prisma.FieldRef<"adress", 'String'>
+  readonly postalCode: Prisma.FieldRef<"adress", 'String'>
   readonly created_at: Prisma.FieldRef<"adress", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"adress", 'DateTime'>
 }

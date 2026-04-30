@@ -1,6 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, ForbiddenException } from '@nestjs/common';
 import { AdressService } from './adress.service';
-import { CreateAdressDto } from './dto/create-adress.dto';
+import { CreateAdressDto } from 'src/user/dto/create-user.dto';
 import { UpdateAdressDto } from './dto/update-adress.dto';
 
 @Controller('adress')
@@ -23,12 +23,16 @@ export class AdressController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdressDto: UpdateAdressDto) {
-    return this.adressService.update(+id, updateAdressDto);
+  update(@Body() updateAdressDto: UpdateAdressDto,@Req() req) {
+    try{
+   const newUser = this.adressService.updatePrisma(req.sub,updateAdressDto)
+   }catch{
+    throw new ForbiddenException("Vous n'avez pas accès à ce profil")
+   }
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.adressService.remove(+id);
+    // return this.adressService.remove(+id);
   }
 }

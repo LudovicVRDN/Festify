@@ -4,30 +4,27 @@ import { role } from "prisma/generated/prisma/enums";
 
 export class CreateAdressDto {
    @IsString()
-   street : string
+   street!: string
    @IsString()
-   city: string
+   city!: string
    @IsString()
-   country : string
+   postalCode!: string
 }
 
 export class CreateProfileDto {
     @IsString()
-    firstname :string
+    firstname!:string
     @IsString()
-    lastname : string
-    @Transform(({ value }) => new Date(value))
-    @IsDate()
-    birthdate : Date
+    lastname!: string
     @ValidateNested()
     @Type(()=> CreateAdressDto)
-    adress : CreateAdressDto
+    adress!: CreateAdressDto
 }
 
 export class CreateUserDto {
     @IsEmail()
     @IsNotEmpty()
-    email:string;
+    email!:string;
     @IsStrongPassword({
         minLength : 8,
         minUppercase : 1,
@@ -35,11 +32,11 @@ export class CreateUserDto {
         minNumbers :1
     })
     @IsNotEmpty()
-    password : string;
-    is_validated : boolean;
+    password! : string;
+    is_validated !: boolean;
     @IsEnum(role)
-    role : role;
+    role !: role;
     @ValidateNested()
     @Type(()=> CreateProfileDto)
-    profile :CreateProfileDto
+    profile !:CreateProfileDto
 }

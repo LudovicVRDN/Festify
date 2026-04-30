@@ -93,7 +93,7 @@ export const AdressScalarFieldEnum = {
   id: 'id',
   street: 'street',
   city: 'city',
-  country: 'country',
+  postalCode: 'postalCode',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const
@@ -234,7 +234,6 @@ export const ProfileScalarFieldEnum = {
   id: 'id',
   firstname: 'firstname',
   lastname: 'lastname',
-  birthdate: 'birthdate',
   created_at: 'created_at',
   updated_at: 'updated_at',
   adress_id: 'adress_id'
@@ -320,7 +319,7 @@ export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 export const adressOrderByRelevanceFieldEnum = {
   street: 'street',
   city: 'city',
-  country: 'country'
+  postalCode: 'postalCode'
 } as const
 
 export type adressOrderByRelevanceFieldEnum = (typeof adressOrderByRelevanceFieldEnum)[keyof typeof adressOrderByRelevanceFieldEnum]
