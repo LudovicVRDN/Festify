@@ -24,13 +24,13 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
 
   const fetchProfile = async () => {
     try {
-      const profileDB = await axios.get<IProfile>(
+      const profileDB = await api.get<IProfile>(
         `http://localhost:3000/profile/${userId}`,
       );
-      const adresseDB = await axios.get<IAdresse>(
+      const adresseDB = await api.get<IAdresse>(
         `http://localhost:3000/adress/${userId}`,
       );
-      const userDB = await axios.get<IUser>(
+      const userDB = await api.get<IUser>(
         `http://localhost:3000/user/${userId}`,
       );
       setProfile(profileDB.data);
@@ -121,7 +121,6 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
       rules: { required: "Ville obligatoire" },
     },
   ];
-  const token = useAuthStore.getState().accessToken;
   const handleForm: SubmitHandler<IUser> = async (data: IUser) => {
     console.log(`Data envoyées : ${data}`);
 
