@@ -8,6 +8,7 @@ import { useAuthStore } from "../../stores/auth.store";
 import type { IUser } from "../../types/user.type";
 import type { Iinputs } from "../../types/inputsForm.interface";
 import axios from "axios";
+import api from "../../api/axios.instance";
 
 const RegisteringPage = () => {
   const navigate = useNavigate();
@@ -117,7 +118,7 @@ const RegisteringPage = () => {
     if (data.password === data.confirmPassword) {
       const { confirmPassword, ...userToSend } = data;
       try{
-      await axios.post<String>(
+      await api.post<String>(
         "http://localhost:3000/auth/register",
         userToSend,
       )

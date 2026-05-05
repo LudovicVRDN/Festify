@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import type { IUser } from "../types/user.type"
 import { jwtDecode } from "jwt-decode"; 
 
+
 interface AuthState {
     user: IUser | null;
     accessToken: string | null;
@@ -12,6 +13,7 @@ interface AuthState {
     clearAuth: () => void;
     isHydrated: boolean; // Ajoute ça
     setHydrated: (val: boolean) => void;
+    logout : () => void
 }
 interface TokenPayload {
     sub: number;
@@ -57,6 +59,11 @@ export const useAuthStore = create<AuthState>()(
             clearAuth: () => set({ user: null, accessToken: null }),
             
             setHydrated: (val) => set({ isHydrated: val }),
+
+            logout: () =>{
+                set({accessToken :null , user:null });
+                window.location.href = '/';
+            }
         }),
         {
             name: "auth-storage",

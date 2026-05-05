@@ -1,8 +1,13 @@
 import React from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router";
+import { useAuthStore } from "../stores/auth.store";
 
-const Navbar = () => {
+interface INavProps{
+  id : number | undefined
+}
+const Navbar = ({id} : INavProps) => {
+  
   return (
     <div className="navbar bg-black  w-full ">
       <div className="navbar-start">
@@ -43,7 +48,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="navbar-end lg:gap-5 ">
-        <button className="btn btn-ghost btn-circle ">
+        <Link to={`/profile/${id}`} className="btn btn-ghost btn-circle ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-10 w-8"
@@ -66,7 +71,7 @@ const Navbar = () => {
               d="M4 20c0-4 3.6-7 8-7s8 3 8 7"
             />
           </svg>
-        </button>
+        </Link>
         <button className="btn btn-ghost btn-circle">
           <div className="indicator">
             <svg

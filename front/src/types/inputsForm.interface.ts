@@ -10,6 +10,7 @@ export interface Iinputs {
   name:  Path<IUser>;
   label: string;
   type: string;
+  value?: string
   options?: IInputOption[]
   placeholder?: string;
   rules?: RegisterOptions<IUser, Path<IUser>>;

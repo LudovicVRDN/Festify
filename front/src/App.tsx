@@ -6,22 +6,42 @@ import RegisteringPage from "./pages/auth/RegisteringPage";
 import HomePage from "./pages/HomePage";
 import PrivateRoute from "./guards/PrivateRoute";
 import UnauthorizedPage from "./pages/base/UnauthorizedPage";
-import Profile from "./pages/profile/ProfileEdit";
+import Profile from "./pages/profile/Profile";
 import OrganizerHomePage from "./pages/organizer/OrganizerHomePage";
 import VolunteerHomePage from "./pages/volunteer/VolunteerHomePage";
+import ProfileEditPage from "./pages/profile/ProfileEditPage";
+import { useAuthStore } from "./stores/auth.store";
+import { useEffect } from "react";
+import api from "./api/axios.instance";
 
 function App() {
+  const id = useAuthStore((state) => state.user?.id);
+  useEffect(() => {
+    const restoreSession = async () => {
+      try {
+        const { data } = await api.get("/auth/refresh_token");
+        useAuthStore.getState().setAccessToken(data.access_token);
+      } catch {
+        useAuthStore.getState().logout();
+      }
+    };
+
+    restoreSession();
+  }, []);
   return (
     <>
-      <Navbar />
+      <Navbar id={id} />
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
 
         <Route path="register" element={<RegisteringPage />}></Route>
 
         <Route element={<PrivateRoute />}>
-          <Route path="/profile" element={<Profile />}></Route>
-          <Route path="/profile/edit" element></Route>
+          <Route path={`/profile/${id}`} element={<Profile id={id} />}></Route>
+          <Route
+            path={`/profile/${id}/update`}
+            element={<ProfileEditPage userId={id} />}
+          ></Route>
         </Route>
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>

@@ -6,9 +6,8 @@ import TornEdge from "../components/TornEdge";
 import { useForm, type RegisterOptions } from "react-hook-form";
 import { useAuthStore } from "../stores/auth.store";
 import axios from "axios";
-import { useEffect } from "react";
 import type { IUser } from "../types/user.type";
-
+import api from "../api/axios.instance";
 
 interface SigninFormData {
   email: string;
@@ -31,13 +30,13 @@ interface Iinputs {
   placeholder?: string;
   rules?: RegisterOptions<IForm, keyof IForm>;
 }
-interface Idata{
-  access_token: string,
-  refreshToken:string
+interface Idata {
+  access_token: string;
+  refreshToken: string;
 }
 export interface AuthResponse {
   accessToken: string;
-  data:Idata,
+  data: Idata;
   user: IUser;
 }
 
@@ -55,16 +54,15 @@ const HomePage = () => {
     console.log("Données envoyées au serveur :", formdata);
 
     try {
-      const { data } = await axios.post<AuthResponse>(
+      const { data } = await api.post<AuthResponse>(
         "http://localhost:3000/auth/login",
         formdata,
       );
       setUser(data.user);
-     
+
       setAccessToken(data.data.access_token);
       const role = useAuthStore.getState().user?.role;
-        navigate(`/${role}`)
-      
+      navigate(`/${role}`);
     } catch (error: any) {
       if (error.response) {
         console.log("Erreur :", error.response.status);
@@ -148,11 +146,11 @@ const HomePage = () => {
                   Mot de passe oublié ?
                 </a>
                 {/* Bouton principal */}
-                <Button textButton="SE CONNECTER" variant="red"/>
+                <Button textButton="SE CONNECTER" variant="red" />
                 {/* Bouton secondaire */}
-                
+
                 <Link to="/register">
-                 <Button textButton="S'inscrire" variant="grey" />
+                  <Button textButton="S'inscrire" variant="grey" />
                 </Link>
               </form>
             </div>
