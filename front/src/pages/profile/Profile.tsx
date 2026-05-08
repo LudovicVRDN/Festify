@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import type { IAdresse, IProfile } from "../../types/Profile.type";
-
 import TornEdge from "../../components/TornEdge";
 import type { IUser } from "../../types/user.type";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Button from "../../components/ui/button";
 import { Fade } from "react-awesome-reveal";
 import profilePic from "../../assets/profile.jpg";
@@ -19,6 +17,7 @@ const Profile = ({ id }: IProfileProps) => {
   const [profile, setProfile] = useState<IProfile | null>(null);
   const [adress, setAdresse] = useState<IAdresse | null>(null);
   const [user, setUser] = useState<IUser | null>(null);
+  const navigate = useNavigate()
 
   const fetchProfile = async () => {
     console.log("Hello");
@@ -33,6 +32,7 @@ const Profile = ({ id }: IProfileProps) => {
       setProfile(profileDB.data);
       setAdresse(adresseDB.data);
       setUser(userDB.data);
+      
     } catch (error) {
       console.error("Erreur lors de la récupération:", error);
     }
@@ -42,6 +42,8 @@ const Profile = ({ id }: IProfileProps) => {
       console.log('Data supprimée')
       await api.delete(`http://localhost:3000/user/${id}`)
       useAuthStore.getState().logout()
+      navigate('/')
+    
     }catch(error){
       console.error("Erreur lors de la récupération:", error);
     }

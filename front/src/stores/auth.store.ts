@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { IUser } from "../types/user.type"
-import { jwtDecode } from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 
 
 interface AuthState {
@@ -13,7 +13,7 @@ interface AuthState {
     clearAuth: () => void;
     isHydrated: boolean; // Ajoute ça
     setHydrated: (val: boolean) => void;
-    logout : () => void
+    logout: () => void
 }
 interface TokenPayload {
     sub: number;
@@ -27,20 +27,20 @@ export const useAuthStore = create<AuthState>()(
         (set) => ({
             user: null,
             accessToken: null,
-            isHydrated: false, // Faux par défaut au démarrage de l'app
+            isHydrated: false,
 
             setUser: (user) => set({ user }),
+
             setAccessToken: (token) => {
                 if (token) {
                     try {
                         const decoded = jwtDecode<TokenPayload>(token);
-                        set({ 
+                        set({
                             accessToken: token,
-                            // On "mappe" les données du token vers ton objet user
-                            user: { 
-                                id: decoded.sub, 
-                                role: decoded.role 
-                            } as IUser 
+                            user: {
+                                id: decoded.sub,
+                                role: decoded.role
+                            } as IUser
                         });
                     } catch (error) {
                         console.error("Erreur décodage token:", error);
@@ -57,21 +57,26 @@ export const useAuthStore = create<AuthState>()(
                 })),
 
             clearAuth: () => set({ user: null, accessToken: null }),
-            
+
             setHydrated: (val) => set({ isHydrated: val }),
 
-            logout: () =>{
-                set({accessToken :null , user:null });
-                localStorage.clear();
-                window.location.href = '/';
+            logout: () => {
+                set({ accessToken: null, user: null });
+                useAuthStore.persist.clearStorage();
             }
         }),
         {
             name: "auth-storage",
-            // Cette partie est cruciale pour la PrivateRoute
+
+
+            partialize: (state) => ({
+                user: state.user
+
+            }),
+
             onRehydrateStorage: () => (state) => {
                 state?.setHydrated(true);
             },
-        },
+        }
     ),
 );

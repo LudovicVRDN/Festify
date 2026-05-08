@@ -9,26 +9,33 @@ import OrganizerHomePage from "./pages/organizer/OrganizerHomePage";
 import VolunteerHomePage from "./pages/volunteer/VolunteerHomePage";
 import ProfileEditPage from "./pages/profile/ProfileEditPage";
 import { useAuthStore } from "./stores/auth.store";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import api from "./api/axios.instance";
 import PublicLayout from "./guards/layout/PublicLayout";
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
-  const token = useAuthStore.getState().accessToken;
-  useEffect(() => {
-    const restoreSession = async () => {
-      try {
-        const { data } = await api.get("/auth/refresh_token");
-        useAuthStore.getState().setAccessToken(data.access_token);
-      } catch {
-        useAuthStore.getState().logout();
-      }
-    };
-    if (token) {
-      restoreSession();
+
+
+useEffect(() => {
+ 
+  const restoreSession = async () => {
+    try {
+      
+      const { data } = await api.get("/auth/refresh_token");
+
+      useAuthStore
+        .getState()
+        .setAccessToken(data.access_token);
+
+    } catch {
+      useAuthStore.getState().logout();
     }
-  }, []);
+  };
+
+  restoreSession();
+}, []);
+
   return (
     <>
       <Routes>

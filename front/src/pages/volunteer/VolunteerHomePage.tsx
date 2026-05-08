@@ -1,4 +1,4 @@
-import React from "react";
+
 import Slider from "../../components/Slider";
 import TornEdge from "../../components/TornEdge";
 import Button from "../../components/ui/button";
@@ -12,13 +12,6 @@ interface IFestival {
   country: string;
 }
 
-interface IMission {
-  title: string;
-  volunter_needed: number;
-  is_full: boolean;
-  description: string;
-  festival: IFestival;
-}
 const VolunteerHomePage = () => {
   const festivalList: IFestival[] = [
     {
