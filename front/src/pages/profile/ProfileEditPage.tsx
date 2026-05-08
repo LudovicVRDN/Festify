@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TornEdge from "../../components/TornEdge";
 import { Fade } from "react-awesome-reveal";
 import Button from "../../components/ui/button";
@@ -6,18 +6,17 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { IUser } from "../../types/user.type";
 import type { Iinputs } from "../../types/inputsForm.interface";
 import { useNavigate } from "react-router";
-import { useAuthStore } from "../../stores/auth.store";
-import axios from "axios";
 import type { IAdresse, IProfile } from "../../types/Profile.type";
 import api from "../../api/axios.instance";
+
 
 interface ProfileEditProps {
   userId: number | undefined;
 }
 
 const ProfileEditPage = ({ userId }: ProfileEditProps) => {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<IProfile | null>(null);
   const [adress, setAdresse] = useState<IAdresse | null>(null);
   const [user, setUser] = useState<IUser | null>(null);
@@ -43,7 +42,6 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm<IUser>({
@@ -60,7 +58,6 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
   useEffect(() => {
     if (user && profile && adress) {
       const { password, ...userWithoutPassword } = user;
-
       reset({
         ...userWithoutPassword,
         password: "",
@@ -84,7 +81,6 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
         validate: (v: any) => String(v).includes(".") || "Format incorrect",
       },
     },
-
     {
       name: "profile.lastname",
       label: "Nom",
@@ -122,20 +118,15 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
     },
   ];
   const handleForm: SubmitHandler<IUser> = async (data: IUser) => {
-    console.log(`Data envoyées : ${data}`);
-
     const { confirmPassword, password, ...userWithoutPasswords } = data;
-
     const userToSend = password
       ? { ...userWithoutPasswords, password }
       : userWithoutPasswords;
-
     try {
       const newUser = await api.patch<Date>(
         `http://localhost:3000/user/${userId}/update`,
         userToSend,
       );
-      console.log(newUser);
       navigate(`/profile/${userId}`);
     } catch (error: any) {
       if (error.response) {
@@ -146,7 +137,7 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
       }
     }
   };
-  const password = watch("password");
+
   return (
     <div>
       <div className="my-5">
@@ -195,6 +186,7 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
             </div>
           </Fade>
         </article>
+        
         <TornEdge position="bottom" />
       </div>
     </div>

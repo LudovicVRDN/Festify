@@ -5,7 +5,6 @@ import Button from "../components/ui/button";
 import TornEdge from "../components/TornEdge";
 import { useForm, type RegisterOptions } from "react-hook-form";
 import { useAuthStore } from "../stores/auth.store";
-import axios from "axios";
 import type { IUser } from "../types/user.type";
 import api from "../api/axios.instance";
 
@@ -96,7 +95,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="flex flex-col  items-center  ">
+    <div className="flex flex-col items-center  ">
       <Caroussel />
 
       <div className="relative w-full -translate-y-10 ">

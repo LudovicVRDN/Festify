@@ -62,6 +62,7 @@ export const useAuthStore = create<AuthState>()(
 
             logout: () =>{
                 set({accessToken :null , user:null });
+                localStorage.clear();
                 window.location.href = '/';
             }
         }),

@@ -1,7 +1,5 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Route, Routes } from "react-router";
-import Navbar from "./components/Navbar";
-
 import RegisteringPage from "./pages/auth/RegisteringPage";
 import HomePage from "./pages/HomePage";
 import PrivateRoute from "./guards/PrivateRoute";
@@ -13,9 +11,11 @@ import ProfileEditPage from "./pages/profile/ProfileEditPage";
 import { useAuthStore } from "./stores/auth.store";
 import { useEffect } from "react";
 import api from "./api/axios.instance";
+import PublicLayout from "./guards/layout/PublicLayout";
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
+  const token = useAuthStore.getState().accessToken;
   useEffect(() => {
     const restoreSession = async () => {
       try {
@@ -25,16 +25,17 @@ function App() {
         useAuthStore.getState().logout();
       }
     };
-
-    restoreSession();
+    if (token) {
+      restoreSession();
+    }
   }, []);
   return (
     <>
-      <Navbar id={id} />
       <Routes>
-        <Route path="/" element={<HomePage />}></Route>
-
-        <Route path="register" element={<RegisteringPage />}></Route>
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="register" element={<RegisteringPage />} />
+        </Route>
 
         <Route element={<PrivateRoute />}>
           <Route path={`/profile/${id}`} element={<Profile id={id} />}></Route>

@@ -3,6 +3,7 @@ import Slider from "../../components/Slider";
 import TornEdge from "../../components/TornEdge";
 import Button from "../../components/ui/button";
 import { Link } from "react-router";
+import { Fade } from "react-awesome-reveal";
 
 interface IFestival {
   name: string;
@@ -91,7 +92,9 @@ const notificationsFestival: NotificationBenevole[] = [
       <h1 className="font-metal text-xl text-festify-red lg:text-4xl mt-5 text-center ">
         Et si tu participais a ces festival ?{" "}
       </h1>
+      <Fade direction="down" delay={500}>
       <Slider />
+      </Fade>
       <TornEdge position="top" />
       <section className="bg-black flex  flex-col items-center gap-5 lg:gap-10  px-5 ">
         <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
@@ -106,7 +109,7 @@ const notificationsFestival: NotificationBenevole[] = [
               <h2 className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase max-w-30 ">
                 {festival.name}
               </h2>
-              <div className="max-w-30 lg:max-w-60">
+              <div className="max-w-30 lg:max-w-60 hidden lg:block">
                 <p className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase">
                   Ton festival aura lieu <br />
                   le : {festival.date}, <br />a : {festival.city} en{" "}
@@ -129,7 +132,6 @@ const notificationsFestival: NotificationBenevole[] = [
         <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
           Voici toutes tes missions :
         </h1>
-   
       </section>
       <section className="flex flex-col lg:flex-row bg-black justify-center items-center lg:gap-10">
         <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-90 md:w-150 h-50 rounded-2xl">

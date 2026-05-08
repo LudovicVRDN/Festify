@@ -4,16 +4,13 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useNavigate } from "react-router";
 import registerPic from "../../assets/registerPic.jpg";
 import TornEdge from "../../components/TornEdge";
-import { useAuthStore } from "../../stores/auth.store";
 import type { IUser } from "../../types/user.type";
 import type { Iinputs } from "../../types/inputsForm.interface";
-import axios from "axios";
+
 import api from "../../api/axios.instance";
 
 const RegisteringPage = () => {
   const navigate = useNavigate();
-  const setUser = useAuthStore((state) => state.setUser);
-  const setAccessToken = useAuthStore((state) => state.setAccessToken);
 
   const formFields: Iinputs[] = [
     {
