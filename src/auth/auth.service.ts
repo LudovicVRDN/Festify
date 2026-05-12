@@ -48,13 +48,13 @@ export class AuthService {
             ...option,
             secure: false, //TODO : a changer en prod
             httpOnly: true,
-            sameSite: 'strict',
-            path: "auth/refresh_token/"
+            sameSite: 'lax',
+            path: "/"
             //signed: true,
             // domain: "shop.mon_nom_de_domaine.fr"
         })
         
     }
 
-
+ 
 }

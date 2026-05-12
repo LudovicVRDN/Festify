@@ -2,13 +2,25 @@ import { Body, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
-import { user } from 'prisma/generated/prisma/client';
+import { Prisma } from 'prisma/generated/prisma/client';
+import { skills, user } from 'prisma/generated/prisma/client';
 import * as bcrypt from 'bcrypt';
+
+
+export type UserWithSkills = Prisma.userGetPayload<{
+  include: {
+    skills_has_user: {
+      include: { skills: true }
+    }
+  }
+}>
 
 @Injectable()
 
+
 export class UserService {
   constructor(private prisma: PrismaService) { }
+  
 
   async create(createuserDto: CreateUserDto): Promise<user> {
     const { password, profile, ...rest } = createuserDto
@@ -38,6 +50,20 @@ export class UserService {
     return users
   }
 
+  async findUsersSkills(id:number) :Promise<UserWithSkills[]> {
+    const usersSkills = await this.prisma.user.findMany({
+      where : {id},
+      include :{
+        skills_has_user :{
+          include : {
+            skills : true
+          }
+        }
+      }
+    })
+    return usersSkills
+  }
+
   async findOne(id: number): Promise<user | null> {
     const user = await this.prisma.user.findUnique({ where: { id } })
     return user
@@ -50,19 +76,10 @@ export class UserService {
   async countByEmail(email: string | undefined): Promise<number> {
     return await this.prisma.user.count({
       where: {
-        // email : email
         email,
       },
     });
   }
-
-  // async countByProfileId(profile_id: number): Promise<number> {
-  //   return await this.prisma.user.count({
-  //     where: {
-  //       profile_id
-  //     },
-  //   });
-  // }
 
 
   async findByEmail(email: string): Promise<user | null> {
@@ -80,23 +97,28 @@ export class UserService {
 
 
   async update(id: number, updateuserDto: UpdateUserDto): Promise<Pick<user, 'id'> | null> {
-    const { password, profile, ...rest } = updateuserDto
-    return await this.prisma.user.update({
-      where: { id },
-      data: {
-        ...rest,
-        profile: {
-          update: {
-            ...profile,
-            adress: {
-              update: profile?.adress
-            }
+  const { password, profile, ...rest } = updateuserDto;
+  
+  const { id: _id, created_at, updated_at, role, is_validated, ...safeRest } = rest as any;
+  const { id: _pid, created_at: _pca, updated_at: _pua, adress_id, adress, ...safeProfile } = profile as any;
+  const { id: _aid, created_at: _aca, updated_at: _aua, ...safeAdress } = adress as any;
+
+  return await this.prisma.user.update({
+    where: { id },
+    data: {
+      ...safeRest,
+      ...(password && { password: await bcrypt.hash(password, 10) }),
+      profile: {
+        update: {
+          ...safeProfile,
+          adress: {
+            update: safeAdress
           }
         }
       }
-    });
-
-  }
+    }
+  });
+}
 
   async remove(id: number): Promise<void> {
     await this.prisma.user.delete({ where: { id } })

@@ -6,6 +6,7 @@ import { PrismaExceptionFilter } from './utils/exeception.filter';
 import { HttpExceptionFilter } from './utils/http.filter';
 import { AuthGuard } from './auth/guard/auth.guard';
 import { JwtService } from '@nestjs/jwt';
+import cookieParser from 'cookie-parser';
 
 
 
@@ -13,8 +14,11 @@ import { JwtService } from '@nestjs/jwt';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.use(cookieParser());
+
   app.enableCors({
-    origin: 'http://localhost:5173', // ✅ bien à l'intérieur
+    origin: 'http://localhost:5173', 
+    credentials: true, 
   });
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));

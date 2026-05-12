@@ -7,8 +7,8 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/log-in.dto';
 import { IResponse } from 'src/utils/IResponse.interface';
-import { get } from 'http';
-import type { Request, Response } from 'express';
+import { get, request } from 'http';
+import type { Request, response, Response } from 'express';
 import { access } from 'fs';
 
 @Controller('auth')
@@ -37,7 +37,8 @@ export class AuthController {
 
     if (!await this.authService.compare(LoginDto.password, user.password)) throw new NotFoundException(`L'adresse EMail ou le mot de passe ne correspond pas.`);
     const { access_token, refresh_token } = await this.authService.createToken(user.id, user.role)
-    await this.authService.instertIntoCookies(refresh_token, "refresh_token", response)
+    if (!refresh_token) throw new UnauthorizedException();
+    await this.authService.instertIntoCookies(refresh_token, "refresh_token", response ,{ maxAge: parseInt(process.env.refresh_cookie_maxage! ) } )
 
     return {
       data: { access_token, refresh_token },
@@ -47,9 +48,12 @@ export class AuthController {
 
   }
   // Hashtag Camomille & Cannelle les best <3
+  @UseGuards(AuthGuard)
   @Get('refresh_token')
   async refresh_token(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
-    const [type, token] = request.headers.cookie?.split('=') ?? [];
+    // const [type, token] = request.headers.cookie?.split('=') ?? []; Code sans cookie parser
+    //Code avec Cookie npmParser
+    const token = request.cookies['refresh_token'];
     let payload
     try {
       payload = await this.authService.verifyToken(token);
@@ -57,17 +61,17 @@ export class AuthController {
       throw new UnauthorizedException();
     }
     const { access_token, refresh_token } = await this.authService.createToken(payload.sub, payload.role)
-  
-
     await this.authService.instertIntoCookies(refresh_token, "refresh_token", response)
     // await this.authService.instertIntoCookies(access_token, "access_token", response)
+ 
+  }
 
-    return {
-      access_token,
-      refresh_token
-    }
-
-
+  //Auth/logout 
+  @UseGuards(AuthGuard)
+  @Post('logout')
+  @HttpCode(204)
+  async clearCookies (@Res({passthrough: true}) response:Response) {
+      response.clearCookie('refresh_token');
   }
 }
 

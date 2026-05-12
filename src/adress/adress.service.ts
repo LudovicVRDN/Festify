@@ -15,8 +15,8 @@ export class AdressService {
     return `This action returns all adress`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} adress`;
+ async findOne(id: number) {
+    return await this.prisma.adress.findUnique({ where: { id } });
   }
 
   async updatePrisma(userid: number, updateAdressDto: UpdateAdressDto) {

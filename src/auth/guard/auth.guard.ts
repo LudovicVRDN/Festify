@@ -44,6 +44,6 @@ export class AuthGuard implements CanActivate {
         //le .split sert à découper 'bearer',token=".." , le ??[] évite le crash si le header est absent
         const [type, token] = request.headers.authorization?.split(' ') ?? [];
         //On ne retourne le token que si il  est de type bearer sinon il est undifined 
-        return type === 'Bearer' ? token : undefined;
+        return type?.toLowerCase() === 'bearer' ? token : undefined;
     }
 }
