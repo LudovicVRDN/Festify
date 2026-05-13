@@ -9,7 +9,7 @@ import OrganizerHomePage from "./pages/organizer/OrganizerHomePage";
 import VolunteerHomePage from "./pages/volunteer/VolunteerHomePage";
 import ProfileEditPage from "./pages/profile/ProfileEditPage";
 import { useAuthStore } from "./stores/auth.store";
-import { useEffect, useRef, useState } from "react";
+import { useEffect,  useState } from "react";
 import api from "./api/axios.instance";
 import PublicLayout from "./guards/layout/PublicLayout";
 import SkillsPage from "./pages/skills/SkillsPage";
@@ -61,7 +61,7 @@ function App() {
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>
           <Route path="/benevole" element={<VolunteerHomePage />}></Route>
-          <Route path="/skills" element={<SkillsPage />}></Route>
+          <Route path="/skills" element={<SkillsPage id={id} />}></Route>
         </Route>
 
         <Route path="/unauthorized" element={<UnauthorizedPage />} />

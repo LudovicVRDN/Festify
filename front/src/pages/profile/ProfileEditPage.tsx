@@ -123,7 +123,7 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
       ? { ...userWithoutPasswords, password }
       : userWithoutPasswords;
     try {
-      const newUser = await api.patch<Date>(
+       await api.patch<Date>(
         `http://localhost:3000/user/${userId}/update`,
         userToSend,
       );
