@@ -9,32 +9,31 @@ import OrganizerHomePage from "./pages/organizer/OrganizerHomePage";
 import VolunteerHomePage from "./pages/volunteer/VolunteerHomePage";
 import ProfileEditPage from "./pages/profile/ProfileEditPage";
 import { useAuthStore } from "./stores/auth.store";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "./api/axios.instance";
 import PublicLayout from "./guards/layout/PublicLayout";
+import SkillsPage from "./pages/skills/SkillsPage";
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
+ const [isRestoring, setIsRestoring] = useState(true); // ← ajoute ça
 
+  useEffect(() => {
+    const restoreSession = async () => {
+      try {
+        const { data } = await api.get("/auth/refresh_token");
+        useAuthStore.getState().setAccessToken(data.access_token);
+      } catch {
+          useAuthStore.getState().clearSession(); // ← pas d'appel API
+      } finally {
+        setIsRestoring(false); // ← débloquer quoi qu'il arrive
+      }
+    };
 
-useEffect(() => {
- 
-  const restoreSession = async () => {
-    try {
-      
-      const { data } = await api.get("/auth/refresh_token");
+    restoreSession();
+  }, []);
 
-      useAuthStore
-        .getState()
-        .setAccessToken(data.access_token);
-
-    } catch {
-      useAuthStore.getState().logout();
-    }
-  };
-
-  restoreSession();
-}, []);
+  if (isRestoring) return null; // ou un spinner
 
   return (
     <>
@@ -62,6 +61,7 @@ useEffect(() => {
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>
           <Route path="/benevole" element={<VolunteerHomePage />}></Route>
+          <Route path="/skills" element={<SkillsPage />}></Route>
         </Route>
 
         <Route path="/unauthorized" element={<UnauthorizedPage />} />

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { IUser } from "../types/user.type"
 import { jwtDecode } from "jwt-decode";
+import api from "../api/axios.instance";
 
 
 interface AuthState {
@@ -13,7 +14,8 @@ interface AuthState {
     clearAuth: () => void;
     isHydrated: boolean; // Ajoute ça
     setHydrated: (val: boolean) => void;
-    logout: () => void
+    logout: () => void;
+    clearSession: () => void;
 }
 interface TokenPayload {
     sub: number;
@@ -60,10 +62,20 @@ export const useAuthStore = create<AuthState>()(
 
             setHydrated: (val) => set({ isHydrated: val }),
 
-            logout: () => {
-                set({ accessToken: null, user: null });
-                useAuthStore.persist.clearStorage();
-            }
+            clearSession: () => {
+                set({ accessToken: null, user: null }); 
+            },
+
+            logout: async () => {
+                try {
+                    await api.post('/auth/logout');
+                } catch {
+                    //Logout even if back end is wrong 
+                } finally {
+                    set({ accessToken: null, user: null });
+                    useAuthStore.persist.clearStorage();
+                }
+            },
         }),
         {
             name: "auth-storage",
