@@ -40,7 +40,7 @@ const SkillsPage = ({ id }: ISkillProps) => {
   const handleForm: SubmitHandler<ISkill> = async (data: ISkill) => {
     try {
       await api.post(`http://localhost:3000/skills`, data);
-      
+      fetchSkills()
     } catch (error) {
       console.error("Erreur :", error);
     }
@@ -90,7 +90,7 @@ const SkillsPage = ({ id }: ISkillProps) => {
                 <input
                   type={field.type}
                   placeholder={field.placeholder}
-                  className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
+                  className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors wrap-break-word w-70"
                   {...register(field.name, field.rules)}
                 />
 
