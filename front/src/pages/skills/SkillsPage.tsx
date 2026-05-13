@@ -40,7 +40,8 @@ const SkillsPage = ({ id }: ISkillProps) => {
   const handleForm: SubmitHandler<ISkill> = async (data: ISkill) => {
     try {
       await api.post(`http://localhost:3000/skills`, data);
-      fetchSkills()
+      await fetchSkills()
+      reset()
     } catch (error) {
       console.error("Erreur :", error);
     }
