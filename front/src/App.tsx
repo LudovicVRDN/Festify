@@ -1,5 +1,5 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Route, Routes } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 import RegisteringPage from "./pages/auth/RegisteringPage";
 import HomePage from "./pages/HomePage";
 import PrivateRoute from "./guards/PrivateRoute";
@@ -13,6 +13,7 @@ import { useEffect,  useState } from "react";
 import api from "./api/axios.instance";
 import PublicLayout from "./guards/layout/PublicLayout";
 import SkillsPage from "./pages/skills/SkillsPage";
+import SkillDetailPage from "./pages/skills/SkillDetailPage";
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
@@ -37,6 +38,7 @@ function App() {
 
   return (
     <>
+
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<HomePage />} />
@@ -61,13 +63,17 @@ function App() {
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>
           <Route path="/benevole" element={<VolunteerHomePage />}></Route>
-          <Route path="/skills" element={<SkillsPage id={id} />}></Route>
+          <Route path={`/skills/${id}`} element={<SkillsPage id={id} />}></Route>
+          
+          <Route path="/skills/:skillId/details" element={<SkillDetailPage id={id} />}></Route>
+          
         </Route>
 
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>
       <ReactQueryDevtools />
+      
     </>
   );
 }

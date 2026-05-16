@@ -126,7 +126,7 @@ const notificationsFestival: NotificationBenevole[] = [
           Voici toutes tes missions :
         </h1>
       </section>
-      <section className="flex flex-col lg:flex-row bg-black justify-center items-center lg:gap-10">
+      <section className="flex flex-col lg:flex-row bg-black justify-center items-center gap-10">
         <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-90 md:w-150 h-50 rounded-2xl">
           {notificationsFestival.map((notification) => (
             <div

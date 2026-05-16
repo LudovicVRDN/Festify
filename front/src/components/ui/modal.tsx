@@ -4,7 +4,7 @@ import Button from "./button";
 interface IModalProps {
   buttonText: string;
   message: string;
-  onClick: () => any;
+ onClick: () => void | Promise<void>; 
 }
 
 const Modal = ({ buttonText, message , onClick }: IModalProps) => {

@@ -54,7 +54,7 @@ const PrivateNavbar = ({ id }: INavProps) => {
               <a className="text-lg">Festify</a>
             </li>
             <li>
-              <Link to={`/skills`}>
+              <Link to={`/skills/${id}`}>
               <a  className="text-lg">Tes compétences</a>
               </Link>
             </li>

@@ -5,12 +5,15 @@ import api from "../../api/axios.instance";
 import Button from "../../components/ui/button";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { ISkillsInput } from "../../types/inputsForm.interface";
+import Modal from "../../components/ui/modal";
+import { Link } from "react-router";
 
 interface ISkillProps {
   id: number | undefined;
 }
 const SkillsPage = ({ id }: ISkillProps) => {
   const [skills, setSkills] = useState<ISkill[] | null>(null);
+  const [isVisible , setIsVisible] = useState(false);
   
 
   const fetchSkills = async () => {
@@ -28,6 +31,17 @@ const SkillsPage = ({ id }: ISkillProps) => {
   useEffect(() => {
     fetchSkills();
   }, []);
+
+  const handleClick = async (id:number) => {
+      try{
+      console.log('Data supprimée')
+      await api.delete(`http://localhost:3000/skills/${id}/delete`)
+    
+    }catch(error){
+      console.error("Erreur lors de la récupération:", error);
+    }
+   fetchSkills()
+};
 
   const {
     register,
@@ -67,7 +81,7 @@ const SkillsPage = ({ id }: ISkillProps) => {
   return (
     <div>
       <TornEdge position="top" />
-      <section className="bg-black flex flex-col gap-5 ">
+      <section className="bg-black flex flex-col gap-5 p-2">
         <h1 className="font-metal text-4xl text-festify-red  text-center ">
           Tes compétences
         </h1>
@@ -75,9 +89,10 @@ const SkillsPage = ({ id }: ISkillProps) => {
           Ici tu peux lister et mettre à jour tout ce que tu sais mieux faire
           que personne !{" "}
         </p>
-        <div className="m-auto w-60">
-          <Button textButton="Ajouter une compétence" variant="grey" />
+        <div className="m-auto ">
+          <Button textButton={isVisible ? 'Annuler' : 'Ajouter une compétence'} variant="grey" onClick={() => setIsVisible(!isVisible)} />
         </div>
+        {isVisible &&(
         <form className="lg:w-200 w-80 m-auto mt-5 bg-neutral-900 p-4 rounded-4xl">
           {skillInput.map((field) => {
             const fieldError = field.name
@@ -111,6 +126,7 @@ const SkillsPage = ({ id }: ISkillProps) => {
             onClick={handleSubmit(handleForm)}
           />
         </form>
+        )}
         <ul className="lg:w-200 w-80 m-auto mt-5">
           {skills?.map((skill) => {
             return (
@@ -119,7 +135,12 @@ const SkillsPage = ({ id }: ISkillProps) => {
                 <p>{`${skill.name}`}</p>
                 <p className="hidden lg:block">{`${skill.description}`}</p>
                 </div>
-                <Button variant="red" textButton="Supprimer"/>
+                <div className="w-32.5 flex flex-col gap-5">
+                <Modal buttonText="Supprimer" message='Est-tu sur de vouloir supprimer cette compétence ?'onClick={() => handleClick( skill.id)}/>
+                <Link to={`/skills/${skill.id}/details`}>
+                <Button variant="grey" textButton="Plus d'infos"/>
+                </Link>
+                </div>
               </li>
             );
           })}

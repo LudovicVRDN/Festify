@@ -23,6 +23,6 @@ export interface ISkillsInput{
   label: string;
   placeholder: string;
   type: string;
- 
+  value?:string,
   rules: object;
 }

@@ -3,7 +3,7 @@ import React from "react";
 interface ButtonProps {
   textButton: string;
   variant: "red" | "grey";
-  onClick?: () => void | Promise<void>; 
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
 }
 
 const Button = ({ textButton , variant , onClick}: ButtonProps) => {
