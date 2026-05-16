@@ -4,6 +4,7 @@ import { UpdateSkillDto } from './dto/update-skill.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { connect } from 'http2';
 import { skills } from 'prisma/generated/prisma/client';
+import { ISkillResponse } from 'src/user/user.service';
 
 @Injectable()
 export class SkillsService {
@@ -16,6 +17,12 @@ export class SkillsService {
       }
     })
     return skill
+  }
+
+  async getSkillById(
+    id:number
+  ){
+    await this.prisma.skills.findFirst({where: {id}})
   }
 
   async createLinkUserAndSkills(
@@ -35,17 +42,18 @@ export class SkillsService {
     return `Congrats your skills is linked to you ! <3`
   }
 
-  async update(id: number, updateSkillDto: UpdateSkillDto): Promise<string> {
+  async update(id: number, updateSkillDto: UpdateSkillDto): Promise<ISkillResponse> {
     const {...rest } = updateSkillDto;
     const { id: _id, created_at, updated_at,...safeRest } = rest as any;
+  
 
-  await this.prisma.skills.update({
+  const skillUpdated =await this.prisma.skills.update({
       where:{ id },
       data:{
         ...safeRest
       }
     })
-      return `Skill perfectly Updated`
+      return skillUpdated
   }
 
   async remove( id: number,userId: number): Promise<string> {

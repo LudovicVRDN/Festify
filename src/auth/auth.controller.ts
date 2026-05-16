@@ -48,7 +48,7 @@ export class AuthController {
 
   }
   // Hashtag Camomille & Cannelle les best <3
-  @UseGuards(AuthGuard)
+ 
   @Get('refresh_token')
   async refresh_token(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
     // const [type, token] = request.headers.cookie?.split('=') ?? []; Code sans cookie parser
@@ -56,14 +56,14 @@ export class AuthController {
     const token = request.cookies['refresh_token'];
     let payload
     try {
-      payload = await this.authService.verifyToken(token);
+      payload = await this.authService.verifyRefreshToken(token);
     } catch {
       throw new UnauthorizedException();
     }
     const { access_token, refresh_token } = await this.authService.createToken(payload.sub, payload.role)
     await this.authService.instertIntoCookies(refresh_token, "refresh_token", response)
     // await this.authService.instertIntoCookies(access_token, "access_token", response)
- 
+     return { access_token };
   }
 
   //Auth/logout 

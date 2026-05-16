@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, HttpStatus, HttpException, UseGuards, Req, ConflictException, Res } from '@nestjs/common';
-import { UserService, UserWithSkills } from './user.service';
+import { ISkillResponse, UserService, UserWithSkills } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { user } from 'prisma/generated/prisma/client';
@@ -38,9 +38,17 @@ export class userController {
 
   @UseGuards(AuthGuard)
   @Get(':id/skills')
-  async findSkills(@Param('id', ParseIntPipe) id: number) :Promise<UserWithSkills [] | null>{
-    const userSkills :UserWithSkills[] = await this.userService.findUsersSkills(id)
+  async findSkills(@Req() req: any) : Promise<ISkillResponse[] |null >{
+    
+    const userSkills :ISkillResponse[] = await this.userService.findUsersSkills(req.user)
     return userSkills
+  }
+    @UseGuards(AuthGuard)
+  @Get(':id/skills/details')
+  async findUniqueSkill(@Param('id', ParseIntPipe) id: number,@Req() req: any) : Promise<ISkillResponse |null >{
+    console.log(req.user)
+    const userSkill :ISkillResponse = await this.userService.findOneUsersSkills(req.user,id)
+    return userSkill
   }
 
   @UseGuards(AuthGuard)

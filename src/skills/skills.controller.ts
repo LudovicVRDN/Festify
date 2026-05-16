@@ -3,6 +3,7 @@ import { SkillsService } from './skills.service';
 import { CreateSkillDto } from './dto/create-skill.dto';
 import { UpdateSkillDto } from './dto/update-skill.dto';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
+import { get } from 'node:http';
 
 @Controller('skills')
 export class SkillsController {
@@ -22,18 +23,19 @@ export class SkillsController {
   @UseGuards(AuthGuard)
   @Patch(':id/update')
   async update(@Param('id') id: string, @Body() updateSkillDto: UpdateSkillDto) {
+    
     return await this.skillsService.update(+id, updateSkillDto);
   }
+
 
   @UseGuards(AuthGuard)
   @Delete(':id/delete')
   async remove(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: number,
     @Req() req: any,
   ) {
     const userId = req.user;
-  
-    
-    return await this.skillsService.remove(id,userId);
+
+    return await this.skillsService.remove(id, userId);
   }
 }

@@ -28,7 +28,7 @@ export class AuthService {
         const refresh_token = await this.jwtService.signAsync(payload, {
             expiresIn: process.env.refresh_expire ?? "7d" as any,
             algorithm: process.env.JWTAlgorithm ?? "HS512" as any,
-            secret: process.env.refresh_token as any
+            secret: process.env.refresh_secret as any
 
         });
         return {
@@ -36,15 +36,22 @@ export class AuthService {
             refresh_token
         }
     }
-    async verifyToken(token: string) {
+    async verifyAccessToken(token: string) {
         const payload = await this.jwtService.verifyAsync(token, {
-            secret: process.env.JWT_ACCESS_SECRET,
+            secret: process.env.access_secret,
         });
 
         return payload
     }
-    async instertIntoCookies(token:string,cookieName:string,response:Response, option? : {maxAge: number; }){
-        response.cookie(cookieName,token,{
+    async verifyRefreshToken(token: string) {
+        const payload = await this.jwtService.verifyAsync(token, {
+            secret: process.env.refresh_secret,
+        });
+
+        return payload
+    }
+    async instertIntoCookies(token: string, cookieName: string, response: Response, option?: { maxAge: number; }) {
+        response.cookie(cookieName, token, {
             ...option,
             secure: false, //TODO : a changer en prod
             httpOnly: true,
@@ -53,8 +60,8 @@ export class AuthService {
             //signed: true,
             // domain: "shop.mon_nom_de_domaine.fr"
         })
-        
+
     }
 
- 
+
 }

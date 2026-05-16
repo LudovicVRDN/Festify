@@ -1,4 +1,4 @@
-import { Body, Injectable } from '@nestjs/common';
+import { Body, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
@@ -14,6 +14,11 @@ export type UserWithSkills = Prisma.userGetPayload<{
     }
   }
 }>
+export interface ISkillResponse {
+  id: number;
+  name: string;
+  description: string;
+}
 
 @Injectable()
 
@@ -50,7 +55,7 @@ export class UserService {
     return users
   }
 
-  async findUsersSkills(id:number) :Promise<UserWithSkills[]> {
+  async findUsersSkills(id:number) :Promise<ISkillResponse[]> {
     const usersSkills = await this.prisma.user.findMany({
       where : {id},
       include :{
@@ -61,7 +66,32 @@ export class UserService {
         }
       }
     })
-    return usersSkills
+    return usersSkills[0].skills_has_user.map(s => ({
+    id: s.skills.id,
+    name: s.skills.name,
+    description: s.skills.description,
+  }));
+  }
+
+   async findOneUsersSkills(id:number,skillId:number) :Promise<ISkillResponse> {
+    const usersSkill = await this.prisma.user.findUnique({
+      where : {id},
+      include :{
+        skills_has_user :{
+          where:{
+            skills_id: skillId},
+          include : {
+            skills : true
+          }
+        }
+      }
+    })
+    if(!usersSkill || usersSkill?.skills_has_user.length === 0){
+      throw new NotFoundException('Compétence introuvable pour cet utilisateur');
+    }
+    const skill = usersSkill.skills_has_user[0].skills
+    return skill
+
   }
 
   async findOne(id: number): Promise<user | null> {
