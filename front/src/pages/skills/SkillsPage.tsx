@@ -19,6 +19,7 @@ const SkillsPage = ({ id }: ISkillProps) => {
         `http://localhost:3000/user/${id}/skills`,
       );
     setSkills(skillDB.data);
+    console.log(skillDB)
     
     } catch (error) {
       console.error("Erreur lors de la récupération:", error);
@@ -113,9 +114,12 @@ const SkillsPage = ({ id }: ISkillProps) => {
         <ul className="lg:w-200 w-80 m-auto mt-5">
           {skills?.map((skill) => {
             return (
-              <li className="bg-transparent border-b border-zinc-700 outline-none pt-2 pb-2 lg:pb-4 tracking-widest ">
+              <li key={skill.id} className="bg-transparent border-b border-zinc-700 outline-none pt-2 pb-2 lg:pb-4 tracking-widest flex justify-between items-center">
+                <div className="flex flex-col">
                 <p>{`${skill.name}`}</p>
-                <p>{`${skill.description}`}</p>
+                <p className="hidden lg:block">{`${skill.description}`}</p>
+                </div>
+                <Button variant="red" textButton="Supprimer"/>
               </li>
             );
           })}

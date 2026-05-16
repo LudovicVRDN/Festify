@@ -116,6 +116,7 @@ const Profile = ({ id }: IProfileProps) => {
               </p>
             </div>
             {}
+            <div className=" flex flex-col gap-5 w-55">
             <Link to={`/profile/${id}/update`}>
               <Button textButton="Modifie ton profil" variant="grey" />
             </Link>
@@ -123,6 +124,7 @@ const Profile = ({ id }: IProfileProps) => {
                 <Button textButton="Modifie ton mot de passe" variant="grey" />
               </Link>
             <Modal buttonText="Supprimer le profil" message="Veux tu vraiment supprimer ton profil ?" onClick={() => { deleteProfile() }} />
+              </div>
           </Fade>
         </section>
         <img src={profilePic} className="lg:w-145 lg:h-180 w-80 h-100"  />

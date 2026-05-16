@@ -109,7 +109,7 @@ const notificationsFestival: NotificationBenevole[] = [
                   {festival.country}
                 </p>
               </div>
-              <div className="flex flex-col gap-1 ">
+              <div className="flex flex-col gap-1 w-30 ">
                 <Link to={"/festival/:id"}>
                   {" "}
                   <Button textButton="Plus d'infos" variant="grey" />{" "}
