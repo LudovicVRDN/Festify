@@ -47,8 +47,7 @@ export class AuthController {
     }
 
   }
-  // Hashtag Camomille & Cannelle les best <3
- 
+
   @Get('refresh_token')
   async refresh_token(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
     // const [type, token] = request.headers.cookie?.split('=') ?? []; Code sans cookie parser
@@ -73,6 +72,15 @@ export class AuthController {
   async clearCookies (@Res({passthrough: true}) response:Response) {
       response.clearCookie('refresh_token');
   }
+
+  @Post('forgot-password')
+
+  async sendResetPasswordEmail(@Body() { email }: { email :string }){
+    return this.authService.forgotPassword(email)
+
+  }
+
+  
 }
 
 

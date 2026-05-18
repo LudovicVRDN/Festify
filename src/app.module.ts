@@ -8,9 +8,10 @@ import { ConfigModule } from '@nestjs/config';
 import { FestivalModule } from './festival/festival.module';
 import { AdressModule } from './adress/adress.module';
 import { SkillsModule } from './skills/skills.module';
+import { MailingModule } from './mailing/mailing.module';
 
 @Module({
-  imports: [UserModule,PrismaModule, AuthModule, ProfileModule,ConfigModule.forRoot({isGlobal:true}), FestivalModule, AdressModule, SkillsModule],
+  imports: [UserModule,PrismaModule, AuthModule, ProfileModule,ConfigModule.forRoot({isGlobal:true}), FestivalModule, AdressModule, SkillsModule, MailingModule],
   providers: [ProfileService],
 })
 export class AppModule {}

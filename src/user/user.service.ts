@@ -149,6 +149,16 @@ export class UserService {
     }
   });
 }
+  async resetPassword(email :string,newPassword:string):Promise<string>{
+    await this.prisma.user.update(
+      {
+        where: {email},
+        data :{
+          password : await bcrypt.hash(newPassword, 10)
+        }
+    });
+   return 'Changé avec succès'
+  }
 
   async remove(id: number): Promise<void> {
     await this.prisma.user.delete({ where: { id } })

@@ -1,15 +1,18 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { signInDTO } from './dto/registe.dto';
 import type { Response } from 'express';
+import { MailingService } from 'src/mailing/mailing.service';
 
 
 @Injectable()
 export class AuthService {
     constructor(
         private jwtService: JwtService,
+        private userService : UserService,
+        private mailingService : MailingService
     ) { }
 
     async compare(
@@ -63,5 +66,13 @@ export class AuthService {
 
     }
 
+    async forgotPassword(email:string) : Promise<void>{
+        const user = await this.userService.findByEmail(email);
+        console.log('HELLO')
+        if(!user){
+            throw new NotFoundException("Aucune adresse email ne correspond !");
+        }
+        await this.mailingService.sendResetPasswordLink(email)
+    }
 
 }
