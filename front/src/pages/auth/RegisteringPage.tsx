@@ -5,14 +5,14 @@ import { useNavigate } from "react-router";
 import registerPic from "../../assets/registerPic.jpg";
 import TornEdge from "../../components/TornEdge";
 import type { IUser } from "../../types/user.type";
-import type { Iinputs } from "../../types/inputsForm.interface";
+import type { IFullProfileInputs } from "../../types/inputsForm.interface";
 
 import api from "../../api/axios.instance";
 
 const RegisteringPage = () => {
   const navigate = useNavigate();
 
-  const formFields: Iinputs[] = [
+  const formFields: IFullProfileInputs[] = [
     {
       name: "email",
       label: "Email",

@@ -7,8 +7,21 @@ export interface IInputOption {
   value: string | number;
 }
 
-export interface Iinputs {
-  name:  Path<IUser>;
+export interface IResetPassword {
+    newPassword: string;
+    confirmPassword: string;
+}
+
+export interface IInputChangePassword {
+    name: Path<IResetPassword>;
+    label: string;
+    type: string;
+    placeholder?: string;
+    rules?: RegisterOptions<IResetPassword, Path<IResetPassword>>;
+}
+
+export interface IFullProfileInputs {
+  name: Path<IUser>;
   label: string;
   type: string;
   value?: string
@@ -17,12 +30,12 @@ export interface Iinputs {
   rules?: RegisterOptions<IUser, Path<IUser>>;
 }
 
-export interface ISkillsInput{
-    
+export interface ISkillsInput {
+
   name: keyof ISkill;
   label: string;
   placeholder: string;
   type: string;
-  value?:string,
+  value?: string,
   rules: object;
 }

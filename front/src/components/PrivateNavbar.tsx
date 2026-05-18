@@ -7,8 +7,9 @@ import api from "../api/axios.instance";
 
 interface INavProps {
   id: number | undefined;
+  role :string | undefined
 }
-const PrivateNavbar = ({ id }: INavProps) => {
+const PrivateNavbar = ({ id ,role }: INavProps) => {
 
   const navigate = useNavigate()
   const logOut = async () => {
@@ -53,11 +54,14 @@ const PrivateNavbar = ({ id }: INavProps) => {
             <li>
               <a className="text-lg">Festify</a>
             </li>
+            {role === "benevole" &&(
             <li>
               <Link to={`/skills/${id}`}>
               <a  className="text-lg">Tes compétences</a>
               </Link>
             </li>
+            )}
+        
           </ul>
         </div>
       </div>

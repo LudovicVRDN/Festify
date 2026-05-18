@@ -27,21 +27,21 @@ api.interceptors.response.use(
         if (
             error.response?.status === 401 &&
             !originalRequest._retry &&
-            originalRequest.url !== "/auth/refresh_token"
+            !originalRequest.url?.includes("/auth/refresh_token")
         ) {
             originalRequest._retry = true;
 
             try {
 
-                const { data } = await axios.get('/api/auth/refresh_token', {
+                const { data } = await api.get('/auth/refresh_token', {
                     withCredentials: true
                 });
 
 
-                useAuthStore.getState().setAccessToken(data.accessToken);
+                useAuthStore.getState().setAccessToken(data.access_token);
 
 
-                originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+                originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
                 return api(originalRequest);
             } catch (refreshError) {
 

@@ -3,10 +3,21 @@ import { Fade } from "react-awesome-reveal";
 import { Link, useNavigate } from "react-router";
 import Button from "../components/ui/button";
 import TornEdge from "../components/TornEdge";
-import { useForm, type RegisterOptions } from "react-hook-form";
+import {
+  useForm,
+  Watch,
+  type RegisterOptions,
+  type SubmitHandler,
+} from "react-hook-form";
 import { useAuthStore } from "../stores/auth.store";
 import type { IUser } from "../types/user.type";
 import api from "../api/axios.instance";
+import { useRef, useState } from "react";
+import type {
+  IFullProfileInputs,
+  IResetPassword,
+} from "../types/inputsForm.interface";
+import Modal from "../components/ui/modal";
 
 interface SigninFormData {
   email: string;
@@ -40,25 +51,46 @@ export interface AuthResponse {
 }
 
 const HomePage = () => {
+  const modalRef = useRef<HTMLDialogElement>(null);
+
+  const handleResetPassword = async (resetData: { email:string }) => {
+    console.log("Hello")
+    try {
+       console.log(resetData)
+      await api.post("/auth/forgot-password", resetData);
+    } catch (error: any) {
+      console.log("Erreur :", error.response.status);
+    }
+  };
+
   const navigate = useNavigate();
   const setUser = useAuthStore((state) => state.setUser);
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<SigninFormData>();
 
+  const {
+    register: registerReset,
+    handleSubmit: handleResetSubmit,
+    formState: { errors: resetErrors },
+  } = useForm<{ email:string }>();
+
+  const handleConfirm = handleResetSubmit(
+     (data: { email:string }) => {
+      
+      handleResetPassword(data);
+      modalRef.current?.close();
+    },
+  );
+
   const onSubmit = async (formdata: SigninFormData) => {
-    console.log("Données envoyées au serveur :", formdata);
-
     try {
-      const { data } = await api.post<AuthResponse>(
-        "http://localhost:3000/auth/login",
-        formdata,
-      );
+      const { data } = await api.post<AuthResponse>("/auth/login", formdata);
       setUser(data.user);
-
       setAccessToken(data.data.access_token);
       const role = useAuthStore.getState().user?.role;
       navigate(`/${role}`);
@@ -141,19 +173,58 @@ const HomePage = () => {
                     )}
                   </div>
                 ))}
-                <a className="text-zinc-600 text-xs hover:text-red-700 transition-colors cursor-pointer self-start">
-                  Mot de passe oublié ?
-                </a>
+                <div>
+                  <button
+                    type="button"
+                    className="text-zinc-600 text-sm hover:text-red-700 transition-colors cursor-pointer self-start"
+                    onClick={() => modalRef?.current?.showModal()}
+                  >
+                    Mot de passe oublié
+                  </button>
+                </div>
+
                 {/* Bouton principal */}
                 <Button textButton="SE CONNECTER" variant="red" />
                 {/* Bouton secondaire */}
-
                 <Link to="/register">
                   <Button textButton="S'inscrire" variant="grey" />
                 </Link>
               </form>
             </div>
-          </Fade>
+                    </Fade>
+            <dialog ref={modalRef} id="my_modal_1" className="modal">
+              <div className="modal-box bg-black border border-festify-glassred  ">
+                <h3 className="font-bold text-lg">Mot de passe oublié</h3>
+                <p className="py-4">Entre ton adresse Email</p>
+                <div>
+                  <form onSubmit={handleConfirm} className="flex flex-col gap-5">
+                    <label className="text-zinc-300 text-xs tracking-widest uppercase">
+                      Ton Email:
+                    </label>
+                    <input
+                      type="email"
+                      placeholder="Ton adresse Email"
+                      className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
+                      {...registerReset("email", {
+                        required: "L'email est requis",
+                      })}
+                    />
+                    {resetErrors.email && (
+                      <p className="text-red-500 text-xs italic mt-1">
+                        {resetErrors.email.message}
+                      </p>
+                    )}
+                  <button
+          type="submit"
+          className="w-full bg-zinc-800 text-white py-2 rounded hover:bg-zinc-700 transition-colors uppercase tracking-wider text-sm font-bold cursor-pointer"
+        >
+          Valider
+        </button>
+                    <Button textButton="Annuler" variant="red" />
+                  </form>
+                </div>
+              </div>
+            </dialog>
         </div>
 
         <TornEdge position="bottom" />

@@ -17,7 +17,7 @@ import SkillDetailPage from "./pages/skills/SkillDetailPage";
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
- const [isRestoring, setIsRestoring] = useState(true); // ← ajoute ça
+ const [isRestoring, setIsRestoring] = useState(true);
 
   useEffect(() => {
     const restoreSession = async () => {
@@ -25,16 +25,16 @@ function App() {
         const { data } = await api.get("/auth/refresh_token");
         useAuthStore.getState().setAccessToken(data.access_token);
       } catch {
-          useAuthStore.getState().clearSession(); // ← pas d'appel API
+          useAuthStore.getState().clearSession();
       } finally {
-        setIsRestoring(false); // ← débloquer quoi qu'il arrive
+        setIsRestoring(false);
       }
     };
 
     restoreSession();
   }, []);
 
-  if (isRestoring) return null; // ou un spinner
+  if (isRestoring) return null; 
 
   return (
     <>

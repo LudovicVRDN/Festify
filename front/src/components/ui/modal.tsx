@@ -1,18 +1,25 @@
 import React, { useRef } from "react";
 import Button from "./button";
+import type { IUser } from "../../types/user.type";
+import { useForm } from "react-hook-form";
 
 interface IModalProps {
   buttonText: string;
   message: string;
- onClick: () => void | Promise<void>; 
+  onClick: () => void | Promise<void>;
 }
 
-const Modal = ({ buttonText, message , onClick }: IModalProps) => {
+export interface IForgotPasswordInput {
+  email: string;
+}
+
+const Modal = ({ buttonText, message, onClick }: IModalProps) => {
   const modalRef = useRef<HTMLDialogElement>(null);
   const handleConfirm = () => {
     onClick();
     modalRef.current?.close();
   };
+
   return (
     <div>
       <Button

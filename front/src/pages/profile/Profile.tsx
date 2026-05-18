@@ -23,12 +23,12 @@ const Profile = ({ id }: IProfileProps) => {
     console.log("Hello");
     try {
       const profileDB = await api.get<IProfile>(
-        `http://localhost:3000/profile/${id}`,
+        `/profile/${id}`,
       );
       const adresseDB = await api.get<IAdresse>(
-        `http://localhost:3000/adress/${id}`,
+        `/adress/${id}`,
       );
-      const userDB = await api.get<IUser>(`http://localhost:3000/user/${id}`);
+      const userDB = await api.get<IUser>(`/user/${id}`);
       setProfile(profileDB.data);
       setAdresse(adresseDB.data);
       setUser(userDB.data);
@@ -40,7 +40,7 @@ const Profile = ({ id }: IProfileProps) => {
   const deleteProfile = async () =>{
     try{
       console.log('Data supprimée')
-      await api.delete(`http://localhost:3000/user/${id}`)
+      await api.delete(`/user/${id}`)
       useAuthStore.getState().logout()
       navigate('/')
     
@@ -123,7 +123,7 @@ const Profile = ({ id }: IProfileProps) => {
               <Link to={`/profile/${id}/update`}>
                 <Button textButton="Modifie ton mot de passe" variant="grey" />
               </Link>
-            <Modal buttonText="Supprimer le profil" message="Veux tu vraiment supprimer ton profil ?" onClick={() => { deleteProfile() }} />
+            <Modal type='validation' buttonText="Supprimer le profil" message="Veux tu vraiment supprimer ton profil ?" onClick={() => { deleteProfile() }} />
               </div>
           </Fade>
         </section>

@@ -10,6 +10,7 @@ export default function PrivateRoute({ allowedRoles }: Props) {
   const user = useAuthStore((state) => state.user);
   const isHydrated = useAuthStore((state) => state.isHydrated);
   const id = useAuthStore((state) => state.user?.id);
+  const userRole = useAuthStore((state) => state.user?.role)
 
   if (!isHydrated) return <div>Chargement...</div>;
 
@@ -27,7 +28,7 @@ export default function PrivateRoute({ allowedRoles }: Props) {
 
   return (
     <div>
-      <PrivateNavbar id={id} />
+      <PrivateNavbar id={id} role={userRole} />
       <main>
         <Outlet />
       </main>
