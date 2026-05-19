@@ -14,6 +14,7 @@ import api from "./api/axios.instance";
 import PublicLayout from "./guards/layout/PublicLayout";
 import SkillsPage from "./pages/skills/SkillsPage";
 import SkillDetailPage from "./pages/skills/SkillDetailPage";
+import ResetPassword from "./pages/auth/ResetPassword";
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
@@ -43,6 +44,7 @@ function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="register" element={<RegisteringPage />} />
+          <Route path="reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route element={<PrivateRoute />}>

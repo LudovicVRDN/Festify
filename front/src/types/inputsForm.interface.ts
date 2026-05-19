@@ -10,6 +10,7 @@ export interface IInputOption {
 export interface IResetPassword {
     newPassword: string;
     confirmPassword: string;
+    token?:string
 }
 
 export interface IInputChangePassword {

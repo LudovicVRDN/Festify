@@ -52,12 +52,13 @@ export interface AuthResponse {
 
 const HomePage = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
-
-  const handleResetPassword = async (resetData: { email:string }) => {
-    console.log("Hello")
+  const [isEmailSend, setEmailSend] = useState(false);
+  const handleResetPassword = async (resetData: { email: string }) => {
+    console.log("Hello");
     try {
-       console.log(resetData)
+      console.log(resetData);
       await api.post("/auth/forgot-password", resetData);
+      setEmailSend(true)
     } catch (error: any) {
       console.log("Erreur :", error.response.status);
     }
@@ -77,15 +78,12 @@ const HomePage = () => {
     register: registerReset,
     handleSubmit: handleResetSubmit,
     formState: { errors: resetErrors },
-  } = useForm<{ email:string }>();
+  } = useForm<{ email: string }>();
 
-  const handleConfirm = handleResetSubmit(
-     (data: { email:string }) => {
-      
-      handleResetPassword(data);
-      modalRef.current?.close();
-    },
-  );
+  const handleConfirm = handleResetSubmit((data: { email: string }) => {
+    handleResetPassword(data);
+    modalRef.current?.close();
+  });
 
   const onSubmit = async (formdata: SigninFormData) => {
     try {
@@ -181,6 +179,9 @@ const HomePage = () => {
                   >
                     Mot de passe oublié
                   </button>
+                  {isEmailSend &&(
+                    <p className="text-red-500 text-xs italic mt-2 ml-2">Un email a été envoyé sur ton adresse mail si elle est correcte !</p>
+                  )}
                 </div>
 
                 {/* Bouton principal */}
@@ -191,40 +192,35 @@ const HomePage = () => {
                 </Link>
               </form>
             </div>
-                    </Fade>
-            <dialog ref={modalRef} id="my_modal_1" className="modal">
-              <div className="modal-box bg-black border border-festify-glassred  ">
-                <h3 className="font-bold text-lg">Mot de passe oublié</h3>
-                <p className="py-4">Entre ton adresse Email</p>
-                <div>
-                  <form onSubmit={handleConfirm} className="flex flex-col gap-5">
-                    <label className="text-zinc-300 text-xs tracking-widest uppercase">
-                      Ton Email:
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="Ton adresse Email"
-                      className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
-                      {...registerReset("email", {
-                        required: "L'email est requis",
-                      })}
-                    />
-                    {resetErrors.email && (
-                      <p className="text-red-500 text-xs italic mt-1">
-                        {resetErrors.email.message}
-                      </p>
-                    )}
-                  <button
-          type="submit"
-          className="w-full bg-zinc-800 text-white py-2 rounded hover:bg-zinc-700 transition-colors uppercase tracking-wider text-sm font-bold cursor-pointer"
-        >
-          Valider
-        </button>
-                    <Button textButton="Annuler" variant="red" />
-                  </form>
-                </div>
+          </Fade>
+          <dialog ref={modalRef} id="my_modal_1" className="modal">
+            <div className="modal-box bg-black border border-festify-glassred  ">
+              <h3 className="font-bold text-lg">Mot de passe oublié</h3>
+              <p className="py-4">Entre ton adresse Email</p>
+              <div>
+                <form onSubmit={handleConfirm} className="flex flex-col gap-5">
+                  <label className="text-zinc-300 text-xs tracking-widest uppercase">
+                    Ton Email:
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="Ton adresse Email"
+                    className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
+                    {...registerReset("email", {
+                      required: "L'email est requis",
+                    })}
+                  />
+                  {resetErrors.email && (
+                    <p className="text-red-500 text-xs italic mt-1">
+                      {resetErrors.email.message}
+                    </p>
+                  )}
+                  <Button variant="grey" textButton="Valider"/>
+                  <Button textButton="Annuler" variant="red" />
+                </form>
               </div>
-            </dialog>
+            </div>
+          </dialog>
         </div>
 
         <TornEdge position="bottom" />
