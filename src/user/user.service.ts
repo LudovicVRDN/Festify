@@ -1,10 +1,12 @@
-import { Body, Injectable, NotFoundException } from '@nestjs/common';
+import { Body, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { NewPassword, UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { skills, user } from 'prisma/generated/prisma/client';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 
 export type UserWithSkills = Prisma.userGetPayload<{
@@ -24,7 +26,11 @@ export interface ISkillResponse {
 
 
 export class UserService {
-  constructor(private prisma: PrismaService) { }
+  constructor(
+    private prisma: PrismaService,
+    private jwtService : JwtService ,
+    private configService : ConfigService
+  ) { }
   
 
   async create(createuserDto: CreateUserDto): Promise<user> {
@@ -149,15 +155,21 @@ export class UserService {
     }
   });
 }
-  async resetPassword(email :string,newPassword:string):Promise<string>{
-    await this.prisma.user.update(
-      {
-        where: {email},
-        data :{
-          password : await bcrypt.hash(newPassword, 10)
+  async resetPassword(token:string ,newPassword:NewPassword):Promise<string>{
+     const decoded = this.jwtService.verify(token, {
+    secret: this.configService.get("reset_secret")
+});
+    
+    if (!decoded) throw new UnauthorizedException('Token invalide');
+
+    await this.prisma.user.update({
+        where: { email: decoded.email },
+        data: {
+            password: await bcrypt.hash(newPassword.newPassword, 10),
         }
     });
-   return 'Changé avec succès'
+
+    return 'Changé avec succès';
   }
 
   async remove(id: number): Promise<void> {

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, HttpStatus, HttpException, UseGuards, Req, ConflictException, Res } from '@nestjs/common';
 import { ISkillResponse, UserService, UserWithSkills } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { NewPassword, UpdateUserDto } from './dto/update-user.dto';
 import { user } from 'prisma/generated/prisma/client';
 import { captureRejectionSymbol } from 'events';
 import { NotFoundError } from 'rxjs';
@@ -20,7 +20,7 @@ export class userController {
   async findAll(): Promise<user[]> {
     return this.userService.findAll();
   }
-  
+
   @Get('email/:email')
   async findByEmail(@Param('email') email: string): Promise<user | null> {
     const user = await this.userService.findByEmail(email)
@@ -75,8 +75,11 @@ export class userController {
     return this.userService.remove(+id);
   }
 
-  @Patch('/reset-password')
-  async resetPassword(@Body() { token, newPassword }: { token: string, newPassword: string }) {
-      return this.userService.resetPassword(token, newPassword);
+  @Patch('/reset-password/:token')
+  async resetPassword(
+    @Param('token') token: string,
+    @Body() 
+     newPassword: NewPassword ) {
+    return this.userService.resetPassword(token, newPassword);
   }
 }
