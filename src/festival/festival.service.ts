@@ -16,7 +16,7 @@ export class FestivalService {
 
   ) { }
 
-  async create(createFestivalDto: CreateFestivalDto, existingAdress: adress) {
+  async create(createFestivalDto: CreateFestivalDto, existingAdress: adress |null) {
     const { adress, ...rest } = createFestivalDto;
 
     const festival = await this.prisma.festival.create({
@@ -29,7 +29,7 @@ export class FestivalService {
               city: adress.city,
               postalCode: adress.postalCode
             },
-            where: { id: existingAdress.id }
+            where: { id: existingAdress?.id ?? 0 }
           }
         }
       }
@@ -73,11 +73,7 @@ export class FestivalService {
         })
       }
     })
-    if (unavaliableAdress) {
-      return true
-    } else {
-      return false
-    }
+    return !!unavaliableAdress
   }
 
   async countFestivalOrThrow(festival: CreateFestivalDto | UpdateFestivalDto): Promise<number | null> {
@@ -99,7 +95,7 @@ export class FestivalService {
 
   }
 
-  async update(id: number, updateFestivalDto: UpdateFestivalDto, existingAdress: adress |null): Promise<festival | undefined> {
+  async update(id: number, updateFestivalDto: UpdateFestivalDto, existingAdress: adress | null): Promise<festival | undefined> {
     const { adress, ...rest } = updateFestivalDto
     const { id: _id, created_at, updated_at, role, is_validated, ...safeRest } = rest as any
 
@@ -116,7 +112,7 @@ export class FestivalService {
               create: {
                 street: adress.street,
                 city: adress.city,
-                postalCode: adress.postalCode!
+                postalCode: adress.postalCode
               }
             }
           }

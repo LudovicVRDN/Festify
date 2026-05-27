@@ -27,10 +27,11 @@ export class FestivalController {
       if (isAdressNotFree) {
         throw new ConflictException('Cette adresse et cette date ne sont pas disponible ')
       }
+      }
       const myFestival = await this.festivalService.create(createFestivalDto, existingAdress);
       await this.festivalService.createLinkUserAndFestival(myFestival.id, req.user)
-      return 'ca a marché tout est crée et lié !!'
-    }
+    
+    return myFestival
   }
 
   @Get(':id')
@@ -54,7 +55,7 @@ export class FestivalController {
 
       if (existingAdress) {
 
-        const isAdressNotFree = await this.festivalService.checkDisponibility(updateFestivalDto, existingAdress?.id)
+        const isAdressNotFree = await this.festivalService.checkDisponibility(updateFestivalDto, existingAdress.id)
 
         if (isAdressNotFree) {
           throw new ConflictException('Cette adress et cette date ne sont pas disponible ')
