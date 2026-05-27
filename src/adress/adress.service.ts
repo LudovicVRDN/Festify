@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { UpdateAdressDto } from './dto/update-adress.dto';
 import { CreateAdressDto } from 'src/user/dto/create-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
+import { Adress } from './entities/adress.entity';
+import { adress } from 'prisma/generated/prisma/client';
 
 @Injectable()
 export class AdressService {
@@ -11,8 +13,20 @@ export class AdressService {
     return 'This action adds a new adress';
   }
 
-  findAll() {
-    return `This action returns all adress`;
+  async findExistingAdress(adress:CreateAdressDto):Promise<adress | null>{
+    const existingAdress = this.prisma.adress.findFirst({
+      where:{
+        city:adress.city,
+        street:adress.street,
+        postalCode:adress.postalCode
+      }
+    })
+  
+    if(existingAdress){
+      return existingAdress
+    }else{
+      return null
+    }
   }
 
  async findOne(id: number) {

@@ -8,8 +8,8 @@ export class FestivalController {
   constructor(private readonly festivalService: FestivalService) {}
 
   @Post()
-  create(@Body() createFestivalDto: CreateFestivalDto) {
-    return this.festivalService.create(createFestivalDto);
+  async create(@Body() createFestivalDto: CreateFestivalDto) {
+    return await this.festivalService.create(createFestivalDto);
   }
 
   @Get()
