@@ -54,7 +54,6 @@ const HomePage = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
   const [isEmailSend, setEmailSend] = useState(false);
   const handleResetPassword = async (resetData: { email: string }) => {
-    console.log("Hello");
     try {
       console.log(resetData);
       await api.post("/auth/forgot-password", resetData);

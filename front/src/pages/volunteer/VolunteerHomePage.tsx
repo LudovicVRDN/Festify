@@ -93,7 +93,7 @@ const notificationsFestival: NotificationBenevole[] = [
         <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
           Ces festivals sont proches de chez toi ! Alors ? Let's go ?
         </h1>
-        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-90 md:w-300 h-80 rounded-2xl">
+        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-90 md:w-200 xl:w-300 h-80 rounded-2xl">
           {festivalList.map((festival) => (
             <div
               key={festival.name}

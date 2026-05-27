@@ -33,7 +33,7 @@ const Modal = ({ buttonText, message, onClick }: IModalProps) => {
           <h3 className="font-bold text-lg">ATTENTION</h3>
           <p className="py-4">{message}</p>
           <div className="modal-action">
-            <form method="dialog" className="flex gap-5">
+            <form method="dialog" className="flex flex-col lg:flex-row gap-5 w-25">
               {/* if there is a button in form, it will close the modal */}
               <Button textButton="Oui" variant="grey" onClick={handleConfirm} />
               <Button textButton="Non" variant="red" />
