@@ -15,3 +15,15 @@ export class NewPassword {
     @IsNotEmpty()
     newPassword!: string;
 }
+
+export class UpdatePassword{
+    currentPassword!:string
+       @IsStrongPassword({
+        minLength: 8,
+        minUppercase: 1,
+        minSymbols: 1,
+        minNumbers: 1
+    })
+    @IsNotEmpty()
+    newPassword!: string;
+}

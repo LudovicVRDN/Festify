@@ -12,10 +12,6 @@ export class AdressController {
     return this.adressService.create(createAdressDto);
   }
 
-  @Get()
-  findAll() {
-    return this.adressService.findAll();
-  }
 
   @Get(':id')
   findOne(@Param('id') id: number) {

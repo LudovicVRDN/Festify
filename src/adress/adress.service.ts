@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateAdressDto } from './dto/update-adress.dto';
 import { CreateAdressDto } from 'src/user/dto/create-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
@@ -13,7 +13,9 @@ export class AdressService {
     return 'This action adds a new adress';
   }
 
-  async findExistingAdress(adress:CreateAdressDto):Promise<adress | null>{
+  async findExistingAdress(
+    adress:CreateAdressDto | UpdateAdressDto
+  ):Promise<adress | null>{
     const existingAdress = this.prisma.adress.findFirst({
       where:{
         city:adress.city,

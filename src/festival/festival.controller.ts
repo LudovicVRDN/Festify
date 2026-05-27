@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FestivalService } from './festival.service';
 import { CreateFestivalDto } from './dto/create-festival.dto';
 import { UpdateFestivalDto } from './dto/update-festival.dto';
+import { festival } from 'prisma/generated/prisma/client';
 
 @Controller('festival')
 export class FestivalController {
@@ -23,7 +24,7 @@ export class FestivalController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFestivalDto: UpdateFestivalDto) {
+  async update(@Param('id') id: string, @Body() updateFestivalDto: UpdateFestivalDto) :Promise<festival | undefined> {
     return this.festivalService.update(+id, updateFestivalDto);
   }
 

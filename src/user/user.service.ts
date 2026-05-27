@@ -1,6 +1,6 @@
 import { Body, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { NewPassword, UpdateUserDto } from './dto/update-user.dto';
+import { NewPassword, UpdatePassword, UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { Prisma } from 'prisma/generated/prisma/client';
 import { skills, user } from 'prisma/generated/prisma/client';
@@ -143,7 +143,6 @@ export class UserService {
     where: { id },
     data: {
       ...safeRest,
-      ...(password && { password: await bcrypt.hash(password, 10) }),
       profile: {
         update: {
           ...safeProfile,
@@ -155,11 +154,29 @@ export class UserService {
     }
   });
 }
+
+
+async updatePassword(id:number, updatePassword:UpdatePassword){
+    const user = await this.findOne(id);
+    if(user){
+    if(!await bcrypt.compare(updatePassword.currentPassword,user.password)){
+      throw new UnauthorizedException('Requête impossible à résoudre')
+    }else{
+      const hashedPassword = await bcrypt.hash(updatePassword.newPassword,10)
+       return await this.prisma.user.update({
+    where: { id },
+    data: {
+       password : hashedPassword
+    }
+  });
+    }
+     }
+}
+
   async resetPassword(token:string ,newPassword:NewPassword):Promise<string>{
      const decoded = this.jwtService.verify(token, {
     secret: this.configService.get("reset_secret")
 });
-    
     if (!decoded) throw new UnauthorizedException('Token invalide');
 
     await this.prisma.user.update({

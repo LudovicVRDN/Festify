@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, HttpStatus, HttpException, UseGuards, Req, ConflictException, Res } from '@nestjs/common';
 import { ISkillResponse, UserService, UserWithSkills } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { NewPassword, UpdateUserDto } from './dto/update-user.dto';
+import { NewPassword, UpdatePassword, UpdateUserDto } from './dto/update-user.dto';
 import { user } from 'prisma/generated/prisma/client';
 import { captureRejectionSymbol } from 'events';
 import { NotFoundError } from 'rxjs';
@@ -54,6 +54,14 @@ export class userController {
   }
 
   @UseGuards(AuthGuard)
+  @Patch(':id/update/password')
+  async updatePassword(@Param('id', ParseIntPipe) id: number,
+   @Body() updatePassword: UpdatePassword): Promise<void> {
+    await this.userService.updatePassword(id, updatePassword);
+    return console.log("Mot de passe modifié avec succès")
+  }
+
+  @UseGuards(AuthGuard)
   @Patch(":id/update")
   async update(@Body() updateuserDto: UpdateUserDto, @Req() req): Promise<iDate> {
     if (updateuserDto.email) {
@@ -78,8 +86,8 @@ export class userController {
   @Patch('/reset-password/:token')
   async resetPassword(
     @Param('token') token: string,
-    @Body() 
-     newPassword: NewPassword ) {
+    @Body()
+    newPassword: NewPassword) {
     return this.userService.resetPassword(token, newPassword);
   }
 }
