@@ -97,7 +97,21 @@ export class UserService {
     }
     const skill = usersSkill.skills_has_user[0].skills
     return skill
+  }
 
+  async findUsersFestivals(id:number,festivalID:number) {
+    const usersFestival = await this.prisma.user.findUnique({
+      where : {id},
+      include:{
+        user_has_festival:{
+        where:{
+          festival_id: festivalID},
+          include:{
+            festival : true
+          }
+      }
+    }
+    })
   }
 
   async findOne(id: number): Promise<user | null> {

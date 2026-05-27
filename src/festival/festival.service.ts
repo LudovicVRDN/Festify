@@ -4,8 +4,9 @@ import { UpdateFestivalDto } from './dto/update-festival.dto';
 import { PrismaService } from 'prisma/prisma.service';
 import { CreateAdressDto } from 'src/user/dto/create-user.dto';
 import { AdressService } from 'src/adress/adress.service';
-import { festival } from 'prisma/generated/prisma/client';
+import { adress, festival } from 'prisma/generated/prisma/client';
 import { cpSync } from 'fs';
+import { connect } from 'http2';
 
 @Injectable()
 export class FestivalService {
@@ -15,45 +16,42 @@ export class FestivalService {
 
   ) { }
 
-  async create(createFestivalDto: CreateFestivalDto) {
-    const { adress, ...rest } = createFestivalDto
-    const existingFestival = await this.findFirstFestival(createFestivalDto)
-    const existingAdress = await this.adressService.findExistingAdress(createFestivalDto.adress)
-    if (existingFestival) {
-      throw new ConflictException('Ce festival existe déja !')
-    }
-    if (existingAdress) {
-      const isAdressNotFree = await this.checkDisponibility(createFestivalDto, existingAdress?.id)
-      if (isAdressNotFree) {
-        throw new ConflictException('Cette adress et cette date ne sont pas disponible ')
-      }
-      const festival = await this.prisma.festival.create({
-        data: {
-          ...rest,
-          adress: {
-            connect: {
-              id: existingAdress.id
-            }
-          }
-        }
-      })
-      return festival
-    } else {
-      const festival = await this.prisma.festival.create({
-        data: {
-          ...rest,
-          adress: {
+  async create(createFestivalDto: CreateFestivalDto, existingAdress: adress) {
+    const { adress, ...rest } = createFestivalDto;
+
+    const festival = await this.prisma.festival.create({
+      data: {
+        ...rest,
+        adress: {
+          connectOrCreate: {
             create: {
               street: adress.street,
               city: adress.city,
               postalCode: adress.postalCode
-            }
+            },
+            where: { id: existingAdress.id }
           }
-
         }
-      })
-      return festival
-    }
+      }
+    })
+    return festival
+
+  }
+
+  async createLinkUserAndFestival(
+    festivalID: number,
+    userID: number
+  ) {
+    await this.prisma.user_has_festival.create({
+      data: {
+        user: {
+          connect: { id: userID }
+        },
+        festival: {
+          connect: { id: festivalID }
+        }
+      }
+    })
   }
 
   async checkDisponibility(
@@ -82,12 +80,11 @@ export class FestivalService {
     }
   }
 
-  async findFirstFestival(festival: CreateFestivalDto | UpdateFestivalDto): Promise<festival | null> {
-
+  async countFestivalOrThrow(festival: CreateFestivalDto | UpdateFestivalDto): Promise<number | null> {
     if (!festival.name || !festival.adress) {
       return null;
     }
-    const festivalExiste = await this.prisma.festival.findFirst({
+    return await this.prisma.festival.count({
       where: {
         name: festival.name,
         start_date: festival.start_date,
@@ -99,91 +96,60 @@ export class FestivalService {
         }
       }
     });
-    if (festivalExiste) {
-      return festivalExiste
-    } else {
-      return null
-    }
+
   }
 
-  async update(id: number, updateFestivalDto: UpdateFestivalDto):Promise<festival | undefined> {
+  async update(id: number, updateFestivalDto: UpdateFestivalDto, existingAdress: adress |null): Promise<festival | undefined> {
     const { adress, ...rest } = updateFestivalDto
     const { id: _id, created_at, updated_at, role, is_validated, ...safeRest } = rest as any
-  
-    const existingFestival = await this.findFirstFestival(updateFestivalDto)
-    if (existingFestival) {
-      throw new ConflictException('Ce festival est déja programmé')
-    }
-    if(!adress){
-      const thisFestival = await this.findOne(id);
-      // if(!thisFestival)throw new NotFoundException('Pas de festival correspondant')
-      const isAdressNotFree = await this.checkDisponibility(updateFestivalDto,thisFestival.adress_id, thisFestival.id)
-        if (isAdressNotFree) {
-          throw new ConflictException('Cette adress et cette date ne sont pas disponible ')
-        }
-        const updatedFestival = await this.prisma.festival.update({
-          where:{ id },
-          data:{
-            ...safeRest
-          }
-        })
-        return updatedFestival
-    }
 
-    else{
-      const existingAdress = await this.adressService.findExistingAdress(adress)
-      if (existingAdress) {
-        const isAdressNotFree = await this.checkDisponibility(updateFestivalDto, existingAdress?.id)
-        if (isAdressNotFree) {
-          throw new ConflictException('Cette adress et cette date ne sont pas disponible ')
-        }
-        const updatedFestival = await this.prisma.festival.update({
-          where: { id },
-          data: {
-            ...safeRest,
-            adress: {
-              connect: { id: existingAdress.id }
-            }
-          }
-        })
-        return updatedFestival
-      } else {
-        if (!adress.street || !adress.city || !adress.postalCode) {
-          throw new BadRequestException('Les champs de l\'adresse sont incomplets')
-        }
-        const updatedFestival = await this.prisma.festival.update({
-          where: { id },
-          data: {
-            ...safeRest,
-            adress: {
+    const updatedFestival = await this.prisma.festival.update({
+      where: { id },
+      data: {
+        ...safeRest,
+        ...(adress && {
+          adress: {
+            connectOrCreate: {
+              where: {
+                id: existingAdress?.id ?? 0
+              },
               create: {
                 street: adress.street,
                 city: adress.city,
-                postalCode: adress.postalCode
+                postalCode: adress.postalCode!
               }
             }
           }
         })
-         return updatedFestival
-    }
-    }
-  }
 
-
-  findAll() {
-    return `This action returns all festival`;
-  }
-
-  async findOne(id: number) :Promise<festival> {
-    const festival = await this.prisma.festival.findUnique({
-      where:{id}
+      }
     })
-    if(!festival) throw new NotFoundException('Pas de festival trouvé')
+    return updatedFestival
+
+  }
+
+
+
+
+  async findOne(id: number): Promise<festival> {
+    const festival = await this.prisma.festival.findUnique({
+      where: { id }
+    })
+    if (!festival) throw new NotFoundException('Pas de festival trouvé')
     return festival
   }
 
 
-  remove(id: number) {
-    return `This action removes a #${id} festival`;
+  async remove(id: number, userID: number) {
+    await this.prisma.user_has_festival.delete({
+      where: {
+        user_id_festival_id: {
+          festival_id: id,
+          user_id: userID
+        }
+      }
+    })
+    await this.prisma.festival.delete({ where: { id } })
+    return "Delete perfectly"
   }
 }

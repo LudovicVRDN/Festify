@@ -17,6 +17,8 @@ model adress {
   updated_at DateTime   @updatedAt()
   festival   festival[]
   profile    profile[]
+
+  @@unique([street,city,postalCode])
 }
 
 model artist {
@@ -57,7 +59,7 @@ model artist_has_stage {
 }
 
 model festival {
-  id                  Int                   @unique(map: "id_UNIQUE") @default(autoincrement())
+  id                  Int                   @id @default(autoincrement())
   start_date          DateTime              @db.Date
   end_date            DateTime              @db.Date
   name                String                @db.VarChar(45)
@@ -70,8 +72,10 @@ model festival {
   mission             mission[]
   user_has_festival   user_has_festival[]
 
-  @@id([id, adress_id])
+
   @@index([adress_id], map: "fk_festival_adress1_idx")
+  @@index([start_date,end_date])
+  
 }
 
 model festival_has_artist {
