@@ -1,6 +1,7 @@
 import type { Path, RegisterOptions } from "react-hook-form";
 import type { IUser } from "./user.type";
 import type { ISkill } from "./skill.type";
+import type { IFestival } from "./festival.type";
 
 export interface IInputOption {
   label: string;
@@ -34,6 +35,15 @@ export interface IFullProfileInputs {
 export interface ISkillsInput {
 
   name: keyof ISkill;
+  label: string;
+  placeholder: string;
+  type: string;
+  value?: string,
+  rules: object;
+}
+
+export interface IFestivalInput{
+  name: Path<IFestival>;
   label: string;
   placeholder: string;
   type: string;

@@ -1,11 +1,126 @@
-import React from 'react'
+import type { IFestivalInput } from "../../types/inputsForm.interface";
+import TornEdge from "../../components/TornEdge";
+import { Fade } from "react-awesome-reveal";
+import Button from "../../components/ui/button";
+import type { IFestival } from "../../types/festival.type";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import photo from "../../assets/createfesti.jpg";
+import api from "../../api/axios.instance";
 
 const FestivalCreatePage = () => {
+  const festivalInput: IFestivalInput[] = [
+    {
+      name: "name",
+      label: "Nom du festival",
+      placeholder: "Nom du festival",
+      type: "text",
+      rules: { required: "Rentre le nom du festival !" },
+    },
+
+    {
+      name: "adress.street",
+      label: "Adresse du festival",
+      placeholder: "Adresse du festival",
+      type: "text",
+      rules: { required: "L'adresse du festival est requise" },
+    },
+    {
+      name: "adress.city",
+      label: "Ville du festival",
+      placeholder: "Ville du festival",
+      type: "text",
+      rules: { required: "La ville du festival est requise" },
+    },
+    {
+      name: "adress.postalCode",
+      label: "Code Postal",
+      placeholder: "Code Postal",
+      type: "text",
+      rules: { required: "Le Code Postal est requis" },
+    },
+    {
+      name: "start_date",
+      label: "Date de début",
+      placeholder: "Date de début",
+      type: "date",
+      rules: { required: "La date de début est requise" },
+    },
+    {
+      name: "end_date",
+      label: "Date de fin",
+      placeholder: "Date de fin",
+      type: "date",
+      rules: { required: "La date de fin est requise" },
+    },
+  ];
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm<IFestival>({
+    mode: "onChange",
+  });
+
+  const handleForm: SubmitHandler<IFestival> = async (data: IFestival) => {
+    console.log(data);
+    try {
+      console.log("CA MARCHE GROS PD ");
+      await api.post(`http://localhost:3000/festival`, data);
+      reset();
+    } catch (error) {
+      console.error("Erreur :", error);
+    }
+  };
   return (
     <div>
-      
-    </div>
-  )
-}
+      <TornEdge position="top" />
+      <article className="flex flex-col items-center gap-5 p-2 bg-black">
+        <Fade direction="down" delay={500}>
+          <h1 className="font-metal text-xl lg:text-4xl text-festify-red">
+            A toi de créer ton propore Festival !{" "}
+          </h1>
+          <div className="flex flex-col lg:flex-row justify-center lg:min-h-115">
+            <form
+              onSubmit={handleSubmit(handleForm)}
+              className="grid grid-cols-2 gap-x-12 gap-y-8 justify-center items-start bg-black lg:w-150 p-5"
+            >
+              {festivalInput.map((field) => {
+                const fieldError = field.name
+                  .split(".")
+                  .reduce((obj: any, key: string) => obj?.[key], errors);
 
-export default FestivalCreatePage
+                return (
+                  <div key={field.name} className="flex flex-col ">
+                    <label className="text-zinc-300 text-xs tracking-widest uppercase mb-2">
+                      {field.label}
+                    </label>
+                    <input
+                      type={field.type}
+                      placeholder={field.placeholder}
+                      className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
+                      {...register(field.name, field.rules)}
+                    />
+                    {/* L'erreur s'affiche de la même façon pour les deux ! */}
+                    {fieldError && (
+                      <p className="text-red-500 text-xs italic mt-2 ml-2">
+                        {fieldError.message}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+
+              <Button textButton="Créer" variant="red" />
+            </form>
+            <img src={`${photo}`} className="w-90 lg:w-180 m-auto lg:ml-10" />
+          </div>
+        </Fade>
+      </article>
+      <TornEdge position="bottom" />
+    </div>
+  );
+};
+
+export default FestivalCreatePage;
