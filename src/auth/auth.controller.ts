@@ -53,7 +53,7 @@ export class AuthController {
   async refresh_token(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
     // const [type, token] = request.headers.cookie?.split('=') ?? []; Code sans cookie parser
     //Code avec Cookie npmParser
-    console.log(process.env.DATABASE_URL)
+    
     const token = request.cookies['refresh_token'];
     let payload
     try {

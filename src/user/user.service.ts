@@ -108,13 +108,11 @@ export class UserService {
     return skill
   }
 
-  async findUsersFestivals(id:number,festivalID:number) :Promise<IFestivalResponse[]>{
+  async findUsersFestivals(id:number) :Promise<IFestivalResponse[]>{
       const usersFestival = await this.prisma.user.findMany({
       where : {id},
       include:{
         user_has_festival:{
-        where:{
-          festival_id: festivalID},
           include:{
             festival : {
               include:{

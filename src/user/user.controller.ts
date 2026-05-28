@@ -1,13 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, ParseIntPipe, HttpStatus, HttpException, UseGuards, Req, ConflictException, Res } from '@nestjs/common';
-import { ISkillResponse, UserService, UserWithSkills } from './user.service';
+import { IFestivalResponse, ISkillResponse, UserService, UserWithSkills } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { NewPassword, UpdatePassword, UpdateUserDto } from './dto/update-user.dto';
-import { user } from 'prisma/generated/prisma/client';
+import { festival, user } from 'prisma/generated/prisma/client';
 import { captureRejectionSymbol } from 'events';
 import { NotFoundError } from 'rxjs';
 import { PickType } from '@nestjs/mapped-types';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import type { Request, response, Response } from 'express';
+import { get } from 'http';
 
 interface iDate {
   date: Date
@@ -52,6 +53,22 @@ export class userController {
     const userSkill: ISkillResponse = await this.userService.findOneUsersSkills(req.user, id)
     return userSkill
   }
+
+
+  @UseGuards(AuthGuard)
+  @Get(':id/festival')
+  async findFestivals(@Param('id',ParseIntPipe) id:number,@Req() req:any) :Promise<IFestivalResponse[] | null >{
+    const userFestival = await this.userService.findUsersFestivals(req.user);
+    return userFestival
+  }
+
+  @UseGuards(AuthGuard)
+  @Get(':id/festival/details')
+  async findUniqueFestivals(@Param('id',ParseIntPipe) id:number,@Req() req:any) :Promise<festival | null >{
+    const userUniqueFestival = await this.userService.findUsersOneFestivals(id,req.user);
+    return userUniqueFestival
+  }
+
 
   @UseGuards(AuthGuard)
   @Patch(':id/update/password')
