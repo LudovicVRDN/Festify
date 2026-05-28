@@ -2,11 +2,12 @@ import { Body, Injectable, NotFoundException, UnauthorizedException } from '@nes
 import { CreateUserDto } from './dto/create-user.dto';
 import { NewPassword, UpdatePassword, UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
-import { Prisma } from 'prisma/generated/prisma/client';
+import { festival, Prisma } from 'prisma/generated/prisma/client';
 import { skills, user } from 'prisma/generated/prisma/client';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { AdressService } from 'src/adress/adress.service';
 
 
 export type UserWithSkills = Prisma.userGetPayload<{
@@ -17,9 +18,17 @@ export type UserWithSkills = Prisma.userGetPayload<{
   }
 }>
 export interface ISkillResponse {
-  id: number;
   name: string;
   description: string;
+}
+
+export interface IFestivalResponse{
+   name:string;
+   start_date:Date;
+   end_date:Date;
+   street:string;
+   city:string;
+   postalCode:string
 }
 
 @Injectable()
@@ -29,7 +38,8 @@ export class UserService {
   constructor(
     private prisma: PrismaService,
     private jwtService : JwtService ,
-    private configService : ConfigService
+    private configService : ConfigService,
+    private adressService : AdressService
   ) { }
   
 
@@ -73,7 +83,6 @@ export class UserService {
       }
     })
     return usersSkills[0].skills_has_user.map(s => ({
-    id: s.skills.id,
     name: s.skills.name,
     description: s.skills.description,
   }));
@@ -99,7 +108,35 @@ export class UserService {
     return skill
   }
 
-  async findUsersFestivals(id:number,festivalID:number) {
+  async findUsersFestivals(id:number,festivalID:number) :Promise<IFestivalResponse[]>{
+      const usersFestival = await this.prisma.user.findMany({
+      where : {id},
+      include:{
+        user_has_festival:{
+        where:{
+          festival_id: festivalID},
+          include:{
+            festival : {
+              include:{
+                adress:true
+              }
+            }
+          }
+      }
+    }
+    })
+    return usersFestival[0].user_has_festival.map(f => ({
+    name: f.festival.name,
+    start_date: f.festival.start_date,
+    end_date:f.festival.end_date,
+    street : f.festival.adress.street,
+    city : f.festival.adress.city,
+    postalCode : f.festival.adress.postalCode
+    
+  }));
+  }
+
+  async findUsersOneFestivals(id:number,festivalID:number) :Promise<festival>{
     const usersFestival = await this.prisma.user.findUnique({
       where : {id},
       include:{
@@ -107,11 +144,20 @@ export class UserService {
         where:{
           festival_id: festivalID},
           include:{
-            festival : true
+            festival : {
+              include :{
+                adress :true
+              }
+            }
           }
       }
     }
     })
+    if(!usersFestival || usersFestival?.user_has_festival.length === 0){
+       throw new NotFoundException('Compétence introuvable pour cet utilisateur');
+    }
+    const festivals = usersFestival.user_has_festival[0].festival
+    return festivals
   }
 
   async findOne(id: number): Promise<user | null> {

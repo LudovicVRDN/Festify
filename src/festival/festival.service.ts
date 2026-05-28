@@ -125,8 +125,6 @@ export class FestivalService {
   }
 
 
-
-
   async findOne(id: number): Promise<festival> {
     const festival = await this.prisma.festival.findUnique({
       where: { id }

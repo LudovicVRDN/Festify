@@ -48,7 +48,6 @@ export class FestivalController {
     if (existingFestival) {
       throw new ConflictException('Ce festival est déja programmé')
     }
-
     const adress = updateFestivalDto.adress
     
       const existingAdress = adress ? await this.adressService. findExistingAdress(adress) :null
