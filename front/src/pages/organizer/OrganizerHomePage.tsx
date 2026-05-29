@@ -137,7 +137,7 @@ const OrganizerHomePage = () => {
         <Link to="festival/create">
           <Button textButton="Organise un nouveau Festival" variant="red" />
         </Link>
-        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-95 md:w-150 lg:w-225 xl:w-300 h-80 rounded-2xl">
+        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-90 md:w-150 lg:w-225 xl:w-300 h-80 rounded-2xl">
           {festivalList?.map((festival) => (
             <div
               key={festival.name}
@@ -168,7 +168,7 @@ const OrganizerHomePage = () => {
         <Link to="missions/create">
           <Button textButton="Planifie tes nouvelles missions" variant="red" />
         </Link>
-        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 h-80 w-95 md:w-150  lg:w-225 xl:w-300 rounded-2xl">
+        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 h-80 w-90 md:w-150  lg:w-225 xl:w-300 rounded-2xl">
           {missionList.map((mission) => (
             <div
               key={mission.title}
