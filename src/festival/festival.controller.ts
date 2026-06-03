@@ -43,7 +43,7 @@ export class FestivalController {
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateFestivalDto: UpdateFestivalDto): Promise<festival | undefined> {
 
-    const existingFestival = await this.festivalService.countFestivalOrThrow(updateFestivalDto)
+    const existingFestival = await this.festivalService.countFestivalOrThrow(updateFestivalDto,+id)
 
     if (existingFestival) {
       throw new ConflictException('Ce festival est déja programmé')
@@ -54,7 +54,7 @@ export class FestivalController {
 
       if (existingAdress) {
 
-        const isAdressNotFree = await this.festivalService.checkDisponibility(updateFestivalDto, existingAdress.id)
+        const isAdressNotFree = await this.festivalService.checkDisponibility(updateFestivalDto, existingAdress.id,+id)
 
         if (isAdressNotFree) {
           throw new ConflictException('Cette adress et cette date ne sont pas disponible ')

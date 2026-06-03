@@ -125,7 +125,7 @@ model mission {
   title                String                 @db.VarChar(100)
   volunteer_needed     Int
   description          String                 @db.LongText
-  is_full              Int                    @db.TinyInt
+  is_full              Int                    @db.TinyInt @default(0)
   created_at           DateTime               @default(now())
   updated_at           DateTime               @updatedAt()
   festival_id          Int

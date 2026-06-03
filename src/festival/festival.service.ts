@@ -76,12 +76,16 @@ export class FestivalService {
     return !!unavaliableAdress
   }
 
-  async countFestivalOrThrow(festival: CreateFestivalDto | UpdateFestivalDto): Promise<number | null> {
+  async countFestivalOrThrow(festival: CreateFestivalDto | UpdateFestivalDto,festivalId: number): Promise<number | null> {
+    
     if (!festival.name || !festival.adress) {
       return null;
     }
     return await this.prisma.festival.count({
       where: {
+        id: {
+          not: festivalId
+        },
         name: festival.name,
         start_date: festival.start_date,
         end_date: festival.end_date,
