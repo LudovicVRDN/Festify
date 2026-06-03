@@ -64,8 +64,8 @@ export class userController {
 
   @UseGuards(AuthGuard)
   @Get(':id/festival/details')
-  async findUniqueFestivals(@Param('id',ParseIntPipe) id:number,@Req() req:any) :Promise<festival | null >{
-    const userUniqueFestival = await this.userService.findUsersOneFestivals(id,req.user);
+  async findUniqueFestivals(@Param('id',ParseIntPipe) id:number,@Req() req:any) :Promise<IFestivalResponse | null >{
+    const userUniqueFestival = await this.userService.findUsersOneFestivals(req.user,id);
     return userUniqueFestival
   }
 

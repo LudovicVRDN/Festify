@@ -2,7 +2,7 @@ import { Body, Injectable, NotFoundException, UnauthorizedException } from '@nes
 import { CreateUserDto } from './dto/create-user.dto';
 import { NewPassword, UpdatePassword, UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'prisma/prisma.service';
-import { festival, Prisma } from 'prisma/generated/prisma/client';
+import { adress, festival, Prisma } from 'prisma/generated/prisma/client';
 import { skills, user } from 'prisma/generated/prisma/client';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -22,13 +22,19 @@ export interface ISkillResponse {
   description: string;
 }
 
+export interface IAdress {
+  city:string,
+  street:string,
+  postalCode:string
+}
+
 export interface IFestivalResponse{
+   id:number;
    name:string;
    start_date:Date;
    end_date:Date;
-   street:string;
-   city:string;
-   postalCode:string
+   adress: IAdress
+   
 }
 
 @Injectable()
@@ -124,17 +130,20 @@ export class UserService {
     }
     })
     return usersFestival[0].user_has_festival.map(f => ({
+    id:f.festival_id,
     name: f.festival.name,
     start_date: f.festival.start_date,
     end_date:f.festival.end_date,
-    street : f.festival.adress.street,
+    adress :{
+      street : f.festival.adress.street,
     city : f.festival.adress.city,
     postalCode : f.festival.adress.postalCode
+    } 
     
   }));
   }
 
-  async findUsersOneFestivals(id:number,festivalID:number) :Promise<festival>{
+  async findUsersOneFestivals(id:number,festivalID:number) :Promise<IFestivalResponse>{
     const usersFestival = await this.prisma.user.findUnique({
       where : {id},
       include:{
@@ -152,7 +161,7 @@ export class UserService {
     }
     })
     if(!usersFestival || usersFestival?.user_has_festival.length === 0){
-       throw new NotFoundException('Compétence introuvable pour cet utilisateur');
+       throw new NotFoundException('Pas de festival pour cet utilisateur');
     }
     const festivals = usersFestival.user_has_festival[0].festival
     return festivals
