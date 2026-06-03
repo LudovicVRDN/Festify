@@ -8,6 +8,9 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import Button from "../../components/ui/button";
 import api from "../../api/axios.instance";
 import { useNavigate, useSearchParams } from "react-router";
+import Slider from "../../components/Slider";
+import Caroussel from "../../components/Caroussel";
+import photo from '../../assets/photo10.jpg'
 
 const ResetPassword = () => {
   const navigate = useNavigate();
@@ -82,8 +85,10 @@ const ResetPassword = () => {
   if(token){
   return (
     <div>
+      <Caroussel />
+      <div className="relative w-full -translate-y-10">
       <TornEdge position="top" />
-      <div className="bg-black ">
+      <div className="bg-black flex flex-col lg:flex-row items-center justify-center gap-10 ">
         <form onSubmit={handleSubmit(handleResetPassword)}
         className="flex flex-col items-center justify-center gap-5">
           {resetPasswordInput.map((field) => {
@@ -97,7 +102,7 @@ const ResetPassword = () => {
                 </label>
                 <input
                   type={field.type}
-                  className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
+                  className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors w-80"
                   {...register(field.name, field.rules)}
                 />
                 {fieldError && (
@@ -110,6 +115,7 @@ const ResetPassword = () => {
           })}
           <Button variant="red" textButton="Valider" />
         </form>
+          <img src={`${photo}`} className="lg:w-200 w-80 lg:ml-15" />
       </div>
        <dialog ref={modalRef} id="my_modal_1" className="modal">
             <div className="modal-box bg-black border border-festify-glassred  ">
@@ -121,6 +127,7 @@ const ResetPassword = () => {
             </div>
           </dialog>
       <TornEdge position="bottom" />
+    </div>
     </div>
   );
 }else{

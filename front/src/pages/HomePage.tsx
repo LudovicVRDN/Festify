@@ -5,19 +5,13 @@ import Button from "../components/ui/button";
 import TornEdge from "../components/TornEdge";
 import {
   useForm,
-  Watch,
   type RegisterOptions,
-  type SubmitHandler,
 } from "react-hook-form";
 import { useAuthStore } from "../stores/auth.store";
 import type { IUser } from "../types/user.type";
 import api from "../api/axios.instance";
 import { useRef, useState } from "react";
-import type {
-  IFullProfileInputs,
-  IResetPassword,
-} from "../types/inputsForm.interface";
-import Modal from "../components/ui/modal";
+
 
 interface SigninFormData {
   email: string;

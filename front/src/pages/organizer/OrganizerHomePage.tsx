@@ -1,20 +1,15 @@
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import TornEdge from "../../components/TornEdge";
-import FestivalDetailPage from "../festival/FestivalDetailPage";
 import Button from "../../components/ui/button";
 import Slider from "../../components/Slider";
 import api from "../../api/axios.instance";
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../stores/auth.store";
+import type { IFestival } from "../../types/festival.type";
+import { useQuery } from "@tanstack/react-query";
+import Modal from "../../components/ui/modal";
 
-interface IFestival {
-  name: string;
-  start_date: string;
-  end_date?: string;
-  street: string;
-  city: string;
-  postalCode?: string;
-}
+
 
 interface IMission {
   title: string;
@@ -27,22 +22,31 @@ interface IMission {
 const OrganizerHomePage = () => {
    const id = useAuthStore((state) => state.user?.id);
 
-  const [festivalList, setFestival] = useState<IFestival[] | null>(null);
+  // const [festivalList, setFestival] = useState<IFestival[] | null>(null);
 
-  const fetchFestival = async () => {
-    try {
-      const festivalDb = await api.get<IFestival[]>(
-        `http://localhost:3000/user/${id}/festival`,
-      );
-      setFestival(festivalDb.data);
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
+  // const fetchFestival = async () => {
+  //   try {
+  //     const festivalDb = await api.get<IFestival[]>(
+  //       `http://localhost:3000/user/${id}/festival`,
+  //     );
+  //     setFestival(festivalDb.data);
+  //   } catch (error: any) {
+  //     console.log(error);
+  //   }
+  // };
 
-  useEffect(() =>{
-    fetchFestival();
-  },[])
+  // useEffect(() =>{
+  //   fetchFestival();
+  // },[])
+  const navigate = useNavigate()
+
+   const {data , isPending , error} = useQuery<IFestival[]>({
+    queryKey:['festival'],
+    queryFn : () =>api.get(`http://localhost:3000/user/${id}/festival`).then(r => r.data)
+  })
+
+  if(isPending) return <span>Loading...</span>
+  if(error) return <Modal buttonText="Un soucis" message="Aie c'est cassé" onClick={() => navigate('/')}/>
   
   const missionList: IMission[] = [
     {
@@ -54,8 +58,11 @@ const OrganizerHomePage = () => {
       festival: {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
-        city: "Clisson",
-        street: "France",
+        adress:{
+          city: 'clisson',
+          postalCode:'25252',
+          street:'Rue machin'
+        }
       },
     },
     {
@@ -64,11 +71,14 @@ const OrganizerHomePage = () => {
       is_full: true,
       description:
         "Accueillir et orienter les festivaliers à l'entrée du site.",
-      festival: {
-        name: "Tomorrowland",
-        start_date: "2026-07-17",
-        city: "Boom",
-        street: "Belgique",
+     festival: {
+        name: "Hellfest Open Air",
+        start_date: "2026-06-18",
+        adress:{
+          city: 'clisson',
+          postalCode:'25252',
+          street:'Rue machin'
+        }
       },
     },
     {
@@ -76,11 +86,14 @@ const OrganizerHomePage = () => {
       volunter_needed: 8,
       is_full: false,
       description: "Surveiller les accès et assurer la sécurité du périmètre.",
-      festival: {
-        name: "Wacken Open Air",
-        start_date: "2026-07-29",
-        city: "Wacken",
-        street: "Allemagne",
+   festival: {
+        name: "Hellfest Open Air",
+        start_date: "2026-06-18",
+        adress:{
+          city: 'clisson',
+          postalCode:'25252',
+          street:'Rue machin'
+        }
       },
     },
     {
@@ -89,11 +102,14 @@ const OrganizerHomePage = () => {
       is_full: true,
       description:
         "Aider à la distribution et à la gestion des stands de nourriture.",
-      festival: {
-        name: "Sziget Festival",
-        start_date: "2026-08-05",
-        city: "Budapest",
-        street: "Hongrie",
+   festival: {
+        name: "Hellfest Open Air",
+        start_date: "2026-06-18",
+        adress:{
+          city: 'clisson',
+          postalCode:'25252',
+          street:'Rue machin'
+        }
       },
     },
     {
@@ -101,11 +117,14 @@ const OrganizerHomePage = () => {
       volunter_needed: 5,
       is_full: false,
       description: "Couvrir l'événement en temps réel sur les réseaux sociaux.",
-      festival: {
-        name: "Graspop Metal Meeting",
-        start_date: "2026-06-25",
-        city: "Dessel",
-        street: "Belgique",
+       festival: {
+        name: "Hellfest Open Air",
+        start_date: "2026-06-18",
+        adress:{
+          city: 'clisson',
+          postalCode:'25252',
+          street:'Rue machin'
+        }
       },
     },
     {
@@ -117,8 +136,11 @@ const OrganizerHomePage = () => {
       festival: {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
-        city: "Clisson",
-        street: "France",
+        adress:{
+          city: 'clisson',
+          postalCode:'25252',
+          street:'Rue machin'
+        }
       },
     },
   ];
@@ -138,9 +160,9 @@ const OrganizerHomePage = () => {
           <Button textButton="Organise un nouveau Festival" variant="red" />
         </Link>
         <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-90 md:w-150 lg:w-225 xl:w-300 h-80 rounded-2xl">
-          {festivalList?.map((festival) => (
+          {data?.map((festival) => (
             <div
-              key={festival.name}
+              key={festival.id}
               className="w-full lg:h-30 flex justify-between items-center bg-transparent border-b border-zinc-700  py-2 text-white "
             >
               <h2 className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase max-w-20 md:max-w-30 wrap-break-word">
@@ -149,11 +171,11 @@ const OrganizerHomePage = () => {
               <div className="max-w-30 lg:max-w-60 hidden md:block">
                 <p className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase">
                   Ton festival aura lieu <br />
-                  le : {festival.start_date}, <br />a : {festival.city}
+                  le : {festival.start_date}, <br />a : {festival.adress.city}
                 </p>
               </div>
               <div className="flex flex-col gap-1">
-                <Link to={"/festival/:id"}>
+                <Link to={`/festival/${festival.id}/details`}>
                   {" "}
                   <Button textButton="Plus d'infos" variant="grey" />{" "}
                 </Link>

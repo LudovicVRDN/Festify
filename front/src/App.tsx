@@ -16,6 +16,7 @@ import SkillsPage from "./pages/skills/SkillsPage";
 import SkillDetailPage from "./pages/skills/SkillDetailPage";
 import ResetPassword from "./pages/auth/ResetPassword";
 import FestivalCreatePage from "./pages/festival/FestivalCreatePage";
+import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
@@ -63,6 +64,7 @@ function App() {
         <Route element={<PrivateRoute allowedRoles="organisateur" />}>
           <Route path="/organisateur" element={<OrganizerHomePage />}></Route>
           <Route path="/organisateur/festival/create" element={<FestivalCreatePage />}></Route>
+          <Route path="/festival/:festivalId/details" element={<FestivalDetailPage />}></Route>
         </Route>
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>
