@@ -1,9 +1,8 @@
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useNavigate } from "react-router";
 import TornEdge from "../../components/TornEdge";
 import Button from "../../components/ui/button";
 import Slider from "../../components/Slider";
 import api from "../../api/axios.instance";
-import { useEffect, useState } from "react";
 import { useAuthStore } from "../../stores/auth.store";
 import type { IFestival } from "../../types/festival.type";
 import { useQuery } from "@tanstack/react-query";
@@ -20,34 +19,23 @@ interface IMission {
 }
 
 const OrganizerHomePage = () => {
-   const id = useAuthStore((state) => state.user?.id);
+  const id = useAuthStore((state) => state.user?.id);
 
-  // const [festivalList, setFestival] = useState<IFestival[] | null>(null);
-
-  // const fetchFestival = async () => {
-  //   try {
-  //     const festivalDb = await api.get<IFestival[]>(
-  //       `http://localhost:3000/user/${id}/festival`,
-  //     );
-  //     setFestival(festivalDb.data);
-  //   } catch (error: any) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() =>{
-  //   fetchFestival();
-  // },[])
   const navigate = useNavigate()
 
-   const {data , isPending , error} = useQuery<IFestival[]>({
-    queryKey:['festival'],
-    queryFn : () =>api.get(`http://localhost:3000/user/${id}/festival`).then(r => r.data)
+  const { data, isPending, error } = useQuery<IFestival[]>({
+    queryKey: ['festival', id],
+    queryFn: async () => {
+      const res = await api.get(`/user/${id}/festival`);
+      return res.data;
+    },
+    enabled: !!id,
+
   })
 
-  if(isPending) return <span>Loading...</span>
-  if(error) return <Modal buttonText="Un soucis" message="Aie c'est cassé" onClick={() => navigate('/')}/>
-  
+  if (isPending) return <span>Loading...</span>
+  if (error) return <Modal buttonText="Un soucis" message="Aie c'est cassé" onClick={() => navigate('/')} />
+
   const missionList: IMission[] = [
     {
       title: "Gestion de la scène principale",
@@ -58,10 +46,10 @@ const OrganizerHomePage = () => {
       festival: {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
-        adress:{
+        adress: {
           city: 'clisson',
-          postalCode:'25252',
-          street:'Rue machin'
+          postalCode: '25252',
+          street: 'Rue machin'
         }
       },
     },
@@ -71,13 +59,13 @@ const OrganizerHomePage = () => {
       is_full: true,
       description:
         "Accueillir et orienter les festivaliers à l'entrée du site.",
-     festival: {
+      festival: {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
-        adress:{
+        adress: {
           city: 'clisson',
-          postalCode:'25252',
-          street:'Rue machin'
+          postalCode: '25252',
+          street: 'Rue machin'
         }
       },
     },
@@ -86,13 +74,13 @@ const OrganizerHomePage = () => {
       volunter_needed: 8,
       is_full: false,
       description: "Surveiller les accès et assurer la sécurité du périmètre.",
-   festival: {
+      festival: {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
-        adress:{
+        adress: {
           city: 'clisson',
-          postalCode:'25252',
-          street:'Rue machin'
+          postalCode: '25252',
+          street: 'Rue machin'
         }
       },
     },
@@ -102,13 +90,13 @@ const OrganizerHomePage = () => {
       is_full: true,
       description:
         "Aider à la distribution et à la gestion des stands de nourriture.",
-   festival: {
+      festival: {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
-        adress:{
+        adress: {
           city: 'clisson',
-          postalCode:'25252',
-          street:'Rue machin'
+          postalCode: '25252',
+          street: 'Rue machin'
         }
       },
     },
@@ -117,13 +105,13 @@ const OrganizerHomePage = () => {
       volunter_needed: 5,
       is_full: false,
       description: "Couvrir l'événement en temps réel sur les réseaux sociaux.",
-       festival: {
+      festival: {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
-        adress:{
+        adress: {
           city: 'clisson',
-          postalCode:'25252',
-          street:'Rue machin'
+          postalCode: '25252',
+          street: 'Rue machin'
         }
       },
     },
@@ -136,10 +124,10 @@ const OrganizerHomePage = () => {
       festival: {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
-        adress:{
+        adress: {
           city: 'clisson',
-          postalCode:'25252',
-          street:'Rue machin'
+          postalCode: '25252',
+          street: 'Rue machin'
         }
       },
     },
@@ -171,7 +159,7 @@ const OrganizerHomePage = () => {
               <div className="max-w-30 lg:max-w-60 hidden md:block">
                 <p className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase">
                   Ton festival aura lieu <br />
-                  le : {festival.start_date}, <br />a : {festival.adress.city}
+                  le : {festival.start_date?.split("T")[0]}, <br />a : {festival.adress.city}
                 </p>
               </div>
               <div className="flex flex-col gap-1">

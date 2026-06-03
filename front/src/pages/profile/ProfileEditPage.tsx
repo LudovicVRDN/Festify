@@ -4,7 +4,7 @@ import { Fade } from "react-awesome-reveal";
 import Button from "../../components/ui/button";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { IUser } from "../../types/user.type";
-import type { Iinputs } from "../../types/inputsForm.interface";
+import type { IFullProfileInputs } from "../../types/inputsForm.interface";
 import { useNavigate } from "react-router";
 import type { IAdresse, IProfile } from "../../types/Profile.type";
 import api from "../../api/axios.instance";
@@ -70,7 +70,7 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
     }
   }, [user, profile, adress, reset]);
 
-  const formFields: Iinputs[] = [
+  const formFields: IFullProfileInputs[] = [
     {
       name: "email",
       label: "Email",

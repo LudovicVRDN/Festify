@@ -29,11 +29,11 @@ const Modal = ({ buttonText, message, onClick }: IModalProps) => {
       />
 
       <dialog ref={modalRef} id="my_modal_1" className="modal">
-        <div className="modal-box bg-black border border-festify-glassred  ">
+        <div className="modal-box bg-black border border-festify-glassred ">
           <h3 className="font-bold text-lg">ATTENTION</h3>
           <p className="py-4">{message}</p>
           <div className="modal-action">
-            <form method="dialog" className="flex flex-col lg:flex-row gap-5 w-25">
+            <form method="dialog" className="flex flex-col lg:flex-row gap-5 ">
               {/* if there is a button in form, it will close the modal */}
               <Button textButton="Oui" variant="grey" onClick={handleConfirm} />
               <Button textButton="Non" variant="red" />

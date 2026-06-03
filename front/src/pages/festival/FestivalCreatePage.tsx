@@ -6,6 +6,7 @@ import type { IFestival } from "../../types/festival.type";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import photo from "../../assets/createfesti.jpg";
 import api from "../../api/axios.instance";
+import { useNavigate } from "react-router";
 
 const FestivalCreatePage = () => {
   const festivalInput: IFestivalInput[] = [
@@ -56,19 +57,19 @@ const FestivalCreatePage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors },
   } = useForm<IFestival>({
     mode: "onChange",
   });
+  const navigate = useNavigate();
 
   const handleForm: SubmitHandler<IFestival> = async (data: IFestival) => {
     console.log(data);
     try {
-      console.log("CA MARCHE GROS PD ");
       await api.post(`http://localhost:3000/festival`, data);
       reset();
+      navigate('/')
     } catch (error) {
       console.error("Erreur :", error);
     }

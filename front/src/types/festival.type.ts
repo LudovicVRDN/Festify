@@ -7,3 +7,10 @@ export interface IFestival {
   end_date?: string;
   adress : IAdresse;
 }
+
+export interface IUpdateFestival { 
+  name?: string;
+  start_date?: string;
+  end_date?: string;
+  adress?: IAdresse;
+}
