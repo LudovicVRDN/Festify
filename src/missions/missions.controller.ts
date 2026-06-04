@@ -10,52 +10,65 @@ export class MissionsController {
   constructor(
     private readonly missionsService: MissionsService,
     private festivalService: FestivalService
-  ) {}
+  ) { }
 
   @UseGuards(AuthGuard)
   @Post(':festivalid')
   async create(
     @Param('festivalid', ParseIntPipe) festivalid: number,
-    @Req() req:any,
+    @Req() req: any,
     @Body() createMissionDto: CreateMissionDto
-    ) {
-    if(!this.festivalService.countFestivalById(festivalid)){
-      throw new NotFoundException('Aucun festival trouvé avec cet id');
+  ) {
+    if (!await this.missionsService.isFestivalIsValid(festivalid, req)) {
+      throw new NotFoundException('Tu n\'as pas accès à ce festival ou il n\'existe pas');
     }
-    if(!this.festivalService.checkFestivalOwnership(festivalid, req.user)){
-      throw new UnauthorizedException("Tu n'es pas le propriétaire de ce festival");
-    }
-    const mission = await this.missionsService.create(createMissionDto,festivalid);
+    const mission = await this.missionsService.create(createMissionDto, festivalid);
     return mission;
   }
 
   @Get(":festivalid")
-  findAll(
+  async findAll(
     @Param('festivalid', ParseIntPipe) festivalid: number,
-    @Req() req:any
+    @Req() req: any
   ) {
-    if(!this.festivalService.countFestivalById(festivalid)){
-      throw new NotFoundException('Aucun festival trouvé avec cet id');
-    }
-    if(!this.festivalService.checkFestivalOwnership(festivalid, req.user)){
-      throw new UnauthorizedException("Tu n'es pas le propriétaire de ce festival");
+    if (!await this.missionsService.isFestivalIsValid(festivalid, req)) {
+      throw new NotFoundException('Tu n\'as pas accès à ce festival ou il n\'existe pas');
     }
     return this.missionsService.findAllMissionsByFestivalID(festivalid);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    if()
-    return this.missionsService.findOneById(+id);
+  @Get(':festivalid/missions/:id')
+  async findOne(
+    @Param('festivalid', ParseIntPipe) festivalid: number,
+    @Req() req: any,
+    @Param('id', ParseIntPipe) id: number
+  ) {
+    if (!await this.missionsService.isFestivalIsValid(festivalid, req)) {
+      throw new NotFoundException('Tu n\'as pas accès à ce festival ou il n\'existe pas');
+    }
+    return this.missionsService.findOneById(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMissionDto: UpdateMissionDto) {
-    return this.missionsService.update(+id, updateMissionDto);
+  @Patch(':festivalid/missions/:id')
+  async update
+    (@Param('festivalid', ParseIntPipe) festivalid: number,
+      @Req() req: any,
+      @Param('id', ParseIntPipe) id: number,
+      @Body() updateMissionDto: UpdateMissionDto) {
+    if (!await this.missionsService.isFestivalIsValid(festivalid, req)) {
+      throw new NotFoundException('Tu n\'as pas accès à ce festival ou il n\'existe pas');
+    }
+    return this.missionsService.update(id, updateMissionDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.missionsService.remove(+id);
+  @Delete(':festivalid/missions/:id')
+  async remove(
+    @Param('festivalid', ParseIntPipe) festivalid: number,
+    @Req() req: any,
+    @Param('id', ParseIntPipe) id: number) {
+    if (!await this.missionsService.isFestivalIsValid(festivalid, req)) {
+      throw new NotFoundException('Tu n\'as pas accès à ce festival ou il n\'existe pas');
+    }
+    return this.missionsService.remove(id);
   }
 }
