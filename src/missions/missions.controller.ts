@@ -25,7 +25,8 @@ export class MissionsController {
     const mission = await this.missionsService.create(createMissionDto, festivalid);
     return mission;
   }
-
+  
+  @UseGuards(AuthGuard)
   @Get(":festivalid")
   async findAll(
     @Param('festivalid', ParseIntPipe) festivalid: number,
@@ -37,6 +38,7 @@ export class MissionsController {
     return this.missionsService.findAllMissionsByFestivalID(festivalid);
   }
 
+  @UseGuards(AuthGuard)
   @Get(':festivalid/missions/:id')
   async findOne(
     @Param('festivalid', ParseIntPipe) festivalid: number,
@@ -49,6 +51,7 @@ export class MissionsController {
     return this.missionsService.findOneById(id);
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':festivalid/missions/:id')
   async update
     (@Param('festivalid', ParseIntPipe) festivalid: number,
@@ -61,6 +64,7 @@ export class MissionsController {
     return this.missionsService.update(id, updateMissionDto);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':festivalid/missions/:id')
   async remove(
     @Param('festivalid', ParseIntPipe) festivalid: number,
