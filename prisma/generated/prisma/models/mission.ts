@@ -29,14 +29,12 @@ export type AggregateMission = {
 export type MissionAvgAggregateOutputType = {
   id: number | null
   volunteer_needed: number | null
-  is_full: number | null
   festival_id: number | null
 }
 
 export type MissionSumAggregateOutputType = {
   id: number | null
   volunteer_needed: number | null
-  is_full: number | null
   festival_id: number | null
 }
 
@@ -45,7 +43,7 @@ export type MissionMinAggregateOutputType = {
   title: string | null
   volunteer_needed: number | null
   description: string | null
-  is_full: number | null
+  is_full: boolean | null
   created_at: Date | null
   updated_at: Date | null
   festival_id: number | null
@@ -56,7 +54,7 @@ export type MissionMaxAggregateOutputType = {
   title: string | null
   volunteer_needed: number | null
   description: string | null
-  is_full: number | null
+  is_full: boolean | null
   created_at: Date | null
   updated_at: Date | null
   festival_id: number | null
@@ -78,14 +76,12 @@ export type MissionCountAggregateOutputType = {
 export type MissionAvgAggregateInputType = {
   id?: true
   volunteer_needed?: true
-  is_full?: true
   festival_id?: true
 }
 
 export type MissionSumAggregateInputType = {
   id?: true
   volunteer_needed?: true
-  is_full?: true
   festival_id?: true
 }
 
@@ -214,7 +210,7 @@ export type MissionGroupByOutputType = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full: boolean
   created_at: Date
   updated_at: Date
   festival_id: number
@@ -225,7 +221,7 @@ export type MissionGroupByOutputType = {
   _max: MissionMaxAggregateOutputType | null
 }
 
-type GetMissionGroupByPayload<T extends missionGroupByArgs> = Prisma.PrismaPromise<
+export type GetMissionGroupByPayload<T extends missionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<MissionGroupByOutputType, T['by']> &
       {
@@ -248,7 +244,7 @@ export type missionWhereInput = {
   title?: Prisma.StringFilter<"mission"> | string
   volunteer_needed?: Prisma.IntFilter<"mission"> | number
   description?: Prisma.StringFilter<"mission"> | string
-  is_full?: Prisma.IntFilter<"mission"> | number
+  is_full?: Prisma.BoolFilter<"mission"> | boolean
   created_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   festival_id?: Prisma.IntFilter<"mission"> | number
@@ -282,7 +278,7 @@ export type missionWhereUniqueInput = Prisma.AtLeast<{
   title?: Prisma.StringFilter<"mission"> | string
   volunteer_needed?: Prisma.IntFilter<"mission"> | number
   description?: Prisma.StringFilter<"mission"> | string
-  is_full?: Prisma.IntFilter<"mission"> | number
+  is_full?: Prisma.BoolFilter<"mission"> | boolean
   created_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   festival_id?: Prisma.IntFilter<"mission"> | number
@@ -316,7 +312,7 @@ export type missionScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"mission"> | string
   volunteer_needed?: Prisma.IntWithAggregatesFilter<"mission"> | number
   description?: Prisma.StringWithAggregatesFilter<"mission"> | string
-  is_full?: Prisma.IntWithAggregatesFilter<"mission"> | number
+  is_full?: Prisma.BoolWithAggregatesFilter<"mission"> | boolean
   created_at?: Prisma.DateTimeWithAggregatesFilter<"mission"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"mission"> | Date | string
   festival_id?: Prisma.IntWithAggregatesFilter<"mission"> | number
@@ -326,7 +322,7 @@ export type missionCreateInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   inscription?: Prisma.inscriptionCreateNestedManyWithoutMissionInput
@@ -340,7 +336,7 @@ export type missionUncheckedCreateInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   festival_id: number
@@ -353,7 +349,7 @@ export type missionUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inscription?: Prisma.inscriptionUpdateManyWithoutMissionNestedInput
@@ -367,7 +363,7 @@ export type missionUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival_id?: Prisma.IntFieldUpdateOperationsInput | number
@@ -381,7 +377,7 @@ export type missionCreateManyInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   festival_id: number
@@ -391,7 +387,7 @@ export type missionUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -401,7 +397,7 @@ export type missionUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival_id?: Prisma.IntFieldUpdateOperationsInput | number
@@ -442,7 +438,6 @@ export type missionCountOrderByAggregateInput = {
 export type missionAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   volunteer_needed?: Prisma.SortOrder
-  is_full?: Prisma.SortOrder
   festival_id?: Prisma.SortOrder
 }
 
@@ -471,7 +466,6 @@ export type missionMinOrderByAggregateInput = {
 export type missionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   volunteer_needed?: Prisma.SortOrder
-  is_full?: Prisma.SortOrder
   festival_id?: Prisma.SortOrder
 }
 
@@ -531,6 +525,10 @@ export type missionUpdateOneRequiredWithoutInscriptionNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.missionUpdateToOneWithWhereWithoutInscriptionInput, Prisma.missionUpdateWithoutInscriptionInput>, Prisma.missionUncheckedUpdateWithoutInscriptionInput>
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type missionCreateNestedOneWithoutMission_has_scheduleInput = {
   create?: Prisma.XOR<Prisma.missionCreateWithoutMission_has_scheduleInput, Prisma.missionUncheckedCreateWithoutMission_has_scheduleInput>
   connectOrCreate?: Prisma.missionCreateOrConnectWithoutMission_has_scheduleInput
@@ -563,7 +561,7 @@ export type missionCreateWithoutFestivalInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   inscription?: Prisma.inscriptionCreateNestedManyWithoutMissionInput
@@ -576,7 +574,7 @@ export type missionUncheckedCreateWithoutFestivalInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   inscription?: Prisma.inscriptionUncheckedCreateNestedManyWithoutMissionInput
@@ -618,7 +616,7 @@ export type missionScalarWhereInput = {
   title?: Prisma.StringFilter<"mission"> | string
   volunteer_needed?: Prisma.IntFilter<"mission"> | number
   description?: Prisma.StringFilter<"mission"> | string
-  is_full?: Prisma.IntFilter<"mission"> | number
+  is_full?: Prisma.BoolFilter<"mission"> | boolean
   created_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   festival_id?: Prisma.IntFilter<"mission"> | number
@@ -628,7 +626,7 @@ export type missionCreateWithoutInscriptionInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   festival: Prisma.festivalCreateNestedOneWithoutMissionInput
@@ -641,7 +639,7 @@ export type missionUncheckedCreateWithoutInscriptionInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   festival_id: number
@@ -669,7 +667,7 @@ export type missionUpdateWithoutInscriptionInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival?: Prisma.festivalUpdateOneRequiredWithoutMissionNestedInput
@@ -682,7 +680,7 @@ export type missionUncheckedUpdateWithoutInscriptionInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival_id?: Prisma.IntFieldUpdateOperationsInput | number
@@ -694,7 +692,7 @@ export type missionCreateWithoutMission_has_scheduleInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   inscription?: Prisma.inscriptionCreateNestedManyWithoutMissionInput
@@ -707,7 +705,7 @@ export type missionUncheckedCreateWithoutMission_has_scheduleInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   festival_id: number
@@ -735,7 +733,7 @@ export type missionUpdateWithoutMission_has_scheduleInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inscription?: Prisma.inscriptionUpdateManyWithoutMissionNestedInput
@@ -748,7 +746,7 @@ export type missionUncheckedUpdateWithoutMission_has_scheduleInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival_id?: Prisma.IntFieldUpdateOperationsInput | number
@@ -760,7 +758,7 @@ export type missionCreateWithoutMission_needs_skillInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   inscription?: Prisma.inscriptionCreateNestedManyWithoutMissionInput
@@ -773,7 +771,7 @@ export type missionUncheckedCreateWithoutMission_needs_skillInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
   festival_id: number
@@ -801,7 +799,7 @@ export type missionUpdateWithoutMission_needs_skillInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inscription?: Prisma.inscriptionUpdateManyWithoutMissionNestedInput
@@ -814,7 +812,7 @@ export type missionUncheckedUpdateWithoutMission_needs_skillInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival_id?: Prisma.IntFieldUpdateOperationsInput | number
@@ -827,7 +825,7 @@ export type missionCreateManyFestivalInput = {
   title: string
   volunteer_needed: number
   description: string
-  is_full: number
+  is_full?: boolean
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -836,7 +834,7 @@ export type missionUpdateWithoutFestivalInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inscription?: Prisma.inscriptionUpdateManyWithoutMissionNestedInput
@@ -849,7 +847,7 @@ export type missionUncheckedUpdateWithoutFestivalInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inscription?: Prisma.inscriptionUncheckedUpdateManyWithoutMissionNestedInput
@@ -862,7 +860,7 @@ export type missionUncheckedUpdateManyWithoutFestivalInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.IntFieldUpdateOperationsInput | number
+  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -967,7 +965,7 @@ export type $missionPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     title: string
     volunteer_needed: number
     description: string
-    is_full: number
+    is_full: boolean
     created_at: Date
     updated_at: Date
     festival_id: number
@@ -1348,7 +1346,7 @@ export interface missionFieldRefs {
   readonly title: Prisma.FieldRef<"mission", 'String'>
   readonly volunteer_needed: Prisma.FieldRef<"mission", 'Int'>
   readonly description: Prisma.FieldRef<"mission", 'String'>
-  readonly is_full: Prisma.FieldRef<"mission", 'Int'>
+  readonly is_full: Prisma.FieldRef<"mission", 'Boolean'>
   readonly created_at: Prisma.FieldRef<"mission", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"mission", 'DateTime'>
   readonly festival_id: Prisma.FieldRef<"mission", 'Int'>

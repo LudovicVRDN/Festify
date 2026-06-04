@@ -192,7 +192,7 @@ export type ScheduleGroupByOutputType = {
   _max: ScheduleMaxAggregateOutputType | null
 }
 
-type GetScheduleGroupByPayload<T extends scheduleGroupByArgs> = Prisma.PrismaPromise<
+export type GetScheduleGroupByPayload<T extends scheduleGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ScheduleGroupByOutputType, T['by']> &
       {

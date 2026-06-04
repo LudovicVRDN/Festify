@@ -38,6 +38,7 @@ export class FestivalService {
 
   }
 
+
   async createLinkUserAndFestival(
     festivalID: number,
     userID: number
@@ -52,6 +53,16 @@ export class FestivalService {
         }
       }
     })
+  }
+
+  async checkFestivalOwnership(festivalId: number, userId: number): Promise<boolean> {
+    const link = await this.prisma.user_has_festival.findUnique({
+      where: { user_id_festival_id: {
+        festival_id: festivalId,
+        user_id: userId
+      }}
+    })
+    return !!link
   }
 
   async checkDisponibility(
@@ -77,7 +88,7 @@ export class FestivalService {
   }
 
   async countFestivalOrThrow(festival: CreateFestivalDto | UpdateFestivalDto,festivalId: number): Promise<number | null> {
-    
+
     if (!festival.name || !festival.adress) {
       return null;
     }
@@ -126,6 +137,12 @@ export class FestivalService {
     })
     return updatedFestival
 
+  }
+
+  async countFestivalById(id: number): Promise<number> {
+    return await this.prisma.festival.count({
+      where: { id }
+    })
   }
 
 

@@ -189,7 +189,7 @@ export type Festival_has_stageGroupByOutputType = {
   _max: Festival_has_stageMaxAggregateOutputType | null
 }
 
-type GetFestival_has_stageGroupByPayload<T extends festival_has_stageGroupByArgs> = Prisma.PrismaPromise<
+export type GetFestival_has_stageGroupByPayload<T extends festival_has_stageGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Festival_has_stageGroupByOutputType, T['by']> &
       {

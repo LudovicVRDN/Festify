@@ -196,7 +196,7 @@ export type ArtistGroupByOutputType = {
   _max: ArtistMaxAggregateOutputType | null
 }
 
-type GetArtistGroupByPayload<T extends artistGroupByArgs> = Prisma.PrismaPromise<
+export type GetArtistGroupByPayload<T extends artistGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ArtistGroupByOutputType, T['by']> &
       {

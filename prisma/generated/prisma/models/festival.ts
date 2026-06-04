@@ -210,7 +210,7 @@ export type FestivalGroupByOutputType = {
   _max: FestivalMaxAggregateOutputType | null
 }
 
-type GetFestivalGroupByPayload<T extends festivalGroupByArgs> = Prisma.PrismaPromise<
+export type GetFestivalGroupByPayload<T extends festivalGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<FestivalGroupByOutputType, T['by']> &
       {
@@ -261,7 +261,6 @@ export type festivalOrderByWithRelationInput = {
 
 export type festivalWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  id_adress_id?: Prisma.festivalIdAdress_idCompoundUniqueInput
   AND?: Prisma.festivalWhereInput | Prisma.festivalWhereInput[]
   OR?: Prisma.festivalWhereInput[]
   NOT?: Prisma.festivalWhereInput | Prisma.festivalWhereInput[]
@@ -276,7 +275,7 @@ export type festivalWhereUniqueInput = Prisma.AtLeast<{
   festival_has_stage?: Prisma.Festival_has_stageListRelationFilter
   mission?: Prisma.MissionListRelationFilter
   user_has_festival?: Prisma.User_has_festivalListRelationFilter
-}, "id_adress_id" | "id">
+}, "id">
 
 export type festivalOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -307,7 +306,6 @@ export type festivalScalarWhereWithAggregatesInput = {
 }
 
 export type festivalCreateInput = {
-  id?: number
   start_date: Date | string
   end_date: Date | string
   name: string
@@ -403,11 +401,6 @@ export type festivalOrderByRelevanceInput = {
   fields: Prisma.festivalOrderByRelevanceFieldEnum | Prisma.festivalOrderByRelevanceFieldEnum[]
   sort: Prisma.SortOrder
   search: string
-}
-
-export type festivalIdAdress_idCompoundUniqueInput = {
-  id: number
-  adress_id: number
 }
 
 export type festivalCountOrderByAggregateInput = {
@@ -554,7 +547,6 @@ export type festivalUpdateOneRequiredWithoutUser_has_festivalNestedInput = {
 }
 
 export type festivalCreateWithoutAdressInput = {
-  id?: number
   start_date: Date | string
   end_date: Date | string
   name: string
@@ -619,7 +611,6 @@ export type festivalScalarWhereInput = {
 }
 
 export type festivalCreateWithoutFestival_has_artistInput = {
-  id?: number
   start_date: Date | string
   end_date: Date | string
   name: string
@@ -686,7 +677,6 @@ export type festivalUncheckedUpdateWithoutFestival_has_artistInput = {
 }
 
 export type festivalCreateWithoutFestival_has_stageInput = {
-  id?: number
   start_date: Date | string
   end_date: Date | string
   name: string
@@ -753,7 +743,6 @@ export type festivalUncheckedUpdateWithoutFestival_has_stageInput = {
 }
 
 export type festivalCreateWithoutMissionInput = {
-  id?: number
   start_date: Date | string
   end_date: Date | string
   name: string
@@ -820,7 +809,6 @@ export type festivalUncheckedUpdateWithoutMissionInput = {
 }
 
 export type festivalCreateWithoutUser_has_festivalInput = {
-  id?: number
   start_date: Date | string
   end_date: Date | string
   name: string

@@ -189,7 +189,7 @@ export type InscriptionGroupByOutputType = {
   _max: InscriptionMaxAggregateOutputType | null
 }
 
-type GetInscriptionGroupByPayload<T extends inscriptionGroupByArgs> = Prisma.PrismaPromise<
+export type GetInscriptionGroupByPayload<T extends inscriptionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<InscriptionGroupByOutputType, T['by']> &
       {

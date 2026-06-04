@@ -189,7 +189,7 @@ export type Mission_has_scheduleGroupByOutputType = {
   _max: Mission_has_scheduleMaxAggregateOutputType | null
 }
 
-type GetMission_has_scheduleGroupByPayload<T extends mission_has_scheduleGroupByArgs> = Prisma.PrismaPromise<
+export type GetMission_has_scheduleGroupByPayload<T extends mission_has_scheduleGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Mission_has_scheduleGroupByOutputType, T['by']> &
       {

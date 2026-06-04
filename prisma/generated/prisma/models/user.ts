@@ -206,7 +206,7 @@ export type UserGroupByOutputType = {
   _max: UserMaxAggregateOutputType | null
 }
 
-type GetUserGroupByPayload<T extends userGroupByArgs> = Prisma.PrismaPromise<
+export type GetUserGroupByPayload<T extends userGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<UserGroupByOutputType, T['by']> &
       {
@@ -491,10 +491,6 @@ export type userUpdateOneRequiredWithoutSkills_has_userNestedInput = {
   upsert?: Prisma.userUpsertWithoutSkills_has_userInput
   connect?: Prisma.userWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.userUpdateToOneWithWhereWithoutSkills_has_userInput, Prisma.userUpdateWithoutSkills_has_userInput>, Prisma.userUncheckedUpdateWithoutSkills_has_userInput>
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
 }
 
 export type EnumroleFieldUpdateOperationsInput = {

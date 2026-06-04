@@ -189,7 +189,7 @@ export type Mission_needs_skillGroupByOutputType = {
   _max: Mission_needs_skillMaxAggregateOutputType | null
 }
 
-type GetMission_needs_skillGroupByPayload<T extends mission_needs_skillGroupByArgs> = Prisma.PrismaPromise<
+export type GetMission_needs_skillGroupByPayload<T extends mission_needs_skillGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Mission_needs_skillGroupByOutputType, T['by']> &
       {

@@ -200,7 +200,7 @@ export type Festival_has_artistGroupByOutputType = {
   _max: Festival_has_artistMaxAggregateOutputType | null
 }
 
-type GetFestival_has_artistGroupByPayload<T extends festival_has_artistGroupByArgs> = Prisma.PrismaPromise<
+export type GetFestival_has_artistGroupByPayload<T extends festival_has_artistGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Festival_has_artistGroupByOutputType, T['by']> &
       {

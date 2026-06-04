@@ -1,19 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { UpdateMissionDto } from './dto/update-mission.dto';
+import { FestivalService } from 'src/festival/festival.service';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class MissionsService {
-  create(createMissionDto: CreateMissionDto) {
-    return 'This action adds a new mission';
+  constructor(
+    private prisma: PrismaService
+  ){}
+
+  create(createMissionDto: CreateMissionDto,festivalId:number) {
+   return this.prisma.mission.create({
+    data:{
+      ...createMissionDto,
+      festival:{
+        connect:{id: festivalId}
+      } 
+    }
+   })
   }
 
-  findAll() {
-    return `This action returns all missions`;
+  async findAllMissionsByFestivalID(festivalId: number) {
+      return this.prisma.mission.findMany({
+        where: {
+          festival_id: festivalId
+        }
+      })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} mission`;
+  async findOneById(id: number) {
+    return this.prisma.mission.findUnique({
+      where: {
+        id: id
+      }
+    })
   }
 
   update(id: number, updateMissionDto: UpdateMissionDto) {

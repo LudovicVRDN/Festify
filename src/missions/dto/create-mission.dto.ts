@@ -8,8 +8,4 @@ export class CreateMissionDto {
     volunteer_needed!: number
     @IsString()
     description!: string
-    @IsBoolean()
-    is_full!: boolean
-    @IsNumber()
-    festival_id!: number
 }

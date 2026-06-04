@@ -199,7 +199,7 @@ export type AdressGroupByOutputType = {
   _max: AdressMaxAggregateOutputType | null
 }
 
-type GetAdressGroupByPayload<T extends adressGroupByArgs> = Prisma.PrismaPromise<
+export type GetAdressGroupByPayload<T extends adressGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<AdressGroupByOutputType, T['by']> &
       {
@@ -242,6 +242,7 @@ export type adressOrderByWithRelationInput = {
 
 export type adressWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  street_city_postalCode?: Prisma.adressStreetCityPostalCodeCompoundUniqueInput
   AND?: Prisma.adressWhereInput | Prisma.adressWhereInput[]
   OR?: Prisma.adressWhereInput[]
   NOT?: Prisma.adressWhereInput | Prisma.adressWhereInput[]
@@ -252,7 +253,7 @@ export type adressWhereUniqueInput = Prisma.AtLeast<{
   updated_at?: Prisma.DateTimeFilter<"adress"> | Date | string
   festival?: Prisma.FestivalListRelationFilter
   profile?: Prisma.ProfileListRelationFilter
-}, "id" | "id">
+}, "id" | "id" | "street_city_postalCode">
 
 export type adressOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -352,6 +353,12 @@ export type adressOrderByRelevanceInput = {
   fields: Prisma.adressOrderByRelevanceFieldEnum | Prisma.adressOrderByRelevanceFieldEnum[]
   sort: Prisma.SortOrder
   search: string
+}
+
+export type adressStreetCityPostalCodeCompoundUniqueInput = {
+  street: string
+  city: string
+  postalCode: string
 }
 
 export type adressCountOrderByAggregateInput = {
