@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { IAdresse, IProfile } from "../../types/Profile.type";
 import TornEdge from "../../components/TornEdge";
 import type { IUser } from "../../types/user.type";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import Button from "../../components/ui/button";
 import { Fade } from "react-awesome-reveal";
 import profilePic from "../../assets/profile.jpg";
@@ -146,10 +146,7 @@ const Profile = ({ id }: IProfileProps) => {
             </div>
             {}
             <div className=" flex flex-col gap-5 w-55">
-              <Link to={`/profile/${id}/update`}>
-                <Button textButton="Modifie ton profil" variant="grey" />
-              </Link>
-
+                <Button textButton="Modifie ton profil" variant="grey" onClick={() => navigate(`/profile/${id}/update`)} />
               <Button
                 textButton="Modifie ton mot de passe"
                 variant="grey"

@@ -1,6 +1,6 @@
 import Caroussel from "../components/Caroussel";
 import { Fade } from "react-awesome-reveal";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import Button from "../components/ui/button";
 import TornEdge from "../components/TornEdge";
 import {
@@ -47,6 +47,7 @@ export interface AuthResponse {
 const HomePage = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
   const [isEmailSend, setEmailSend] = useState(false);
+ 
   const handleResetPassword = async (resetData: { email: string }) => {
     try {
       console.log(resetData);
@@ -123,7 +124,7 @@ const HomePage = () => {
 
       <div className="relative w-full -translate-y-10 ">
         <TornEdge position="top" />
-        <div className="  bg-black lg:h-130 h-190 lg:px-16 flex flex-col justify-center items-center lg:items-baseline pt-20 lg:flex-row-reverse gap-5 lg:justify-evenly">
+        <div className="  bg-black lg:h-130 h-190  flex flex-col justify-center items-center lg:items-baseline pt-20 lg:flex-row-reverse gap-5 lg:gap-25 lg:justify-evenly">
           <Fade direction="down" delay={500}>
             <div className="flex flex-col">
               <h1 className="text-5xl text-festify-red font-metal">
@@ -180,9 +181,9 @@ const HomePage = () => {
                 {/* Bouton principal */}
                 <Button textButton="SE CONNECTER" variant="red" />
                 {/* Bouton secondaire */}
-                <Link to="/register">
-                  <Button textButton="S'inscrire" variant="grey" />
-                </Link>
+              
+                  <Button textButton="S'inscrire" variant="grey" onClick={() => navigate('/register')} />
+               
               </form>
             </div>
           </Fade>

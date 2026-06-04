@@ -7,18 +7,18 @@ import api from "../api/axios.instance";
 
 interface INavProps {
   id: number | undefined;
-  role :string | undefined
+  role: string | undefined
 }
-const PrivateNavbar = ({ id ,role }: INavProps) => {
+const PrivateNavbar = ({ id, role }: INavProps) => {
 
   const navigate = useNavigate()
   const logOut = async () => {
-    try{
+    try {
       console.log('déconnexion');
-      await api.post( "http://localhost:3000/auth/logout");
+      await api.post("http://localhost:3000/auth/logout");
       useAuthStore.getState().logout()
       navigate('/')
-    } catch(error){
+    } catch (error) {
       console.error("Erreur lors de la déconnexion:", error)
     }
 
@@ -44,25 +44,41 @@ const PrivateNavbar = ({ id ,role }: INavProps) => {
               />{" "}
             </svg>
           </div>
+          {role === "organisateur" && (
           <ul
             tabIndex={-1}
             className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-1 mt-3 w-50 p-2 shadow "
           >
             <li>
-              <a className="text-lg">Festivals</a>
-            </li>
-            <li>
-              <a className="text-lg">Festify</a>
-            </li>
-            {role === "benevole" &&(
-            <li>
-              <Link to={`/skills/${id}`}>
-              <a  className="text-lg">Tes compétences</a>
+              <Link to={`/organisateur/festivals`} className=" text-xl">
+              Mes Festivals
               </Link>
             </li>
+            <li>
+              <Link to={`/organisateur/missions`} className=" text-xl">
+                Mes Missions
+              </Link>
+            </li>
+            </ul>
+          )}
+            {role === "benevole" && (
+              <ul
+                tabIndex={-1}
+                className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-1 mt-3 w-50 p-2 shadow "
+              >
+                <li>
+                  <Link to={`/skills/${id}`}  className=" text-xl">
+                   Tes compétences
+                  </Link>
+                </li>
+                <li>
+                  <Link to={`/benevole/missions`} className=" text-xl">
+                    Mes missions
+                  </Link>
+                </li>
+              </ul>
             )}
-        
-          </ul>
+
         </div>
       </div>
       <div className="navbar-center">
@@ -95,7 +111,7 @@ const PrivateNavbar = ({ id ,role }: INavProps) => {
             />
           </svg>
         </Link>
-     
+
         <button className="btn btn-ghost btn-circle" onClick={() => logOut()}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

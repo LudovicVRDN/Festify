@@ -144,9 +144,9 @@ const OrganizerHomePage = () => {
         <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
           Prêt à créer le festival qui va marquer l'histoire ?
         </h1>
-        <Link to="festival/create">
-          <Button textButton="Organise un nouveau Festival" variant="red" />
-        </Link>
+     
+          <Button textButton="Organise un nouveau Festival" variant="red" onClick={() => navigate('/organisateur/festival/create')} />
+     
         <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-90 md:w-150 lg:w-225 xl:w-300 h-80 rounded-2xl">
           {data?.map((festival) => (
             <div
@@ -175,9 +175,9 @@ const OrganizerHomePage = () => {
         <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
           Organise tes missions :
         </h1>
-        <Link to="missions/create">
-          <Button textButton="Planifie tes nouvelles missions" variant="red" />
-        </Link>
+        
+          <Button textButton="Planifie tes nouvelles missions" variant="red" onClick={() => navigate('/missions/create')}/>
+       
         <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 h-80 w-90 md:w-150  lg:w-225 xl:w-300 rounded-2xl">
           {missionList.map((mission) => (
             <div
