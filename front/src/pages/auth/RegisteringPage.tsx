@@ -152,7 +152,7 @@ const RegisteringPage = () => {
                   .reduce((obj: any, key: string) => obj?.[key], errors);
 
                 return (
-                  <div key={field.name} className="flex flex-col ">
+                  <div key={field.name} className="flex flex-col mb-5">
                     <label className="text-zinc-300 text-xs tracking-widest uppercase mb-2">
                       {field.label}
                     </label>

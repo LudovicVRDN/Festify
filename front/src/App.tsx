@@ -9,7 +9,7 @@ import OrganizerHomePage from "./pages/organizer/OrganizerHomePage";
 import VolunteerHomePage from "./pages/volunteer/VolunteerHomePage";
 import ProfileEditPage from "./pages/profile/ProfileEditPage";
 import { useAuthStore } from "./stores/auth.store";
-import { useEffect,  useState } from "react";
+import { useEffect, useState } from "react";
 import api from "./api/axios.instance";
 import PublicLayout from "./guards/layout/PublicLayout";
 import SkillsPage from "./pages/skills/SkillsPage";
@@ -21,7 +21,7 @@ import FestivalListPage from "./pages/festival/FestivalListPage";
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
- const [isRestoring, setIsRestoring] = useState(true);
+  const [isRestoring, setIsRestoring] = useState(true);
 
   useEffect(() => {
     const restoreSession = async () => {
@@ -29,7 +29,7 @@ function App() {
         const { data } = await api.get("/auth/refresh_token");
         useAuthStore.getState().setAccessToken(data.access_token);
       } catch {
-          useAuthStore.getState().clearSession();
+        useAuthStore.getState().clearSession();
       } finally {
         setIsRestoring(false);
       }
@@ -38,11 +38,10 @@ function App() {
     restoreSession();
   }, []);
 
-  if (isRestoring) return null; 
+  if (isRestoring) return null;
 
   return (
     <>
-
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<HomePage />} />
@@ -64,24 +63,37 @@ function App() {
 
         <Route element={<PrivateRoute allowedRoles="organisateur" />}>
           <Route path="/organisateur" element={<OrganizerHomePage />}></Route>
-          <Route path="/organisateur/festival/create" element={<FestivalCreatePage />}></Route>
-          <Route path="/organisateur/festivals" element={<FestivalListPage />}></Route>
-          <Route path="/festival/:festivalId/details" element={<FestivalDetailPage />}></Route>
+          <Route
+            path="/organisateur/festival/create"
+            element={<FestivalCreatePage />}
+          ></Route>
+          <Route
+            path="/organisateur/festivals"
+            element={<FestivalListPage />}
+          ></Route>
+          <Route
+            path="/festival/:festivalId/details"
+            element={<FestivalDetailPage />}
+          ></Route>
         </Route>
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>
           <Route path="/benevole" element={<VolunteerHomePage />}></Route>
-          <Route path={`/skills/${id}`} element={<SkillsPage id={id} />}></Route>
-          
-          <Route path="/skills/:skillId/details" element={<SkillDetailPage id={id} />}></Route>
-          
+          <Route
+            path={`/skills/${id}`}
+            element={<SkillsPage id={id} />}
+          ></Route>
+
+          <Route
+            path="/skills/:skillId/details"
+            element={<SkillDetailPage  />}
+          ></Route>
         </Route>
 
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
         {/* <Route path="*" element={<NotFoundPage />} /> */}
       </Routes>
       <ReactQueryDevtools />
-      
     </>
   );
 }

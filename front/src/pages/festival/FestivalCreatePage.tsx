@@ -69,13 +69,13 @@ const FestivalCreatePage = () => {
     try {
       await api.post(`http://localhost:3000/festival`, data);
       reset();
-      navigate('/')
+      navigate("/");
     } catch (error) {
       console.error("Erreur :", error);
     }
   };
   return (
-    <div>
+    <div className="bg-metal-dark bg-metal-grid min-h-screen">
       <TornEdge position="top" />
       <article className="flex flex-col items-center gap-5 p-2 bg-black">
         <Fade direction="down" delay={500}>

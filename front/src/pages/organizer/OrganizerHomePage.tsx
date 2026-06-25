@@ -1,14 +1,14 @@
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import TornEdge from "../../components/TornEdge";
 import Button from "../../components/ui/button";
-import Slider from "../../components/Slider";
 import api from "../../api/axios.instance";
 import { useAuthStore } from "../../stores/auth.store";
 import type { IFestival } from "../../types/festival.type";
 import { useQuery } from "@tanstack/react-query";
 import Modal from "../../components/ui/modal";
-
-
+import FestivalListCard from "../../components/FestivalListCard";
+import MissionListCard from "../../components/MissionListCard";
+import { useEffect, useState } from "react";
 
 interface IMission {
   title: string;
@@ -20,21 +20,54 @@ interface IMission {
 
 const OrganizerHomePage = () => {
   const id = useAuthStore((state) => state.user?.id);
+  const [status, setStatus] = useState<string | null>(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { data, isPending, error } = useQuery<IFestival[]>({
-    queryKey: ['festival', id],
+    queryKey: ["festival", id],
     queryFn: async () => {
       const res = await api.get(`/user/${id}/festival`);
       return res.data;
     },
     enabled: !!id,
+  });
 
-  })
+  function toDay(date: Date | string): Date {
+    const d = new Date(date);
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  }
 
-  if (isPending) return <span>Loading...</span>
-  if (error) return <Modal buttonText="Un soucis" message="Aie c'est cassé" onClick={() => navigate('/')} />
+  function getStatus(
+    startString: string,
+    endString: string | undefined,
+  ): string {
+    const now = toDay(new Date());
+    const start = toDay(startString);
+    const end = toDay(endString!);
+
+    if (now < start) return "future";
+    else if (now > end) return "past";
+    else return "ongoing";
+  }
+
+  useEffect(() => {
+    if (data) {
+      const statuses = data.reduce<Record<string, string>>((acc, festival) => {
+        acc[festival.id!] = getStatus(festival.start_date, festival.end_date);
+        return acc;
+      }, {});
+    }
+  }, []);
+  if (isPending) return <span>Loading...</span>;
+  if (error)
+    return (
+      <Modal
+        buttonText="Un soucis"
+        message="Aie c'est cassé"
+        onClick={() => navigate("/")}
+      />
+    );
 
   const missionList: IMission[] = [
     {
@@ -47,10 +80,10 @@ const OrganizerHomePage = () => {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
         adress: {
-          city: 'clisson',
-          postalCode: '25252',
-          street: 'Rue machin'
-        }
+          city: "clisson",
+          postalCode: "25252",
+          street: "Rue machin",
+        },
       },
     },
     {
@@ -63,10 +96,10 @@ const OrganizerHomePage = () => {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
         adress: {
-          city: 'clisson',
-          postalCode: '25252',
-          street: 'Rue machin'
-        }
+          city: "clisson",
+          postalCode: "25252",
+          street: "Rue machin",
+        },
       },
     },
     {
@@ -78,10 +111,10 @@ const OrganizerHomePage = () => {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
         adress: {
-          city: 'clisson',
-          postalCode: '25252',
-          street: 'Rue machin'
-        }
+          city: "clisson",
+          postalCode: "25252",
+          street: "Rue machin",
+        },
       },
     },
     {
@@ -94,10 +127,10 @@ const OrganizerHomePage = () => {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
         adress: {
-          city: 'clisson',
-          postalCode: '25252',
-          street: 'Rue machin'
-        }
+          city: "clisson",
+          postalCode: "25252",
+          street: "Rue machin",
+        },
       },
     },
     {
@@ -109,10 +142,10 @@ const OrganizerHomePage = () => {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
         adress: {
-          city: 'clisson',
-          postalCode: '25252',
-          street: 'Rue machin'
-        }
+          city: "clisson",
+          postalCode: "25252",
+          street: "Rue machin",
+        },
       },
     },
     {
@@ -125,89 +158,74 @@ const OrganizerHomePage = () => {
         name: "Hellfest Open Air",
         start_date: "2026-06-18",
         adress: {
-          city: 'clisson',
-          postalCode: '25252',
-          street: 'Rue machin'
-        }
+          city: "clisson",
+          postalCode: "25252",
+          street: "Rue machin",
+        },
       },
     },
   ];
 
   return (
-    <div className="lg:mt-10">
-      <h1 className="font-metal text-xl text-festify-red lg:text-4xl  text-center ">
-        Et si c'était ton festival ?{" "}
-      </h1>
-      <Slider />
-      <TornEdge position="top" />
-      <section className="bg-black flex  flex-col items-center gap-5   px-5 ">
-        <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
-          Prêt à créer le festival qui va marquer l'histoire ?
+    <div className="bg-metal-dark bg-metal-grid min-h-screen">
+      <div className="md:w-150 lg:w-200  m-auto py-15">
+        <p className="text-center line-title text-xl text-red-hot font-metal pb-2">
+          Festival Manager
+        </p>
+        <h1 className="font-metal text-4xl lg:text-6xl text-center mb-5">
+          Prêt à créer le festival qui va{" "}
+          <span className="text-red-hot">marquer l'histoire </span> ?
         </h1>
-     
-          <Button textButton="Organise un nouveau Festival" variant="red" onClick={() => navigate('/organisateur/festival/create')} />
-     
-        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 w-90 md:w-150 lg:w-225 xl:w-300 h-80 rounded-2xl">
-          {data?.map((festival) => (
-            <div
-              key={festival.id}
-              className="w-full lg:h-30 flex justify-between items-center bg-transparent border-b border-zinc-700  py-2 text-white "
-            >
-              <h2 className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase max-w-20 md:max-w-30 wrap-break-word">
-                {festival.name}
-              </h2>
-              <div className="max-w-30 lg:max-w-60 hidden md:block">
-                <p className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase">
-                  Ton festival aura lieu <br />
-                  le : {festival.start_date?.split("T")[0]}, <br />a : {festival.adress.city}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <Link to={`/festival/${festival.id}/details`}>
-                  {" "}
-                  <Button textButton="Plus d'infos" variant="grey" />{" "}
-                </Link>
-                <Button textButton="Supprimer" variant="red" />
-              </div>
-            </div>
-          ))}
-        </article>
-        <h1 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
-          Organise tes missions :
-        </h1>
-        
-          <Button textButton="Planifie tes nouvelles missions" variant="red" onClick={() => navigate('/missions/create')}/>
-       
-        <article className="border border-neutral-800 overflow-auto scrollbar-hide px-4 pb-2 h-80 w-90 md:w-150  lg:w-225 xl:w-300 rounded-2xl">
-          {missionList.map((mission) => (
-            <div
-              key={mission.title}
-              className="w-full lg:h-30 flex justify-between items-center bg-transparent border-b border-zinc-700  py-2 text-white "
-            >
-              <h2 className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase max-w-15 lg:max-w-30 wrap-break-word   ">
-                {mission.title}
-              </h2>
-              <div className="max-w-30 lg:max-w-60 ">
-                <p className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase hidden lg:block">
-                  Cette mission a lieu <br />
-                  le : {mission.festival.start_date},
-                </p>
-                <p className="text-zinc-300 text-xs lg:text-base tracking-widest uppercase w-25 wrap-break-word lg:w-60">
-                  {mission.festival.name}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1 ">
-                <Link to={"/missions/:id"}>
-                  {" "}
-                  <Button textButton="Plus d'infos" variant="grey" />{" "}
-                </Link>
-                <Button textButton="Supprimer" variant="red" />
-              </div>
-            </div>
-          ))}
-        </article>
-      </section>
-      <TornEdge position="bottom" />
+        <p className="text-neutral-500 text-center text-lg font-metal">
+          Gère tes évenements Rock & Metal
+        </p>
+      </div>
+      <div className="">
+        <TornEdge position="top" />
+        <section className="bg-[#000000] flex  flex-col items-center gap-5   px-5 ">
+          <Button
+            textButton="Organise un nouveau Festival"
+            variant="red"
+            onClick={() => navigate("/organisateur/festival/create")}
+          />
+          <h2 className="line-title text-lg w-100 lg:w-150 text-red-hot">
+            Mes Festivals
+          </h2>
+
+          <article className="overflow-auto scrollbar-hide px-4 pt-3 pb-2 w-90 md:w-180 lg:w-225 xl:min-w-330 max-h-80 rounded-2xl">
+            {data?.map((festival) => (
+              <FestivalListCard
+                name={festival.name}
+                city={festival.adress.city}
+                date={festival.start_date}
+                status={getStatus(festival.start_date, festival.end_date)}
+              />
+            ))}
+          </article>
+          <h2 className="font-metal text-xl lg:text-4xl text-festify-red text-center mb-5">
+            Organise tes missions :
+          </h2>
+
+          <Button
+            textButton="Planifie tes nouvelles missions"
+            variant="red"
+            onClick={() => navigate("/missions/create")}
+          />
+
+          <article className=" overflow-auto scrollbar-hide px-4 pb-2 h-80 w-90 md:w-150  lg:w-225 xl:min-w-330 rounded-2xl">
+            {missionList.map((mission) => (
+              <MissionListCard
+                city={mission.festival.adress.city}
+                date={mission.festival.start_date}
+                mission={mission.description}
+                festival={mission.festival.name}
+                status="En Cours"
+              />
+            ))}
+          </article>
+        </section>
+        <TornEdge position="bottom" />
+      </div>
     </div>
   );
 };

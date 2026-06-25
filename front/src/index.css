@@ -1,20 +1,115 @@
-@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @plugin "daisyui";
 
-
 @theme {
   --font-metal: "Metal Mania", system-ui;
-  --color-festify-red: oklch(50% 0.18 25);
-  --color-festify-glassred: oklch(50% 0.18 25 / 0.35);
+  --color-festify-red: #ef4444;
+  --color-festify-glassred: #b91c1c;
   --color-black-glass: oklch(10% 0 0 / 0.5);
   --font-sans: "Noto Serif", sans-serif;
 }
-html{
-    background-color: #171717;
-    margin: 0;
-    padding: 0;
+
+@theme {
+  --color-metal-dark: #080808;
+  --color-metal-card: #111111;
+  --color-red-blood: #b91c1c;
+  --color-red-hot: #ef4444;
+}
+/* globals.css — juste après @theme */
+
+@layer utilities {
+  .bg-metal-grid {
+    background-color: #0a0000;
+    background-image:
+      radial-gradient(
+        ellipse 800px 400px at 50% 0%,
+        rgba(185, 28, 28, 0.7) 0%,
+        rgba(120, 10, 10, 0.3) 40%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 500px 80% at -100px 50%,
+        rgba(150, 15, 15, 0.4) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 500px 80% at calc(100% + 100px) 50%,
+        rgba(150, 15, 15, 0.4) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        ellipse 600px 300px at 50% 100%,
+        rgba(120, 10, 10, 0.3) 0%,
+        transparent 60%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 39px,
+        rgba(255, 255, 255, 0.03) 39px,
+        rgba(255, 255, 255, 0.03) 40px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 39px,
+        rgba(255, 255, 255, 0.03) 39px,
+        rgba(255, 255, 255, 0.03) 40px
+      );
+  }
+
+  .clipped-card {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 12px) 0,
+      100% 12px,
+      100% 100%,
+      12px 100%,
+      0 calc(100% - 12px)
+    );
+  }
+  .line-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .line-title::before,
+  .line-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ff4444;
+  }
+
+  .clipped-btn {
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  }
+
+  /* Petite icône tronquée */
+  .clipped-icon {
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+}
+html {
+  background-color: #171717;
+  margin: 0;
+  padding: 0;
+}
+
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+html {
+  background-color: #171717;
+  margin: 0;
+  padding: 0;
 }
 
 @utility scrollbar-hide {

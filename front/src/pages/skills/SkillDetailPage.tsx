@@ -8,12 +8,14 @@ import { Link, useNavigate, useParams } from "react-router";
 import Button from "../../components/ui/button";
 import type { ISkillsInput } from "../../types/inputsForm.interface";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import SkillsListCard from "../../components/SkillsListCard";
+import MissionIcon from "../../components/MissionIcon";
 
 interface skillDetailsProps {
   id: number | undefined;
 }
 
-const SkillDetailPage = ({ id }: skillDetailsProps) => {
+const SkillDetailPage = () => {
   const [skill, setSkill] = useState<ISkill>();
   const [isForm, setIsForm] = useState(false);
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ const SkillDetailPage = ({ id }: skillDetailsProps) => {
     {
       name: "description",
       label: "Description",
-      placeholder:  `${skill?.description}`,
+      placeholder: `${skill?.description}`,
       type: "text",
       value: `${skill?.description}`,
       rules: { required: "Description requise" },
@@ -47,15 +49,15 @@ const SkillDetailPage = ({ id }: skillDetailsProps) => {
   });
 
   const handleForm: SubmitHandler<ISkill> = async (data: ISkill) => {
-   try {
+    try {
       const skillDB = await api.patch<ISkill>(
         `http://localhost:3000/skills/${params.skillId}/update`,
-        data
+        data,
       );
       console.log(skillDB);
       setSkill(skillDB.data);
-      setIsForm(false)
-     reset()
+      setIsForm(false);
+      reset();
     } catch (error) {
       console.error("Erreur lors de la récupération:", error);
     }
@@ -76,7 +78,7 @@ const SkillDetailPage = ({ id }: skillDetailsProps) => {
     try {
       console.log("Data supprimée");
       await api.delete(`http://localhost:3000/skills/${params.skillId}/delete`);
-      navigate(`/skills/${id}`);
+      navigate(`/skills/${params.skillId}`);
     } catch (error) {
       console.error("Erreur lors de la récupération:", error);
     }
@@ -86,56 +88,67 @@ const SkillDetailPage = ({ id }: skillDetailsProps) => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-metal-dark bg-metal-grid min-h-screen">
+      <div className="md:w-150 lg:w-200  m-auto py-15">
+        <p className="text-center line-title text-xl text-red-hot font-metal pb-2">
+          Festival Volunteer
+        </p>
+        <h1 className="font-metal text-4xl lg:text-6xl text-center mb-5">
+          Mets à jour ta compétence !
+        </h1>
+      </div>
       <TornEdge position="top" />
       <section className="bg-black flex flex-col lg:flex-row items-center gap-5 justify-center">
         {!isForm && (
           <section className="bg-black flex flex-col items-center gap-5">
             <h1 className="font-metal text-4xl text-festify-red lg:text-4xl text-center ">{`Ta compétence`}</h1>
             <Fade direction="down" delay={500}>
-              <div className=" px-4 pb-2 flex flex-col lg:flex-row justify-center items-center  p-3">
-                <div className="flex flex-col items-center w-60 lg:w-85 ">
-                
-                  <p className="bg-transparent border-b border-zinc-700 outline-none pt-2 pb-2 lg:pb-4 text-white ">
-                    <span className="text-festify-red text-base lg:text-lg  tracking-widest uppercase">
-                      Compétencé :
-                    </span>{" "}
-                    {` ${skill?.name}`}
-                  </p>
-                  <p className="bg-transparent border-b border-zinc-700 outline-none pt-2 pb-2 lg:pb-4 text-white ">
-                    <span className="text-festify-red text-base lg:text-lg tracking-widest uppercase">
-                      Description :
-                    </span>
-                    {` ${skill?.description}`}
-                  </p>
+              <div
+                className={`clipped-card w-90 lg:w-200 relative flex flex-col md:flex-row items-center gap-4
+                p-4 mb-2 transition-colors border-red-700
+                bg-[#111] hover:bg-[#161616]
+                border-l-2 `}
+              >
+                <div className="flex gap-5">
+                  <div className="clipped-icon w-10 h-10 flex items-center justify-center bg-[#1e0808] border border-[#2f1010] shrink-0">
+                    <MissionIcon className={`w-5 h-5 $`} />
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-lg">Compétence: {skill?.name}</p>
+                    <p className="text-lg">Description: {skill?.description}</p>
+                  </div>
                 </div>
-              </div>
-              <div className=" flex flex-col gap-5 w-55">
-                <Button
-                  textButton="Modifie ta compétence"
-                  variant="grey"
-                  onClick={() => setIsForm(true)}
-                />
-                <Modal
-                  buttonText="Supprimer la compétence"
-                  message="Veux tu vraiment supprimer cette compétence ?"
-                  onClick={() => {
-                    deleteSkill();
-                  }}
-                />
+
+                <div className="flex flex-col  gap-2 shrink-0 lg:ml-auto">
+                  <Button
+                    textButton="Modifie ta compétence"
+                    variant="grey"
+                    onClick={() => setIsForm(true)}
+                  />
+                  <Modal
+                    buttonText="Supprimer la compétence"
+                    message="Est-tu sur de vouloir supprimer cette compétence ?"
+                    onClick={() => deleteSkill()}
+                  />
+                </div>
               </div>
             </Fade>
           </section>
         )}
         {isForm && (
           <Fade direction="left" delay={500}>
-            <form className="lg:w-200 w-80 m-auto mt-5 bg-neutral-900 p-4 rounded-4xl">
+            <form
+              className={`clipped-card w-200 relative flex flex-col items-center gap-4
+      p-4 mb-2 transition-colors border-red-700
+      bg-[#111] hover:bg-[#161616]
+      border-l-2 `}
+            >
               {skillInput.map((field) => {
                 const fieldError = field.name
                   .split(".")
                   .reduce((obj: any, key: string) => obj?.[key], errors);
                 return (
-                  <div key={field.name} className="flex flex-col mb-5 ">
+                  <div key={field.name} className="flex flex-col mb-5 w-full ">
                     <label className="text-zinc-300 text-xs tracking-widest uppercase mb-2 mt-2">
                       {field.label}
                     </label>

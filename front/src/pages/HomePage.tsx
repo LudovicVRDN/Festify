@@ -3,15 +3,11 @@ import { Fade } from "react-awesome-reveal";
 import { useNavigate } from "react-router";
 import Button from "../components/ui/button";
 import TornEdge from "../components/TornEdge";
-import {
-  useForm,
-  type RegisterOptions,
-} from "react-hook-form";
+import { useForm, type RegisterOptions } from "react-hook-form";
 import { useAuthStore } from "../stores/auth.store";
 import type { IUser } from "../types/user.type";
 import api from "../api/axios.instance";
 import { useRef, useState } from "react";
-
 
 interface SigninFormData {
   email: string;
@@ -47,12 +43,12 @@ export interface AuthResponse {
 const HomePage = () => {
   const modalRef = useRef<HTMLDialogElement>(null);
   const [isEmailSend, setEmailSend] = useState(false);
- 
+
   const handleResetPassword = async (resetData: { email: string }) => {
     try {
       console.log(resetData);
       await api.post("/auth/forgot-password", resetData);
-      setEmailSend(true)
+      setEmailSend(true);
     } catch (error: any) {
       console.log("Erreur :", error.response.status);
     }
@@ -61,12 +57,6 @@ const HomePage = () => {
   const navigate = useNavigate();
   const setUser = useAuthStore((state) => state.setUser);
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SigninFormData>();
 
   const {
     register: registerReset,
@@ -78,6 +68,12 @@ const HomePage = () => {
     handleResetPassword(data);
     modalRef.current?.close();
   });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SigninFormData>();
 
   const onSubmit = async (formdata: SigninFormData) => {
     try {
@@ -119,7 +115,7 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center  ">
+    <div className="bg-metal-dark bg-metal-grid min-h-screen flex flex-col items-center  ">
       <Caroussel />
 
       <div className="relative w-full -translate-y-10 ">
@@ -127,7 +123,7 @@ const HomePage = () => {
         <div className="  bg-black lg:h-130 h-190  flex flex-col justify-center items-center lg:items-baseline pt-20 lg:flex-row-reverse gap-5 lg:gap-25 lg:justify-evenly">
           <Fade direction="down" delay={500}>
             <div className="flex flex-col">
-              <h1 className="text-5xl text-festify-red font-metal">
+              <h1 className="text-5xl text-festify-glassred font-metal">
                 Login now !
               </h1>
               <p className="py-6 lg:text-xl w-90 lg:w-110">
@@ -143,6 +139,7 @@ const HomePage = () => {
             </div>
             <div className=" w-50 p-4 h-100  ">
               <form
+                id="signin_form"
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex flex-col gap-6  lg:w-100 "
               >
@@ -153,6 +150,7 @@ const HomePage = () => {
                       {field.label}
                     </label>
                     <input
+                      id={field.name}
                       type={field.type}
                       placeholder={field.placeholder}
                       className="bg-transparent border-b border-zinc-700 focus:border-red-700 outline-none py-2 text-white placeholder:text-zinc-600 transition-colors"
@@ -173,17 +171,23 @@ const HomePage = () => {
                   >
                     Mot de passe oublié
                   </button>
-                  {isEmailSend &&(
-                    <p className="text-red-500 text-xs italic mt-2 ml-2">Un email a été envoyé sur ton adresse mail si elle est correcte !</p>
+                  {isEmailSend && (
+                    <p className="text-red-500 text-xs italic mt-2 ml-2">
+                      Un email a été envoyé sur ton adresse mail si elle est
+                      correcte !
+                    </p>
                   )}
                 </div>
 
                 {/* Bouton principal */}
                 <Button textButton="SE CONNECTER" variant="red" />
                 {/* Bouton secondaire */}
-              
-                  <Button textButton="S'inscrire" variant="grey" onClick={() => navigate('/register')} />
-               
+
+                <Button
+                  textButton="S'inscrire"
+                  variant="grey"
+                  onClick={() => navigate("/register")}
+                />
               </form>
             </div>
           </Fade>
@@ -209,7 +213,7 @@ const HomePage = () => {
                       {resetErrors.email.message}
                     </p>
                   )}
-                  <Button variant="grey" textButton="Valider"/>
+                  <Button variant="grey" textButton="Valider" />
                   <Button textButton="Annuler" variant="red" />
                 </form>
               </div>
