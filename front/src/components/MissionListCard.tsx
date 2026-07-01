@@ -1,17 +1,15 @@
 import React from "react";
-import MusicIcon from "./MusicIcon";
 import StatusBadge from "./StatusBadge";
-
 import IconFestivalCard from "./IconeFestivalCard";
 import Button from "./ui/button";
 import MissionIcon from "./MissionIcon";
+import type { IMission } from "../types/misison.type";
+
 
 interface cardProps {
-  mission: string;
-  festival: string;
-  date: string;
-  city: string | undefined;
-  status: string;
+  mission: IMission;
+  button: boolean
+  status?: string;
   showMore?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
   handleDelete?: (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -20,9 +18,7 @@ interface cardProps {
 
 const MissionListCard = ({
   mission,
-  festival,
-  date,
-  city,
+  button,
   status,
   showMore,
   handleDelete,
@@ -31,7 +27,7 @@ const MissionListCard = ({
 
   return (
     <div
-      className={`clipped-card w-full relative flex flex-col md:flex-row items-center gap-4
+      className={`clipped-card w-full relative flex flex-col md:flex-row items-center gap-4 lg:min-w-150
       p-4 mb-2 transition-colors
       bg-[#111] hover:bg-[#161616]
       border-l-2 ${isPast ? "border-[#2a2a2a] opacity-70" : "border-red-700"}`}
@@ -47,23 +43,34 @@ const MissionListCard = ({
           <p
             className={`text-sm font-bold uppercase tracking-widest ${isPast ? "text-[#555]" : "text-[#e0e0e0]"}`}
           >
-            {festival}
-            <StatusBadge status={status} />
+            {mission.title}
+            {status && <StatusBadge status={status} />}
           </p>
           <div className="flex gap-3 mt-1">
             <IconFestivalCard
               icon="calendar"
-              label={new Date(date).toLocaleDateString("fr-FR")}
+              label={new Date(mission.time_start).toLocaleDateString("fr-FR")}
             />
-            <IconFestivalCard icon="map-pin" label={city} />
+            <IconFestivalCard
+              icon="map-pin"
+              label={
+                mission.festival.name + ", " + mission.festival.adress.city
+              }
+            />
+            <p
+              className={`text-[11px] text-[#555]`}
+            >Volontaire requis: {mission.volunteer_needed}</p>
           </div>
         </div>
       </div>
 
-      <div className="flex gap-2 shrink-0 ml-auto">
-        <Button textButton="Plus d'infos" variant="grey" onClick={showMore} />
+      <div className="flex flex-col xl:flex-row gap-2 shrink-0 ml-auto">
+        {button && (
+          <Button textButton="Plus d'infos" variant="grey" onClick={showMore} />
+        )}
         <Button textButton="Supprimer" variant="red" onClick={handleDelete} />
       </div>
+
     </div>
   );
 };

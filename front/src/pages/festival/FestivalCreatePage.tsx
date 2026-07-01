@@ -76,6 +76,18 @@ const FestivalCreatePage = () => {
   };
   return (
     <div className="bg-metal-dark bg-metal-grid min-h-screen">
+      <div className="md:w-150 lg:w-200  m-auto py-15">
+        <p className="text-center line-title text-xl text-red-hot font-metal pb-2">
+          Festival Manager
+        </p>
+        <h1 className="font-metal text-4xl lg:text-6xl text-center mb-5">
+          Prêt à créer le festival qui va{" "}
+          <span className="text-red-hot">marquer l'histoire </span> ?
+        </h1>
+        <p className="text-neutral-500 text-center text-lg font-metal">
+          Gère tes évenements Rock & Metal
+        </p>
+      </div>
       <TornEdge position="top" />
       <article className="flex flex-col items-center gap-5 p-2 bg-black">
         <Fade direction="down" delay={500}>

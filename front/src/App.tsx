@@ -18,6 +18,7 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import FestivalCreatePage from "./pages/festival/FestivalCreatePage";
 import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
 import FestivalListPage from "./pages/festival/FestivalListPage";
+import MissionCreatePage from "./pages/mission/MissionCreatePage";
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
@@ -75,6 +76,10 @@ function App() {
             path="/festival/:festivalId/details"
             element={<FestivalDetailPage />}
           ></Route>
+          <Route
+            path="/missions/create"
+            element={<MissionCreatePage />}
+          ></Route>
         </Route>
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>
@@ -86,7 +91,7 @@ function App() {
 
           <Route
             path="/skills/:skillId/details"
-            element={<SkillDetailPage  />}
+            element={<SkillDetailPage />}
           ></Route>
         </Route>
 
