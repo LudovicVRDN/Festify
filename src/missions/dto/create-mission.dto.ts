@@ -1,4 +1,6 @@
-import { IsBoolean, IsNumber, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsBoolean, IsDate, IsNumber, IsString, ValidateNested } from "class-validator";
+
 
 export class CreateMissionDto {
 
@@ -8,4 +10,10 @@ export class CreateMissionDto {
     volunteer_needed!: number
     @IsString()
     description!: string
+    @IsDate()
+    @Type(() => Date)
+    time_start!:Date
+    @IsDate()
+    @Type(() => Date)
+    time_end!:Date
 }

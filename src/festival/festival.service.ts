@@ -110,6 +110,13 @@ export class FestivalService {
 
   }
 
+ async findAll() {
+  return this.prisma.festival.findMany({
+    include: { adress: true } 
+  });
+}
+
+
   async update(id: number, updateFestivalDto: UpdateFestivalDto, existingAdress: adress | null): Promise<festival | undefined> {
     const { adress, ...rest } = updateFestivalDto
     const { id: _id, created_at, updated_at, role, is_validated, ...safeRest } = rest as any

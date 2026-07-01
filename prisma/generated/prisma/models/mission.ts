@@ -44,6 +44,8 @@ export type MissionMinAggregateOutputType = {
   volunteer_needed: number | null
   description: string | null
   is_full: boolean | null
+  time_start: Date | null
+  time_end: Date | null
   created_at: Date | null
   updated_at: Date | null
   festival_id: number | null
@@ -55,6 +57,8 @@ export type MissionMaxAggregateOutputType = {
   volunteer_needed: number | null
   description: string | null
   is_full: boolean | null
+  time_start: Date | null
+  time_end: Date | null
   created_at: Date | null
   updated_at: Date | null
   festival_id: number | null
@@ -66,6 +70,8 @@ export type MissionCountAggregateOutputType = {
   volunteer_needed: number
   description: number
   is_full: number
+  time_start: number
+  time_end: number
   created_at: number
   updated_at: number
   festival_id: number
@@ -91,6 +97,8 @@ export type MissionMinAggregateInputType = {
   volunteer_needed?: true
   description?: true
   is_full?: true
+  time_start?: true
+  time_end?: true
   created_at?: true
   updated_at?: true
   festival_id?: true
@@ -102,6 +110,8 @@ export type MissionMaxAggregateInputType = {
   volunteer_needed?: true
   description?: true
   is_full?: true
+  time_start?: true
+  time_end?: true
   created_at?: true
   updated_at?: true
   festival_id?: true
@@ -113,6 +123,8 @@ export type MissionCountAggregateInputType = {
   volunteer_needed?: true
   description?: true
   is_full?: true
+  time_start?: true
+  time_end?: true
   created_at?: true
   updated_at?: true
   festival_id?: true
@@ -211,6 +223,8 @@ export type MissionGroupByOutputType = {
   volunteer_needed: number
   description: string
   is_full: boolean
+  time_start: Date
+  time_end: Date
   created_at: Date
   updated_at: Date
   festival_id: number
@@ -245,13 +259,13 @@ export type missionWhereInput = {
   volunteer_needed?: Prisma.IntFilter<"mission"> | number
   description?: Prisma.StringFilter<"mission"> | string
   is_full?: Prisma.BoolFilter<"mission"> | boolean
+  time_start?: Prisma.DateTimeFilter<"mission"> | Date | string
+  time_end?: Prisma.DateTimeFilter<"mission"> | Date | string
   created_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   festival_id?: Prisma.IntFilter<"mission"> | number
   inscription?: Prisma.InscriptionListRelationFilter
   festival?: Prisma.XOR<Prisma.FestivalScalarRelationFilter, Prisma.festivalWhereInput>
-  mission_has_schedule?: Prisma.Mission_has_scheduleListRelationFilter
-  mission_needs_skill?: Prisma.Mission_needs_skillListRelationFilter
 }
 
 export type missionOrderByWithRelationInput = {
@@ -260,13 +274,13 @@ export type missionOrderByWithRelationInput = {
   volunteer_needed?: Prisma.SortOrder
   description?: Prisma.SortOrder
   is_full?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
+  time_end?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   festival_id?: Prisma.SortOrder
   inscription?: Prisma.inscriptionOrderByRelationAggregateInput
   festival?: Prisma.festivalOrderByWithRelationInput
-  mission_has_schedule?: Prisma.mission_has_scheduleOrderByRelationAggregateInput
-  mission_needs_skill?: Prisma.mission_needs_skillOrderByRelationAggregateInput
   _relevance?: Prisma.missionOrderByRelevanceInput
 }
 
@@ -279,13 +293,13 @@ export type missionWhereUniqueInput = Prisma.AtLeast<{
   volunteer_needed?: Prisma.IntFilter<"mission"> | number
   description?: Prisma.StringFilter<"mission"> | string
   is_full?: Prisma.BoolFilter<"mission"> | boolean
+  time_start?: Prisma.DateTimeFilter<"mission"> | Date | string
+  time_end?: Prisma.DateTimeFilter<"mission"> | Date | string
   created_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   festival_id?: Prisma.IntFilter<"mission"> | number
   inscription?: Prisma.InscriptionListRelationFilter
   festival?: Prisma.XOR<Prisma.FestivalScalarRelationFilter, Prisma.festivalWhereInput>
-  mission_has_schedule?: Prisma.Mission_has_scheduleListRelationFilter
-  mission_needs_skill?: Prisma.Mission_needs_skillListRelationFilter
 }, "id" | "id">
 
 export type missionOrderByWithAggregationInput = {
@@ -294,6 +308,8 @@ export type missionOrderByWithAggregationInput = {
   volunteer_needed?: Prisma.SortOrder
   description?: Prisma.SortOrder
   is_full?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
+  time_end?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   festival_id?: Prisma.SortOrder
@@ -313,6 +329,8 @@ export type missionScalarWhereWithAggregatesInput = {
   volunteer_needed?: Prisma.IntWithAggregatesFilter<"mission"> | number
   description?: Prisma.StringWithAggregatesFilter<"mission"> | string
   is_full?: Prisma.BoolWithAggregatesFilter<"mission"> | boolean
+  time_start?: Prisma.DateTimeWithAggregatesFilter<"mission"> | Date | string
+  time_end?: Prisma.DateTimeWithAggregatesFilter<"mission"> | Date | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"mission"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"mission"> | Date | string
   festival_id?: Prisma.IntWithAggregatesFilter<"mission"> | number
@@ -323,12 +341,12 @@ export type missionCreateInput = {
   volunteer_needed: number
   description: string
   is_full?: boolean
+  time_start: Date | string
+  time_end: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   inscription?: Prisma.inscriptionCreateNestedManyWithoutMissionInput
   festival: Prisma.festivalCreateNestedOneWithoutMissionInput
-  mission_has_schedule?: Prisma.mission_has_scheduleCreateNestedManyWithoutMissionInput
-  mission_needs_skill?: Prisma.mission_needs_skillCreateNestedManyWithoutMissionInput
 }
 
 export type missionUncheckedCreateInput = {
@@ -337,12 +355,12 @@ export type missionUncheckedCreateInput = {
   volunteer_needed: number
   description: string
   is_full?: boolean
+  time_start: Date | string
+  time_end: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   festival_id: number
   inscription?: Prisma.inscriptionUncheckedCreateNestedManyWithoutMissionInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUncheckedCreateNestedManyWithoutMissionInput
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedCreateNestedManyWithoutMissionInput
 }
 
 export type missionUpdateInput = {
@@ -350,12 +368,12 @@ export type missionUpdateInput = {
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
   is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inscription?: Prisma.inscriptionUpdateManyWithoutMissionNestedInput
   festival?: Prisma.festivalUpdateOneRequiredWithoutMissionNestedInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUpdateManyWithoutMissionNestedInput
-  mission_needs_skill?: Prisma.mission_needs_skillUpdateManyWithoutMissionNestedInput
 }
 
 export type missionUncheckedUpdateInput = {
@@ -364,12 +382,12 @@ export type missionUncheckedUpdateInput = {
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
   is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival_id?: Prisma.IntFieldUpdateOperationsInput | number
   inscription?: Prisma.inscriptionUncheckedUpdateManyWithoutMissionNestedInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUncheckedUpdateManyWithoutMissionNestedInput
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedUpdateManyWithoutMissionNestedInput
 }
 
 export type missionCreateManyInput = {
@@ -378,6 +396,8 @@ export type missionCreateManyInput = {
   volunteer_needed: number
   description: string
   is_full?: boolean
+  time_start: Date | string
+  time_end: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   festival_id: number
@@ -388,6 +408,8 @@ export type missionUpdateManyMutationInput = {
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
   is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -398,6 +420,8 @@ export type missionUncheckedUpdateManyInput = {
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
   is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival_id?: Prisma.IntFieldUpdateOperationsInput | number
@@ -430,6 +454,8 @@ export type missionCountOrderByAggregateInput = {
   volunteer_needed?: Prisma.SortOrder
   description?: Prisma.SortOrder
   is_full?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
+  time_end?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   festival_id?: Prisma.SortOrder
@@ -447,6 +473,8 @@ export type missionMaxOrderByAggregateInput = {
   volunteer_needed?: Prisma.SortOrder
   description?: Prisma.SortOrder
   is_full?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
+  time_end?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   festival_id?: Prisma.SortOrder
@@ -458,6 +486,8 @@ export type missionMinOrderByAggregateInput = {
   volunteer_needed?: Prisma.SortOrder
   description?: Prisma.SortOrder
   is_full?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
+  time_end?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   festival_id?: Prisma.SortOrder
@@ -529,44 +559,16 @@ export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
-export type missionCreateNestedOneWithoutMission_has_scheduleInput = {
-  create?: Prisma.XOR<Prisma.missionCreateWithoutMission_has_scheduleInput, Prisma.missionUncheckedCreateWithoutMission_has_scheduleInput>
-  connectOrCreate?: Prisma.missionCreateOrConnectWithoutMission_has_scheduleInput
-  connect?: Prisma.missionWhereUniqueInput
-}
-
-export type missionUpdateOneRequiredWithoutMission_has_scheduleNestedInput = {
-  create?: Prisma.XOR<Prisma.missionCreateWithoutMission_has_scheduleInput, Prisma.missionUncheckedCreateWithoutMission_has_scheduleInput>
-  connectOrCreate?: Prisma.missionCreateOrConnectWithoutMission_has_scheduleInput
-  upsert?: Prisma.missionUpsertWithoutMission_has_scheduleInput
-  connect?: Prisma.missionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.missionUpdateToOneWithWhereWithoutMission_has_scheduleInput, Prisma.missionUpdateWithoutMission_has_scheduleInput>, Prisma.missionUncheckedUpdateWithoutMission_has_scheduleInput>
-}
-
-export type missionCreateNestedOneWithoutMission_needs_skillInput = {
-  create?: Prisma.XOR<Prisma.missionCreateWithoutMission_needs_skillInput, Prisma.missionUncheckedCreateWithoutMission_needs_skillInput>
-  connectOrCreate?: Prisma.missionCreateOrConnectWithoutMission_needs_skillInput
-  connect?: Prisma.missionWhereUniqueInput
-}
-
-export type missionUpdateOneRequiredWithoutMission_needs_skillNestedInput = {
-  create?: Prisma.XOR<Prisma.missionCreateWithoutMission_needs_skillInput, Prisma.missionUncheckedCreateWithoutMission_needs_skillInput>
-  connectOrCreate?: Prisma.missionCreateOrConnectWithoutMission_needs_skillInput
-  upsert?: Prisma.missionUpsertWithoutMission_needs_skillInput
-  connect?: Prisma.missionWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.missionUpdateToOneWithWhereWithoutMission_needs_skillInput, Prisma.missionUpdateWithoutMission_needs_skillInput>, Prisma.missionUncheckedUpdateWithoutMission_needs_skillInput>
-}
-
 export type missionCreateWithoutFestivalInput = {
   title: string
   volunteer_needed: number
   description: string
   is_full?: boolean
+  time_start: Date | string
+  time_end: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   inscription?: Prisma.inscriptionCreateNestedManyWithoutMissionInput
-  mission_has_schedule?: Prisma.mission_has_scheduleCreateNestedManyWithoutMissionInput
-  mission_needs_skill?: Prisma.mission_needs_skillCreateNestedManyWithoutMissionInput
 }
 
 export type missionUncheckedCreateWithoutFestivalInput = {
@@ -575,11 +577,11 @@ export type missionUncheckedCreateWithoutFestivalInput = {
   volunteer_needed: number
   description: string
   is_full?: boolean
+  time_start: Date | string
+  time_end: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   inscription?: Prisma.inscriptionUncheckedCreateNestedManyWithoutMissionInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUncheckedCreateNestedManyWithoutMissionInput
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedCreateNestedManyWithoutMissionInput
 }
 
 export type missionCreateOrConnectWithoutFestivalInput = {
@@ -617,6 +619,8 @@ export type missionScalarWhereInput = {
   volunteer_needed?: Prisma.IntFilter<"mission"> | number
   description?: Prisma.StringFilter<"mission"> | string
   is_full?: Prisma.BoolFilter<"mission"> | boolean
+  time_start?: Prisma.DateTimeFilter<"mission"> | Date | string
+  time_end?: Prisma.DateTimeFilter<"mission"> | Date | string
   created_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"mission"> | Date | string
   festival_id?: Prisma.IntFilter<"mission"> | number
@@ -627,11 +631,11 @@ export type missionCreateWithoutInscriptionInput = {
   volunteer_needed: number
   description: string
   is_full?: boolean
+  time_start: Date | string
+  time_end: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   festival: Prisma.festivalCreateNestedOneWithoutMissionInput
-  mission_has_schedule?: Prisma.mission_has_scheduleCreateNestedManyWithoutMissionInput
-  mission_needs_skill?: Prisma.mission_needs_skillCreateNestedManyWithoutMissionInput
 }
 
 export type missionUncheckedCreateWithoutInscriptionInput = {
@@ -640,11 +644,11 @@ export type missionUncheckedCreateWithoutInscriptionInput = {
   volunteer_needed: number
   description: string
   is_full?: boolean
+  time_start: Date | string
+  time_end: Date | string
   created_at?: Date | string
   updated_at?: Date | string
   festival_id: number
-  mission_has_schedule?: Prisma.mission_has_scheduleUncheckedCreateNestedManyWithoutMissionInput
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedCreateNestedManyWithoutMissionInput
 }
 
 export type missionCreateOrConnectWithoutInscriptionInput = {
@@ -668,11 +672,11 @@ export type missionUpdateWithoutInscriptionInput = {
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
   is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival?: Prisma.festivalUpdateOneRequiredWithoutMissionNestedInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUpdateManyWithoutMissionNestedInput
-  mission_needs_skill?: Prisma.mission_needs_skillUpdateManyWithoutMissionNestedInput
 }
 
 export type missionUncheckedUpdateWithoutInscriptionInput = {
@@ -681,143 +685,11 @@ export type missionUncheckedUpdateWithoutInscriptionInput = {
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
   is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   festival_id?: Prisma.IntFieldUpdateOperationsInput | number
-  mission_has_schedule?: Prisma.mission_has_scheduleUncheckedUpdateManyWithoutMissionNestedInput
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedUpdateManyWithoutMissionNestedInput
-}
-
-export type missionCreateWithoutMission_has_scheduleInput = {
-  title: string
-  volunteer_needed: number
-  description: string
-  is_full?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string
-  inscription?: Prisma.inscriptionCreateNestedManyWithoutMissionInput
-  festival: Prisma.festivalCreateNestedOneWithoutMissionInput
-  mission_needs_skill?: Prisma.mission_needs_skillCreateNestedManyWithoutMissionInput
-}
-
-export type missionUncheckedCreateWithoutMission_has_scheduleInput = {
-  id?: number
-  title: string
-  volunteer_needed: number
-  description: string
-  is_full?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string
-  festival_id: number
-  inscription?: Prisma.inscriptionUncheckedCreateNestedManyWithoutMissionInput
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedCreateNestedManyWithoutMissionInput
-}
-
-export type missionCreateOrConnectWithoutMission_has_scheduleInput = {
-  where: Prisma.missionWhereUniqueInput
-  create: Prisma.XOR<Prisma.missionCreateWithoutMission_has_scheduleInput, Prisma.missionUncheckedCreateWithoutMission_has_scheduleInput>
-}
-
-export type missionUpsertWithoutMission_has_scheduleInput = {
-  update: Prisma.XOR<Prisma.missionUpdateWithoutMission_has_scheduleInput, Prisma.missionUncheckedUpdateWithoutMission_has_scheduleInput>
-  create: Prisma.XOR<Prisma.missionCreateWithoutMission_has_scheduleInput, Prisma.missionUncheckedCreateWithoutMission_has_scheduleInput>
-  where?: Prisma.missionWhereInput
-}
-
-export type missionUpdateToOneWithWhereWithoutMission_has_scheduleInput = {
-  where?: Prisma.missionWhereInput
-  data: Prisma.XOR<Prisma.missionUpdateWithoutMission_has_scheduleInput, Prisma.missionUncheckedUpdateWithoutMission_has_scheduleInput>
-}
-
-export type missionUpdateWithoutMission_has_scheduleInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  inscription?: Prisma.inscriptionUpdateManyWithoutMissionNestedInput
-  festival?: Prisma.festivalUpdateOneRequiredWithoutMissionNestedInput
-  mission_needs_skill?: Prisma.mission_needs_skillUpdateManyWithoutMissionNestedInput
-}
-
-export type missionUncheckedUpdateWithoutMission_has_scheduleInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  festival_id?: Prisma.IntFieldUpdateOperationsInput | number
-  inscription?: Prisma.inscriptionUncheckedUpdateManyWithoutMissionNestedInput
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedUpdateManyWithoutMissionNestedInput
-}
-
-export type missionCreateWithoutMission_needs_skillInput = {
-  title: string
-  volunteer_needed: number
-  description: string
-  is_full?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string
-  inscription?: Prisma.inscriptionCreateNestedManyWithoutMissionInput
-  festival: Prisma.festivalCreateNestedOneWithoutMissionInput
-  mission_has_schedule?: Prisma.mission_has_scheduleCreateNestedManyWithoutMissionInput
-}
-
-export type missionUncheckedCreateWithoutMission_needs_skillInput = {
-  id?: number
-  title: string
-  volunteer_needed: number
-  description: string
-  is_full?: boolean
-  created_at?: Date | string
-  updated_at?: Date | string
-  festival_id: number
-  inscription?: Prisma.inscriptionUncheckedCreateNestedManyWithoutMissionInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUncheckedCreateNestedManyWithoutMissionInput
-}
-
-export type missionCreateOrConnectWithoutMission_needs_skillInput = {
-  where: Prisma.missionWhereUniqueInput
-  create: Prisma.XOR<Prisma.missionCreateWithoutMission_needs_skillInput, Prisma.missionUncheckedCreateWithoutMission_needs_skillInput>
-}
-
-export type missionUpsertWithoutMission_needs_skillInput = {
-  update: Prisma.XOR<Prisma.missionUpdateWithoutMission_needs_skillInput, Prisma.missionUncheckedUpdateWithoutMission_needs_skillInput>
-  create: Prisma.XOR<Prisma.missionCreateWithoutMission_needs_skillInput, Prisma.missionUncheckedCreateWithoutMission_needs_skillInput>
-  where?: Prisma.missionWhereInput
-}
-
-export type missionUpdateToOneWithWhereWithoutMission_needs_skillInput = {
-  where?: Prisma.missionWhereInput
-  data: Prisma.XOR<Prisma.missionUpdateWithoutMission_needs_skillInput, Prisma.missionUncheckedUpdateWithoutMission_needs_skillInput>
-}
-
-export type missionUpdateWithoutMission_needs_skillInput = {
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  inscription?: Prisma.inscriptionUpdateManyWithoutMissionNestedInput
-  festival?: Prisma.festivalUpdateOneRequiredWithoutMissionNestedInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUpdateManyWithoutMissionNestedInput
-}
-
-export type missionUncheckedUpdateWithoutMission_needs_skillInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  title?: Prisma.StringFieldUpdateOperationsInput | string
-  volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  festival_id?: Prisma.IntFieldUpdateOperationsInput | number
-  inscription?: Prisma.inscriptionUncheckedUpdateManyWithoutMissionNestedInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUncheckedUpdateManyWithoutMissionNestedInput
 }
 
 export type missionCreateManyFestivalInput = {
@@ -826,6 +698,8 @@ export type missionCreateManyFestivalInput = {
   volunteer_needed: number
   description: string
   is_full?: boolean
+  time_start: Date | string
+  time_end: Date | string
   created_at?: Date | string
   updated_at?: Date | string
 }
@@ -835,11 +709,11 @@ export type missionUpdateWithoutFestivalInput = {
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
   is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inscription?: Prisma.inscriptionUpdateManyWithoutMissionNestedInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUpdateManyWithoutMissionNestedInput
-  mission_needs_skill?: Prisma.mission_needs_skillUpdateManyWithoutMissionNestedInput
 }
 
 export type missionUncheckedUpdateWithoutFestivalInput = {
@@ -848,11 +722,11 @@ export type missionUncheckedUpdateWithoutFestivalInput = {
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
   is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   inscription?: Prisma.inscriptionUncheckedUpdateManyWithoutMissionNestedInput
-  mission_has_schedule?: Prisma.mission_has_scheduleUncheckedUpdateManyWithoutMissionNestedInput
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedUpdateManyWithoutMissionNestedInput
 }
 
 export type missionUncheckedUpdateManyWithoutFestivalInput = {
@@ -861,6 +735,8 @@ export type missionUncheckedUpdateManyWithoutFestivalInput = {
   volunteer_needed?: Prisma.IntFieldUpdateOperationsInput | number
   description?: Prisma.StringFieldUpdateOperationsInput | string
   is_full?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  time_end?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -872,14 +748,10 @@ export type missionUncheckedUpdateManyWithoutFestivalInput = {
 
 export type MissionCountOutputType = {
   inscription: number
-  mission_has_schedule: number
-  mission_needs_skill: number
 }
 
 export type MissionCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   inscription?: boolean | MissionCountOutputTypeCountInscriptionArgs
-  mission_has_schedule?: boolean | MissionCountOutputTypeCountMission_has_scheduleArgs
-  mission_needs_skill?: boolean | MissionCountOutputTypeCountMission_needs_skillArgs
 }
 
 /**
@@ -899,20 +771,6 @@ export type MissionCountOutputTypeCountInscriptionArgs<ExtArgs extends runtime.T
   where?: Prisma.inscriptionWhereInput
 }
 
-/**
- * MissionCountOutputType without action
- */
-export type MissionCountOutputTypeCountMission_has_scheduleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.mission_has_scheduleWhereInput
-}
-
-/**
- * MissionCountOutputType without action
- */
-export type MissionCountOutputTypeCountMission_needs_skillArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.mission_needs_skillWhereInput
-}
-
 
 export type missionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -920,13 +778,13 @@ export type missionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   volunteer_needed?: boolean
   description?: boolean
   is_full?: boolean
+  time_start?: boolean
+  time_end?: boolean
   created_at?: boolean
   updated_at?: boolean
   festival_id?: boolean
   inscription?: boolean | Prisma.mission$inscriptionArgs<ExtArgs>
   festival?: boolean | Prisma.festivalDefaultArgs<ExtArgs>
-  mission_has_schedule?: boolean | Prisma.mission$mission_has_scheduleArgs<ExtArgs>
-  mission_needs_skill?: boolean | Prisma.mission$mission_needs_skillArgs<ExtArgs>
   _count?: boolean | Prisma.MissionCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mission"]>
 
@@ -938,17 +796,17 @@ export type missionSelectScalar = {
   volunteer_needed?: boolean
   description?: boolean
   is_full?: boolean
+  time_start?: boolean
+  time_end?: boolean
   created_at?: boolean
   updated_at?: boolean
   festival_id?: boolean
 }
 
-export type missionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "volunteer_needed" | "description" | "is_full" | "created_at" | "updated_at" | "festival_id", ExtArgs["result"]["mission"]>
+export type missionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "volunteer_needed" | "description" | "is_full" | "time_start" | "time_end" | "created_at" | "updated_at" | "festival_id", ExtArgs["result"]["mission"]>
 export type missionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   inscription?: boolean | Prisma.mission$inscriptionArgs<ExtArgs>
   festival?: boolean | Prisma.festivalDefaultArgs<ExtArgs>
-  mission_has_schedule?: boolean | Prisma.mission$mission_has_scheduleArgs<ExtArgs>
-  mission_needs_skill?: boolean | Prisma.mission$mission_needs_skillArgs<ExtArgs>
   _count?: boolean | Prisma.MissionCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -957,8 +815,6 @@ export type $missionPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     inscription: Prisma.$inscriptionPayload<ExtArgs>[]
     festival: Prisma.$festivalPayload<ExtArgs>
-    mission_has_schedule: Prisma.$mission_has_schedulePayload<ExtArgs>[]
-    mission_needs_skill: Prisma.$mission_needs_skillPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -966,6 +822,8 @@ export type $missionPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     volunteer_needed: number
     description: string
     is_full: boolean
+    time_start: Date
+    time_end: Date
     created_at: Date
     updated_at: Date
     festival_id: number
@@ -1311,8 +1169,6 @@ export interface Prisma__missionClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   inscription<T extends Prisma.mission$inscriptionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.mission$inscriptionArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$inscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   festival<T extends Prisma.festivalDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.festivalDefaultArgs<ExtArgs>>): Prisma.Prisma__festivalClient<runtime.Types.Result.GetResult<Prisma.$festivalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  mission_has_schedule<T extends Prisma.mission$mission_has_scheduleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.mission$mission_has_scheduleArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mission_has_schedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  mission_needs_skill<T extends Prisma.mission$mission_needs_skillArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.mission$mission_needs_skillArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mission_needs_skillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1347,6 +1203,8 @@ export interface missionFieldRefs {
   readonly volunteer_needed: Prisma.FieldRef<"mission", 'Int'>
   readonly description: Prisma.FieldRef<"mission", 'String'>
   readonly is_full: Prisma.FieldRef<"mission", 'Boolean'>
+  readonly time_start: Prisma.FieldRef<"mission", 'DateTime'>
+  readonly time_end: Prisma.FieldRef<"mission", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"mission", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"mission", 'DateTime'>
   readonly festival_id: Prisma.FieldRef<"mission", 'Int'>
@@ -1719,54 +1577,6 @@ export type mission$inscriptionArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.InscriptionScalarFieldEnum | Prisma.InscriptionScalarFieldEnum[]
-}
-
-/**
- * mission.mission_has_schedule
- */
-export type mission$mission_has_scheduleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the mission_has_schedule
-   */
-  select?: Prisma.mission_has_scheduleSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the mission_has_schedule
-   */
-  omit?: Prisma.mission_has_scheduleOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mission_has_scheduleInclude<ExtArgs> | null
-  where?: Prisma.mission_has_scheduleWhereInput
-  orderBy?: Prisma.mission_has_scheduleOrderByWithRelationInput | Prisma.mission_has_scheduleOrderByWithRelationInput[]
-  cursor?: Prisma.mission_has_scheduleWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Mission_has_scheduleScalarFieldEnum | Prisma.Mission_has_scheduleScalarFieldEnum[]
-}
-
-/**
- * mission.mission_needs_skill
- */
-export type mission$mission_needs_skillArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the mission_needs_skill
-   */
-  select?: Prisma.mission_needs_skillSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the mission_needs_skill
-   */
-  omit?: Prisma.mission_needs_skillOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mission_needs_skillInclude<ExtArgs> | null
-  where?: Prisma.mission_needs_skillWhereInput
-  orderBy?: Prisma.mission_needs_skillOrderByWithRelationInput | Prisma.mission_needs_skillOrderByWithRelationInput[]
-  cursor?: Prisma.mission_needs_skillWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Mission_needs_skillScalarFieldEnum | Prisma.Mission_needs_skillScalarFieldEnum[]
 }
 
 /**

@@ -22,18 +22,33 @@ export class MissionsService {
     })
   }
 
-  async isFestivalIsValid(festivalid: number, req: any): Promise<boolean> {
+  async isFestivalIsValid(festivalid: number, id: number): Promise<boolean> {
     const existingFestival = await this.festivalService.countFestivalById(festivalid);
-    const isOwner = await this.festivalService.checkFestivalOwnership(festivalid, req.user);
+    const isOwner = await this.festivalService.checkFestivalOwnership(festivalid, id);
     return !!existingFestival && isOwner;
   }
 
-  async findAllMissionsByFestivalID(festivalId: number) {
-    return this.prisma.mission.findMany({
+  async findAllMissionsByUserID(userId: number) {
+    const missions = await this.prisma.mission.findMany({
       where: {
-        festival_id: festivalId
-      }
-    })
+        festival: {
+          user_has_festival: {
+            some: {
+              user_id: userId,
+            },
+          },
+        },
+      },
+      include: {
+        festival: {
+          include: {
+            adress: true,
+          },
+        },
+      },
+    });
+
+    return missions
   }
 
   async findOneById(id: number) {

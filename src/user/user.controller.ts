@@ -22,6 +22,13 @@ export class userController {
     return this.userService.findAll();
   }
 
+  @UseGuards(AuthGuard)
+  @Get(':id/festival')
+  async findFestivals(@Req() req: any): Promise<IFestivalResponse[] | null> {
+    const userFestival = await this.userService.findUsersFestivals(req.user.sub);
+    return userFestival
+  }
+
   @Get('email/:email')
   async findByEmail(@Param('email') email: string): Promise<user | null> {
     const user = await this.userService.findByEmail(email)
@@ -41,8 +48,9 @@ export class userController {
   @UseGuards(AuthGuard)
   @Get(':id/skills')
   async findSkills(@Req() req: any): Promise<ISkillResponse[] | null> {
-
-    const userSkills: ISkillResponse[] = await this.userService.findUsersSkills(req.user)
+     const user = await this.userService.findOne(req.user.sub)
+    if (!user) throw new NotFoundException(`Utilisateurs ${req.user.sub} introuvable`)
+    const userSkills: ISkillResponse[] = await this.userService.findUsersSkills(req.user.sub)
     return userSkills
   }
 
@@ -50,22 +58,15 @@ export class userController {
   @Get(':id/skills/details')
   async findUniqueSkill(@Param('id', ParseIntPipe) id: number, @Req() req: any): Promise<ISkillResponse | null> {
 
-    const userSkill: ISkillResponse = await this.userService.findOneUsersSkills(req.user, id)
+    const userSkill: ISkillResponse = await this.userService.findOneUsersSkills(req.user.sub, id)
     return userSkill
   }
 
 
   @UseGuards(AuthGuard)
-  @Get(':id/festival')
-  async findFestivals(@Param('id',ParseIntPipe) id:number,@Req() req:any) :Promise<IFestivalResponse[] | null >{
-    const userFestival = await this.userService.findUsersFestivals(req.user);
-    return userFestival
-  }
-
-  @UseGuards(AuthGuard)
   @Get(':id/festival/details')
-  async findUniqueFestivals(@Param('id',ParseIntPipe) id:number,@Req() req:any) :Promise<IFestivalResponse | null >{
-    const userUniqueFestival = await this.userService.findUsersOneFestivals(req.user,id);
+  async findUniqueFestivals(@Param('id', ParseIntPipe) id: number, @Req() req: any): Promise<IFestivalResponse | null> {
+    const userUniqueFestival = await this.userService.findUsersOneFestivals(req.user.sub, id);
     return userUniqueFestival
   }
 
@@ -73,7 +74,7 @@ export class userController {
   @UseGuards(AuthGuard)
   @Patch(':id/update/password')
   async updatePassword(@Param('id', ParseIntPipe) id: number,
-   @Body() updatePassword: UpdatePassword): Promise<void> {
+    @Body() updatePassword: UpdatePassword): Promise<void> {
     await this.userService.updatePassword(id, updatePassword);
     return console.log("Mot de passe modifié avec succès")
   }
@@ -84,7 +85,7 @@ export class userController {
     if (updateuserDto.email) {
       const existingUser = await this.userService.findByEmail(updateuserDto.email);
 
-      if (existingUser && existingUser.id !== req.user) {
+      if (existingUser && existingUser.id !== req.user.sub) {
         throw new ConflictException('Cette adresse EMail est déjà utilisée !');
       }
     }

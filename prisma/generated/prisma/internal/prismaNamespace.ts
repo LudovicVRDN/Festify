@@ -386,19 +386,15 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   adress: 'adress',
   artist: 'artist',
-  artist_has_schedule: 'artist_has_schedule',
   artist_has_stage: 'artist_has_stage',
   festival: 'festival',
   festival_has_artist: 'festival_has_artist',
   festival_has_stage: 'festival_has_stage',
   inscription: 'inscription',
   mission: 'mission',
-  mission_has_schedule: 'mission_has_schedule',
-  mission_needs_skill: 'mission_needs_skill',
   notification: 'notification',
   notification_has_user: 'notification_has_user',
   profile: 'profile',
-  schedule: 'schedule',
   skills: 'skills',
   skills_has_user: 'skills_has_user',
   stage: 'stage',
@@ -419,7 +415,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "adress" | "artist" | "artist_has_schedule" | "artist_has_stage" | "festival" | "festival_has_artist" | "festival_has_stage" | "inscription" | "mission" | "mission_has_schedule" | "mission_needs_skill" | "notification" | "notification_has_user" | "profile" | "schedule" | "skills" | "skills_has_user" | "stage" | "user" | "user_has_festival"
+    modelProps: "adress" | "artist" | "artist_has_stage" | "festival" | "festival_has_artist" | "festival_has_stage" | "inscription" | "mission" | "notification" | "notification_has_user" | "profile" | "skills" | "skills_has_user" | "stage" | "user" | "user_has_festival"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -552,72 +548,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.artistCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ArtistCountAggregateOutputType> | number
-        }
-      }
-    }
-    artist_has_schedule: {
-      payload: Prisma.$artist_has_schedulePayload<ExtArgs>
-      fields: Prisma.artist_has_scheduleFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.artist_has_scheduleFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$artist_has_schedulePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.artist_has_scheduleFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$artist_has_schedulePayload>
-        }
-        findFirst: {
-          args: Prisma.artist_has_scheduleFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$artist_has_schedulePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.artist_has_scheduleFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$artist_has_schedulePayload>
-        }
-        findMany: {
-          args: Prisma.artist_has_scheduleFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$artist_has_schedulePayload>[]
-        }
-        create: {
-          args: Prisma.artist_has_scheduleCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$artist_has_schedulePayload>
-        }
-        createMany: {
-          args: Prisma.artist_has_scheduleCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.artist_has_scheduleDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$artist_has_schedulePayload>
-        }
-        update: {
-          args: Prisma.artist_has_scheduleUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$artist_has_schedulePayload>
-        }
-        deleteMany: {
-          args: Prisma.artist_has_scheduleDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.artist_has_scheduleUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.artist_has_scheduleUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$artist_has_schedulePayload>
-        }
-        aggregate: {
-          args: Prisma.Artist_has_scheduleAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateArtist_has_schedule>
-        }
-        groupBy: {
-          args: Prisma.artist_has_scheduleGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Artist_has_scheduleGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.artist_has_scheduleCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Artist_has_scheduleCountAggregateOutputType> | number
         }
       }
     }
@@ -1017,138 +947,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
-    mission_has_schedule: {
-      payload: Prisma.$mission_has_schedulePayload<ExtArgs>
-      fields: Prisma.mission_has_scheduleFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.mission_has_scheduleFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_has_schedulePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.mission_has_scheduleFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_has_schedulePayload>
-        }
-        findFirst: {
-          args: Prisma.mission_has_scheduleFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_has_schedulePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.mission_has_scheduleFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_has_schedulePayload>
-        }
-        findMany: {
-          args: Prisma.mission_has_scheduleFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_has_schedulePayload>[]
-        }
-        create: {
-          args: Prisma.mission_has_scheduleCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_has_schedulePayload>
-        }
-        createMany: {
-          args: Prisma.mission_has_scheduleCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.mission_has_scheduleDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_has_schedulePayload>
-        }
-        update: {
-          args: Prisma.mission_has_scheduleUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_has_schedulePayload>
-        }
-        deleteMany: {
-          args: Prisma.mission_has_scheduleDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.mission_has_scheduleUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.mission_has_scheduleUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_has_schedulePayload>
-        }
-        aggregate: {
-          args: Prisma.Mission_has_scheduleAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMission_has_schedule>
-        }
-        groupBy: {
-          args: Prisma.mission_has_scheduleGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Mission_has_scheduleGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.mission_has_scheduleCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Mission_has_scheduleCountAggregateOutputType> | number
-        }
-      }
-    }
-    mission_needs_skill: {
-      payload: Prisma.$mission_needs_skillPayload<ExtArgs>
-      fields: Prisma.mission_needs_skillFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.mission_needs_skillFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_needs_skillPayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.mission_needs_skillFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_needs_skillPayload>
-        }
-        findFirst: {
-          args: Prisma.mission_needs_skillFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_needs_skillPayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.mission_needs_skillFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_needs_skillPayload>
-        }
-        findMany: {
-          args: Prisma.mission_needs_skillFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_needs_skillPayload>[]
-        }
-        create: {
-          args: Prisma.mission_needs_skillCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_needs_skillPayload>
-        }
-        createMany: {
-          args: Prisma.mission_needs_skillCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.mission_needs_skillDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_needs_skillPayload>
-        }
-        update: {
-          args: Prisma.mission_needs_skillUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_needs_skillPayload>
-        }
-        deleteMany: {
-          args: Prisma.mission_needs_skillDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.mission_needs_skillUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.mission_needs_skillUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$mission_needs_skillPayload>
-        }
-        aggregate: {
-          args: Prisma.Mission_needs_skillAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateMission_needs_skill>
-        }
-        groupBy: {
-          args: Prisma.mission_needs_skillGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Mission_needs_skillGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.mission_needs_skillCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.Mission_needs_skillCountAggregateOutputType> | number
-        }
-      }
-    }
     notification: {
       payload: Prisma.$notificationPayload<ExtArgs>
       fields: Prisma.notificationFieldRefs
@@ -1344,72 +1142,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.profileCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProfileCountAggregateOutputType> | number
-        }
-      }
-    }
-    schedule: {
-      payload: Prisma.$schedulePayload<ExtArgs>
-      fields: Prisma.scheduleFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.scheduleFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$schedulePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.scheduleFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$schedulePayload>
-        }
-        findFirst: {
-          args: Prisma.scheduleFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$schedulePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.scheduleFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$schedulePayload>
-        }
-        findMany: {
-          args: Prisma.scheduleFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$schedulePayload>[]
-        }
-        create: {
-          args: Prisma.scheduleCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$schedulePayload>
-        }
-        createMany: {
-          args: Prisma.scheduleCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.scheduleDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$schedulePayload>
-        }
-        update: {
-          args: Prisma.scheduleUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$schedulePayload>
-        }
-        deleteMany: {
-          args: Prisma.scheduleDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.scheduleUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.scheduleUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$schedulePayload>
-        }
-        aggregate: {
-          args: Prisma.ScheduleAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateSchedule>
-        }
-        groupBy: {
-          args: Prisma.scheduleGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ScheduleGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.scheduleCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ScheduleCountAggregateOutputType> | number
         }
       }
     }
@@ -1797,22 +1529,13 @@ export type AdressScalarFieldEnum = (typeof AdressScalarFieldEnum)[keyof typeof 
 export const ArtistScalarFieldEnum = {
   id: 'id',
   artist_name: 'artist_name',
-  is_coming: 'is_coming',
+  show_duration: 'show_duration',
+  time_start: 'time_start',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const
 
 export type ArtistScalarFieldEnum = (typeof ArtistScalarFieldEnum)[keyof typeof ArtistScalarFieldEnum]
-
-
-export const Artist_has_scheduleScalarFieldEnum = {
-  schedule_id: 'schedule_id',
-  artist_id: 'artist_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type Artist_has_scheduleScalarFieldEnum = (typeof Artist_has_scheduleScalarFieldEnum)[keyof typeof Artist_has_scheduleScalarFieldEnum]
 
 
 export const Artist_has_stageScalarFieldEnum = {
@@ -1875,32 +1598,14 @@ export const MissionScalarFieldEnum = {
   volunteer_needed: 'volunteer_needed',
   description: 'description',
   is_full: 'is_full',
+  time_start: 'time_start',
+  time_end: 'time_end',
   created_at: 'created_at',
   updated_at: 'updated_at',
   festival_id: 'festival_id'
 } as const
 
 export type MissionScalarFieldEnum = (typeof MissionScalarFieldEnum)[keyof typeof MissionScalarFieldEnum]
-
-
-export const Mission_has_scheduleScalarFieldEnum = {
-  schedule_id: 'schedule_id',
-  mission_id: 'mission_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type Mission_has_scheduleScalarFieldEnum = (typeof Mission_has_scheduleScalarFieldEnum)[keyof typeof Mission_has_scheduleScalarFieldEnum]
-
-
-export const Mission_needs_skillScalarFieldEnum = {
-  skills_id: 'skills_id',
-  mission_id: 'mission_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type Mission_needs_skillScalarFieldEnum = (typeof Mission_needs_skillScalarFieldEnum)[keyof typeof Mission_needs_skillScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -1933,17 +1638,6 @@ export const ProfileScalarFieldEnum = {
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
-
-
-export const ScheduleScalarFieldEnum = {
-  id: 'id',
-  time_start: 'time_start',
-  time_end: 'time_end',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
 
 
 export const SkillsScalarFieldEnum = {
@@ -2245,19 +1939,15 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   adress?: Prisma.adressOmit
   artist?: Prisma.artistOmit
-  artist_has_schedule?: Prisma.artist_has_scheduleOmit
   artist_has_stage?: Prisma.artist_has_stageOmit
   festival?: Prisma.festivalOmit
   festival_has_artist?: Prisma.festival_has_artistOmit
   festival_has_stage?: Prisma.festival_has_stageOmit
   inscription?: Prisma.inscriptionOmit
   mission?: Prisma.missionOmit
-  mission_has_schedule?: Prisma.mission_has_scheduleOmit
-  mission_needs_skill?: Prisma.mission_needs_skillOmit
   notification?: Prisma.notificationOmit
   notification_has_user?: Prisma.notification_has_userOmit
   profile?: Prisma.profileOmit
-  schedule?: Prisma.scheduleOmit
   skills?: Prisma.skillsOmit
   skills_has_user?: Prisma.skills_has_userOmit
   stage?: Prisma.stageOmit

@@ -24,26 +24,15 @@ model adress {
 model artist {
   id                  Int                   @id @unique(map: "id_UNIQUE") @default(autoincrement())
   artist_name         String                @db.VarChar(45)
-  is_coming           Int                   @db.TinyInt
+  show_duration       Int                   
+  time_start          DateTime           
   created_at          DateTime              @default(now())
   updated_at          DateTime              @updatedAt()
-  artist_has_schedule artist_has_schedule[]
   artist_has_stage    artist_has_stage[]
   festival_has_artist festival_has_artist[]
 }
 
-model artist_has_schedule {
-  schedule_id Int
-  artist_id   Int
-  artist      artist   @relation(fields: [artist_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_artist_artist1")
-  schedule    schedule @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_artist_schedule1")
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt()
 
-  @@id([schedule_id, artist_id])
-  @@index([artist_id], map: "fk_schedule_has_artist_artist1_idx")
-  @@index([schedule_id], map: "fk_schedule_has_artist_schedule1_idx")
-}
 
 model artist_has_stage {
   artist_id  Int
@@ -126,42 +115,18 @@ model mission {
   volunteer_needed     Int
   description          String                 @db.LongText
   is_full              Boolean                @db.TinyInt @default(false)
+  time_start           DateTime
+  time_end             DateTime  
   created_at           DateTime               @default(now())
   updated_at           DateTime               @updatedAt()
   festival_id          Int
   inscription          inscription[]
   festival             festival               @relation(fields: [festival_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_mission_festival1")
-  mission_has_schedule mission_has_schedule[]
-  mission_needs_skill  mission_needs_skill[]
+
 
   @@index([festival_id], map: "fk_mission_festival1_idx")
 }
 
-model mission_has_schedule {
-  schedule_id Int
-  mission_id  Int
-  mission     mission  @relation(fields: [mission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_mission_mission1")
-  schedule    schedule @relation(fields: [schedule_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_schedule_has_mission_schedule1")
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt()
-
-  @@id([schedule_id, mission_id])
-  @@index([mission_id], map: "fk_schedule_has_mission_mission1_idx")
-  @@index([schedule_id], map: "fk_schedule_has_mission_schedule1_idx")
-}
-
-model mission_needs_skill {
-  skills_id  Int
-  mission_id Int
-  mission    mission  @relation(fields: [mission_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_mission_mission1")
-  skills     skills   @relation(fields: [skills_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_skills_has_mission_skills1")
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt()
-
-  @@id([skills_id, mission_id])
-  @@index([mission_id], map: "fk_skills_has_mission_mission1_idx")
-  @@index([skills_id], map: "fk_skills_has_mission_skills1_idx")
-}
 
 model notification {
   id                    Int                     @id @unique(map: "id_UNIQUE") @default(autoincrement())
@@ -192,21 +157,10 @@ model profile {
   updated_at DateTime @updatedAt()
   adress_id  Int?
  
-
   adress     adress?  @relation(fields: [adress_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_profile_adress1")
   user       user     @relation(fields: [id], references: [id], onDelete: Cascade)
 
   @@index([adress_id], map: "fk_profile_adress1_idx")
-}
-
-model schedule {
-  id                   Int                    @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  time_start           DateTime               @db.Timestamp(0)
-  time_end             DateTime               @db.Timestamp(0)
-  created_at           DateTime               @default(now())
-  updated_at           DateTime               @updatedAt()
-  artist_has_schedule  artist_has_schedule[]
-  mission_has_schedule mission_has_schedule[]
 }
 
 model skills {
@@ -215,7 +169,7 @@ model skills {
   description         String                @db.MediumText
   created_at          DateTime              @default(now())
   updated_at          DateTime              @updatedAt()
-  mission_needs_skill mission_needs_skill[]
+
   skills_has_user     skills_has_user[]
 }
 
@@ -257,7 +211,6 @@ model user {
   user_has_festival     user_has_festival[]
 
   profile profile?
-
   @@id([id])
 }
 

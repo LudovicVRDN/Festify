@@ -5,6 +5,8 @@ import { UpdateFestivalDto } from './dto/update-festival.dto';
 import { festival } from 'prisma/generated/prisma/client';
 import { AuthGuard } from 'src/auth/guard/auth.guard';
 import { AdressService } from 'src/adress/adress.service';
+import { RolesGuard } from 'src/middleware/roleGuard/role.guard';
+import { Roles } from 'src/middleware/roleGuard/role.decorator';
 
 @Controller('festival')
 export class FestivalController {
@@ -15,7 +17,8 @@ export class FestivalController {
 
   ) { }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(['organisateur'])
   @Post()
   async create
     (@Body() createFestivalDto: CreateFestivalDto,
@@ -29,17 +32,27 @@ export class FestivalController {
       }
       }
       const myFestival = await this.festivalService.create(createFestivalDto, existingAdress);
-      await this.festivalService.createLinkUserAndFestival(myFestival.id, req.user)
+      await this.festivalService.createLinkUserAndFestival(myFestival.id, req.user.sub)
     
     return myFestival
   }
 
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(['organisateur'])
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.festivalService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(['organisateur'])
+  @Get()
+  async findAll(){
+    return this.festivalService.findAll()
+  }
+
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(['organisateur'])
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateFestivalDto: UpdateFestivalDto): Promise<festival | undefined> {
 
@@ -64,12 +77,13 @@ export class FestivalController {
     return this.festivalService.update(+id, updateFestivalDto,existingAdress);
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(['organisateur'])
   @Delete(':id')
   remove(
     @Param('id') id: string,
     @Req() req: any
   ) {
-    return this.festivalService.remove(+id, req.user);
+    return this.festivalService.remove(+id, req.user.sub);
   }
 }

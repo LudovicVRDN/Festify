@@ -28,11 +28,6 @@ export type adress = Prisma.adressModel
  */
 export type artist = Prisma.artistModel
 /**
- * Model artist_has_schedule
- * 
- */
-export type artist_has_schedule = Prisma.artist_has_scheduleModel
-/**
  * Model artist_has_stage
  * 
  */
@@ -63,16 +58,6 @@ export type inscription = Prisma.inscriptionModel
  */
 export type mission = Prisma.missionModel
 /**
- * Model mission_has_schedule
- * 
- */
-export type mission_has_schedule = Prisma.mission_has_scheduleModel
-/**
- * Model mission_needs_skill
- * 
- */
-export type mission_needs_skill = Prisma.mission_needs_skillModel
-/**
  * Model notification
  * 
  */
@@ -87,11 +72,6 @@ export type notification_has_user = Prisma.notification_has_userModel
  * 
  */
 export type profile = Prisma.profileModel
-/**
- * Model schedule
- * 
- */
-export type schedule = Prisma.scheduleModel
 /**
  * Model skills
  * 

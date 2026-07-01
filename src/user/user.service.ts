@@ -1,7 +1,7 @@
 import { Body, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { NewPassword, UpdatePassword, UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { adress, festival, Prisma } from 'prisma/generated/prisma/client';
 import { skills, user } from 'prisma/generated/prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -58,10 +58,10 @@ export class UserService {
         password: hashedPassword,
         profile: {
           create: {
-            firstname: profile.firstname,
-            lastname: profile.lastname,
+            firstname: profile!.firstname,
+            lastname: profile!.lastname,
             adress: {
-              create: profile.adress
+              create: profile!.adress
             }
           }
         }
@@ -89,6 +89,7 @@ export class UserService {
       }
     })
     return usersSkills[0].skills_has_user.map(s => ({
+    id: s.skills.id,
     name: s.skills.name,
     description: s.skills.description,
   }));
@@ -168,7 +169,15 @@ export class UserService {
   }
 
   async findOne(id: number): Promise<user | null> {
-    const user = await this.prisma.user.findUnique({ where: { id } })
+    const user = await this.prisma.user.findUnique({ where: { id }, 
+      include:{
+        profile:{
+          include:{
+            adress:true
+          }
+        }
+        
+  }})
     return user
   }
 

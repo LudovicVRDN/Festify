@@ -11,6 +11,7 @@ import { SkillsModule } from './skills/skills.module';
 import { MailingModule } from './mailing/mailing.module';
 import { MissionsModule } from './missions/missions.module';
 
+
 @Module({
   imports: [UserModule,PrismaModule, AuthModule, ProfileModule,ConfigModule.forRoot({isGlobal:true}), FestivalModule, AdressModule, SkillsModule, MailingModule, MissionsModule],
   providers: [ProfileService],

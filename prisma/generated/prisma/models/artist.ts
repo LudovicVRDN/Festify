@@ -28,18 +28,19 @@ export type AggregateArtist = {
 
 export type ArtistAvgAggregateOutputType = {
   id: number | null
-  is_coming: number | null
+  show_duration: number | null
 }
 
 export type ArtistSumAggregateOutputType = {
   id: number | null
-  is_coming: number | null
+  show_duration: number | null
 }
 
 export type ArtistMinAggregateOutputType = {
   id: number | null
   artist_name: string | null
-  is_coming: number | null
+  show_duration: number | null
+  time_start: Date | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -47,7 +48,8 @@ export type ArtistMinAggregateOutputType = {
 export type ArtistMaxAggregateOutputType = {
   id: number | null
   artist_name: string | null
-  is_coming: number | null
+  show_duration: number | null
+  time_start: Date | null
   created_at: Date | null
   updated_at: Date | null
 }
@@ -55,7 +57,8 @@ export type ArtistMaxAggregateOutputType = {
 export type ArtistCountAggregateOutputType = {
   id: number
   artist_name: number
-  is_coming: number
+  show_duration: number
+  time_start: number
   created_at: number
   updated_at: number
   _all: number
@@ -64,18 +67,19 @@ export type ArtistCountAggregateOutputType = {
 
 export type ArtistAvgAggregateInputType = {
   id?: true
-  is_coming?: true
+  show_duration?: true
 }
 
 export type ArtistSumAggregateInputType = {
   id?: true
-  is_coming?: true
+  show_duration?: true
 }
 
 export type ArtistMinAggregateInputType = {
   id?: true
   artist_name?: true
-  is_coming?: true
+  show_duration?: true
+  time_start?: true
   created_at?: true
   updated_at?: true
 }
@@ -83,7 +87,8 @@ export type ArtistMinAggregateInputType = {
 export type ArtistMaxAggregateInputType = {
   id?: true
   artist_name?: true
-  is_coming?: true
+  show_duration?: true
+  time_start?: true
   created_at?: true
   updated_at?: true
 }
@@ -91,7 +96,8 @@ export type ArtistMaxAggregateInputType = {
 export type ArtistCountAggregateInputType = {
   id?: true
   artist_name?: true
-  is_coming?: true
+  show_duration?: true
+  time_start?: true
   created_at?: true
   updated_at?: true
   _all?: true
@@ -186,7 +192,8 @@ export type artistGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalA
 export type ArtistGroupByOutputType = {
   id: number
   artist_name: string
-  is_coming: number
+  show_duration: number
+  time_start: Date
   created_at: Date
   updated_at: Date
   _count: ArtistCountAggregateOutputType | null
@@ -217,10 +224,10 @@ export type artistWhereInput = {
   NOT?: Prisma.artistWhereInput | Prisma.artistWhereInput[]
   id?: Prisma.IntFilter<"artist"> | number
   artist_name?: Prisma.StringFilter<"artist"> | string
-  is_coming?: Prisma.IntFilter<"artist"> | number
+  show_duration?: Prisma.IntFilter<"artist"> | number
+  time_start?: Prisma.DateTimeFilter<"artist"> | Date | string
   created_at?: Prisma.DateTimeFilter<"artist"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"artist"> | Date | string
-  artist_has_schedule?: Prisma.Artist_has_scheduleListRelationFilter
   artist_has_stage?: Prisma.Artist_has_stageListRelationFilter
   festival_has_artist?: Prisma.Festival_has_artistListRelationFilter
 }
@@ -228,10 +235,10 @@ export type artistWhereInput = {
 export type artistOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   artist_name?: Prisma.SortOrder
-  is_coming?: Prisma.SortOrder
+  show_duration?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  artist_has_schedule?: Prisma.artist_has_scheduleOrderByRelationAggregateInput
   artist_has_stage?: Prisma.artist_has_stageOrderByRelationAggregateInput
   festival_has_artist?: Prisma.festival_has_artistOrderByRelationAggregateInput
   _relevance?: Prisma.artistOrderByRelevanceInput
@@ -243,10 +250,10 @@ export type artistWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.artistWhereInput[]
   NOT?: Prisma.artistWhereInput | Prisma.artistWhereInput[]
   artist_name?: Prisma.StringFilter<"artist"> | string
-  is_coming?: Prisma.IntFilter<"artist"> | number
+  show_duration?: Prisma.IntFilter<"artist"> | number
+  time_start?: Prisma.DateTimeFilter<"artist"> | Date | string
   created_at?: Prisma.DateTimeFilter<"artist"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"artist"> | Date | string
-  artist_has_schedule?: Prisma.Artist_has_scheduleListRelationFilter
   artist_has_stage?: Prisma.Artist_has_stageListRelationFilter
   festival_has_artist?: Prisma.Festival_has_artistListRelationFilter
 }, "id" | "id">
@@ -254,7 +261,8 @@ export type artistWhereUniqueInput = Prisma.AtLeast<{
 export type artistOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   artist_name?: Prisma.SortOrder
-  is_coming?: Prisma.SortOrder
+  show_duration?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
   _count?: Prisma.artistCountOrderByAggregateInput
@@ -270,17 +278,18 @@ export type artistScalarWhereWithAggregatesInput = {
   NOT?: Prisma.artistScalarWhereWithAggregatesInput | Prisma.artistScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"artist"> | number
   artist_name?: Prisma.StringWithAggregatesFilter<"artist"> | string
-  is_coming?: Prisma.IntWithAggregatesFilter<"artist"> | number
+  show_duration?: Prisma.IntWithAggregatesFilter<"artist"> | number
+  time_start?: Prisma.DateTimeWithAggregatesFilter<"artist"> | Date | string
   created_at?: Prisma.DateTimeWithAggregatesFilter<"artist"> | Date | string
   updated_at?: Prisma.DateTimeWithAggregatesFilter<"artist"> | Date | string
 }
 
 export type artistCreateInput = {
   artist_name: string
-  is_coming: number
+  show_duration: number
+  time_start: Date | string
   created_at?: Date | string
   updated_at?: Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleCreateNestedManyWithoutArtistInput
   artist_has_stage?: Prisma.artist_has_stageCreateNestedManyWithoutArtistInput
   festival_has_artist?: Prisma.festival_has_artistCreateNestedManyWithoutArtistInput
 }
@@ -288,20 +297,20 @@ export type artistCreateInput = {
 export type artistUncheckedCreateInput = {
   id?: number
   artist_name: string
-  is_coming: number
+  show_duration: number
+  time_start: Date | string
   created_at?: Date | string
   updated_at?: Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleUncheckedCreateNestedManyWithoutArtistInput
   artist_has_stage?: Prisma.artist_has_stageUncheckedCreateNestedManyWithoutArtistInput
   festival_has_artist?: Prisma.festival_has_artistUncheckedCreateNestedManyWithoutArtistInput
 }
 
 export type artistUpdateInput = {
   artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
+  show_duration?: Prisma.IntFieldUpdateOperationsInput | number
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleUpdateManyWithoutArtistNestedInput
   artist_has_stage?: Prisma.artist_has_stageUpdateManyWithoutArtistNestedInput
   festival_has_artist?: Prisma.festival_has_artistUpdateManyWithoutArtistNestedInput
 }
@@ -309,10 +318,10 @@ export type artistUpdateInput = {
 export type artistUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
+  show_duration?: Prisma.IntFieldUpdateOperationsInput | number
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleUncheckedUpdateManyWithoutArtistNestedInput
   artist_has_stage?: Prisma.artist_has_stageUncheckedUpdateManyWithoutArtistNestedInput
   festival_has_artist?: Prisma.festival_has_artistUncheckedUpdateManyWithoutArtistNestedInput
 }
@@ -320,14 +329,16 @@ export type artistUncheckedUpdateInput = {
 export type artistCreateManyInput = {
   id?: number
   artist_name: string
-  is_coming: number
+  show_duration: number
+  time_start: Date | string
   created_at?: Date | string
   updated_at?: Date | string
 }
 
 export type artistUpdateManyMutationInput = {
   artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
+  show_duration?: Prisma.IntFieldUpdateOperationsInput | number
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -335,7 +346,8 @@ export type artistUpdateManyMutationInput = {
 export type artistUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
+  show_duration?: Prisma.IntFieldUpdateOperationsInput | number
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -349,20 +361,22 @@ export type artistOrderByRelevanceInput = {
 export type artistCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   artist_name?: Prisma.SortOrder
-  is_coming?: Prisma.SortOrder
+  show_duration?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
 
 export type artistAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  is_coming?: Prisma.SortOrder
+  show_duration?: Prisma.SortOrder
 }
 
 export type artistMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   artist_name?: Prisma.SortOrder
-  is_coming?: Prisma.SortOrder
+  show_duration?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
@@ -370,33 +384,20 @@ export type artistMaxOrderByAggregateInput = {
 export type artistMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   artist_name?: Prisma.SortOrder
-  is_coming?: Prisma.SortOrder
+  show_duration?: Prisma.SortOrder
+  time_start?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
 }
 
 export type artistSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  is_coming?: Prisma.SortOrder
+  show_duration?: Prisma.SortOrder
 }
 
 export type ArtistScalarRelationFilter = {
   is?: Prisma.artistWhereInput
   isNot?: Prisma.artistWhereInput
-}
-
-export type artistCreateNestedOneWithoutArtist_has_scheduleInput = {
-  create?: Prisma.XOR<Prisma.artistCreateWithoutArtist_has_scheduleInput, Prisma.artistUncheckedCreateWithoutArtist_has_scheduleInput>
-  connectOrCreate?: Prisma.artistCreateOrConnectWithoutArtist_has_scheduleInput
-  connect?: Prisma.artistWhereUniqueInput
-}
-
-export type artistUpdateOneRequiredWithoutArtist_has_scheduleNestedInput = {
-  create?: Prisma.XOR<Prisma.artistCreateWithoutArtist_has_scheduleInput, Prisma.artistUncheckedCreateWithoutArtist_has_scheduleInput>
-  connectOrCreate?: Prisma.artistCreateOrConnectWithoutArtist_has_scheduleInput
-  upsert?: Prisma.artistUpsertWithoutArtist_has_scheduleInput
-  connect?: Prisma.artistWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.artistUpdateToOneWithWhereWithoutArtist_has_scheduleInput, Prisma.artistUpdateWithoutArtist_has_scheduleInput>, Prisma.artistUncheckedUpdateWithoutArtist_has_scheduleInput>
 }
 
 export type artistCreateNestedOneWithoutArtist_has_stageInput = {
@@ -427,76 +428,22 @@ export type artistUpdateOneRequiredWithoutFestival_has_artistNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.artistUpdateToOneWithWhereWithoutFestival_has_artistInput, Prisma.artistUpdateWithoutFestival_has_artistInput>, Prisma.artistUncheckedUpdateWithoutFestival_has_artistInput>
 }
 
-export type artistCreateWithoutArtist_has_scheduleInput = {
-  artist_name: string
-  is_coming: number
-  created_at?: Date | string
-  updated_at?: Date | string
-  artist_has_stage?: Prisma.artist_has_stageCreateNestedManyWithoutArtistInput
-  festival_has_artist?: Prisma.festival_has_artistCreateNestedManyWithoutArtistInput
-}
-
-export type artistUncheckedCreateWithoutArtist_has_scheduleInput = {
-  id?: number
-  artist_name: string
-  is_coming: number
-  created_at?: Date | string
-  updated_at?: Date | string
-  artist_has_stage?: Prisma.artist_has_stageUncheckedCreateNestedManyWithoutArtistInput
-  festival_has_artist?: Prisma.festival_has_artistUncheckedCreateNestedManyWithoutArtistInput
-}
-
-export type artistCreateOrConnectWithoutArtist_has_scheduleInput = {
-  where: Prisma.artistWhereUniqueInput
-  create: Prisma.XOR<Prisma.artistCreateWithoutArtist_has_scheduleInput, Prisma.artistUncheckedCreateWithoutArtist_has_scheduleInput>
-}
-
-export type artistUpsertWithoutArtist_has_scheduleInput = {
-  update: Prisma.XOR<Prisma.artistUpdateWithoutArtist_has_scheduleInput, Prisma.artistUncheckedUpdateWithoutArtist_has_scheduleInput>
-  create: Prisma.XOR<Prisma.artistCreateWithoutArtist_has_scheduleInput, Prisma.artistUncheckedCreateWithoutArtist_has_scheduleInput>
-  where?: Prisma.artistWhereInput
-}
-
-export type artistUpdateToOneWithWhereWithoutArtist_has_scheduleInput = {
-  where?: Prisma.artistWhereInput
-  data: Prisma.XOR<Prisma.artistUpdateWithoutArtist_has_scheduleInput, Prisma.artistUncheckedUpdateWithoutArtist_has_scheduleInput>
-}
-
-export type artistUpdateWithoutArtist_has_scheduleInput = {
-  artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artist_has_stage?: Prisma.artist_has_stageUpdateManyWithoutArtistNestedInput
-  festival_has_artist?: Prisma.festival_has_artistUpdateManyWithoutArtistNestedInput
-}
-
-export type artistUncheckedUpdateWithoutArtist_has_scheduleInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artist_has_stage?: Prisma.artist_has_stageUncheckedUpdateManyWithoutArtistNestedInput
-  festival_has_artist?: Prisma.festival_has_artistUncheckedUpdateManyWithoutArtistNestedInput
-}
-
 export type artistCreateWithoutArtist_has_stageInput = {
   artist_name: string
-  is_coming: number
+  show_duration: number
+  time_start: Date | string
   created_at?: Date | string
   updated_at?: Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleCreateNestedManyWithoutArtistInput
   festival_has_artist?: Prisma.festival_has_artistCreateNestedManyWithoutArtistInput
 }
 
 export type artistUncheckedCreateWithoutArtist_has_stageInput = {
   id?: number
   artist_name: string
-  is_coming: number
+  show_duration: number
+  time_start: Date | string
   created_at?: Date | string
   updated_at?: Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleUncheckedCreateNestedManyWithoutArtistInput
   festival_has_artist?: Prisma.festival_has_artistUncheckedCreateNestedManyWithoutArtistInput
 }
 
@@ -518,39 +465,39 @@ export type artistUpdateToOneWithWhereWithoutArtist_has_stageInput = {
 
 export type artistUpdateWithoutArtist_has_stageInput = {
   artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
+  show_duration?: Prisma.IntFieldUpdateOperationsInput | number
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleUpdateManyWithoutArtistNestedInput
   festival_has_artist?: Prisma.festival_has_artistUpdateManyWithoutArtistNestedInput
 }
 
 export type artistUncheckedUpdateWithoutArtist_has_stageInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
+  show_duration?: Prisma.IntFieldUpdateOperationsInput | number
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleUncheckedUpdateManyWithoutArtistNestedInput
   festival_has_artist?: Prisma.festival_has_artistUncheckedUpdateManyWithoutArtistNestedInput
 }
 
 export type artistCreateWithoutFestival_has_artistInput = {
   artist_name: string
-  is_coming: number
+  show_duration: number
+  time_start: Date | string
   created_at?: Date | string
   updated_at?: Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleCreateNestedManyWithoutArtistInput
   artist_has_stage?: Prisma.artist_has_stageCreateNestedManyWithoutArtistInput
 }
 
 export type artistUncheckedCreateWithoutFestival_has_artistInput = {
   id?: number
   artist_name: string
-  is_coming: number
+  show_duration: number
+  time_start: Date | string
   created_at?: Date | string
   updated_at?: Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleUncheckedCreateNestedManyWithoutArtistInput
   artist_has_stage?: Prisma.artist_has_stageUncheckedCreateNestedManyWithoutArtistInput
 }
 
@@ -572,20 +519,20 @@ export type artistUpdateToOneWithWhereWithoutFestival_has_artistInput = {
 
 export type artistUpdateWithoutFestival_has_artistInput = {
   artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
+  show_duration?: Prisma.IntFieldUpdateOperationsInput | number
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleUpdateManyWithoutArtistNestedInput
   artist_has_stage?: Prisma.artist_has_stageUpdateManyWithoutArtistNestedInput
 }
 
 export type artistUncheckedUpdateWithoutFestival_has_artistInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   artist_name?: Prisma.StringFieldUpdateOperationsInput | string
-  is_coming?: Prisma.IntFieldUpdateOperationsInput | number
+  show_duration?: Prisma.IntFieldUpdateOperationsInput | number
+  time_start?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  artist_has_schedule?: Prisma.artist_has_scheduleUncheckedUpdateManyWithoutArtistNestedInput
   artist_has_stage?: Prisma.artist_has_stageUncheckedUpdateManyWithoutArtistNestedInput
 }
 
@@ -595,13 +542,11 @@ export type artistUncheckedUpdateWithoutFestival_has_artistInput = {
  */
 
 export type ArtistCountOutputType = {
-  artist_has_schedule: number
   artist_has_stage: number
   festival_has_artist: number
 }
 
 export type ArtistCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  artist_has_schedule?: boolean | ArtistCountOutputTypeCountArtist_has_scheduleArgs
   artist_has_stage?: boolean | ArtistCountOutputTypeCountArtist_has_stageArgs
   festival_has_artist?: boolean | ArtistCountOutputTypeCountFestival_has_artistArgs
 }
@@ -614,13 +559,6 @@ export type ArtistCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
    * Select specific fields to fetch from the ArtistCountOutputType
    */
   select?: Prisma.ArtistCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * ArtistCountOutputType without action
- */
-export type ArtistCountOutputTypeCountArtist_has_scheduleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.artist_has_scheduleWhereInput
 }
 
 /**
@@ -641,10 +579,10 @@ export type ArtistCountOutputTypeCountFestival_has_artistArgs<ExtArgs extends ru
 export type artistSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   artist_name?: boolean
-  is_coming?: boolean
+  show_duration?: boolean
+  time_start?: boolean
   created_at?: boolean
   updated_at?: boolean
-  artist_has_schedule?: boolean | Prisma.artist$artist_has_scheduleArgs<ExtArgs>
   artist_has_stage?: boolean | Prisma.artist$artist_has_stageArgs<ExtArgs>
   festival_has_artist?: boolean | Prisma.artist$festival_has_artistArgs<ExtArgs>
   _count?: boolean | Prisma.ArtistCountOutputTypeDefaultArgs<ExtArgs>
@@ -655,14 +593,14 @@ export type artistSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
 export type artistSelectScalar = {
   id?: boolean
   artist_name?: boolean
-  is_coming?: boolean
+  show_duration?: boolean
+  time_start?: boolean
   created_at?: boolean
   updated_at?: boolean
 }
 
-export type artistOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "artist_name" | "is_coming" | "created_at" | "updated_at", ExtArgs["result"]["artist"]>
+export type artistOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "artist_name" | "show_duration" | "time_start" | "created_at" | "updated_at", ExtArgs["result"]["artist"]>
 export type artistInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  artist_has_schedule?: boolean | Prisma.artist$artist_has_scheduleArgs<ExtArgs>
   artist_has_stage?: boolean | Prisma.artist$artist_has_stageArgs<ExtArgs>
   festival_has_artist?: boolean | Prisma.artist$festival_has_artistArgs<ExtArgs>
   _count?: boolean | Prisma.ArtistCountOutputTypeDefaultArgs<ExtArgs>
@@ -671,14 +609,14 @@ export type artistInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type $artistPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "artist"
   objects: {
-    artist_has_schedule: Prisma.$artist_has_schedulePayload<ExtArgs>[]
     artist_has_stage: Prisma.$artist_has_stagePayload<ExtArgs>[]
     festival_has_artist: Prisma.$festival_has_artistPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     artist_name: string
-    is_coming: number
+    show_duration: number
+    time_start: Date
     created_at: Date
     updated_at: Date
   }, ExtArgs["result"]["artist"]>
@@ -1021,7 +959,6 @@ readonly fields: artistFieldRefs;
  */
 export interface Prisma__artistClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  artist_has_schedule<T extends Prisma.artist$artist_has_scheduleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.artist$artist_has_scheduleArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$artist_has_schedulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   artist_has_stage<T extends Prisma.artist$artist_has_stageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.artist$artist_has_stageArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$artist_has_stagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   festival_has_artist<T extends Prisma.artist$festival_has_artistArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.artist$festival_has_artistArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$festival_has_artistPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1055,7 +992,8 @@ export interface Prisma__artistClient<T, Null = never, ExtArgs extends runtime.T
 export interface artistFieldRefs {
   readonly id: Prisma.FieldRef<"artist", 'Int'>
   readonly artist_name: Prisma.FieldRef<"artist", 'String'>
-  readonly is_coming: Prisma.FieldRef<"artist", 'Int'>
+  readonly show_duration: Prisma.FieldRef<"artist", 'Int'>
+  readonly time_start: Prisma.FieldRef<"artist", 'DateTime'>
   readonly created_at: Prisma.FieldRef<"artist", 'DateTime'>
   readonly updated_at: Prisma.FieldRef<"artist", 'DateTime'>
 }
@@ -1403,30 +1341,6 @@ export type artistDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many artists to delete.
    */
   limit?: number
-}
-
-/**
- * artist.artist_has_schedule
- */
-export type artist$artist_has_scheduleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the artist_has_schedule
-   */
-  select?: Prisma.artist_has_scheduleSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the artist_has_schedule
-   */
-  omit?: Prisma.artist_has_scheduleOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.artist_has_scheduleInclude<ExtArgs> | null
-  where?: Prisma.artist_has_scheduleWhereInput
-  orderBy?: Prisma.artist_has_scheduleOrderByWithRelationInput | Prisma.artist_has_scheduleOrderByWithRelationInput[]
-  cursor?: Prisma.artist_has_scheduleWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Artist_has_scheduleScalarFieldEnum | Prisma.Artist_has_scheduleScalarFieldEnum[]
 }
 
 /**

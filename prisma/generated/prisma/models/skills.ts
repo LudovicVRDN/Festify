@@ -216,7 +216,6 @@ export type skillsWhereInput = {
   description?: Prisma.StringFilter<"skills"> | string
   created_at?: Prisma.DateTimeFilter<"skills"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"skills"> | Date | string
-  mission_needs_skill?: Prisma.Mission_needs_skillListRelationFilter
   skills_has_user?: Prisma.Skills_has_userListRelationFilter
 }
 
@@ -226,7 +225,6 @@ export type skillsOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   created_at?: Prisma.SortOrder
   updated_at?: Prisma.SortOrder
-  mission_needs_skill?: Prisma.mission_needs_skillOrderByRelationAggregateInput
   skills_has_user?: Prisma.skills_has_userOrderByRelationAggregateInput
   _relevance?: Prisma.skillsOrderByRelevanceInput
 }
@@ -240,7 +238,6 @@ export type skillsWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"skills"> | string
   created_at?: Prisma.DateTimeFilter<"skills"> | Date | string
   updated_at?: Prisma.DateTimeFilter<"skills"> | Date | string
-  mission_needs_skill?: Prisma.Mission_needs_skillListRelationFilter
   skills_has_user?: Prisma.Skills_has_userListRelationFilter
 }, "id" | "id" | "name">
 
@@ -273,7 +270,6 @@ export type skillsCreateInput = {
   description: string
   created_at?: Date | string
   updated_at?: Date | string
-  mission_needs_skill?: Prisma.mission_needs_skillCreateNestedManyWithoutSkillsInput
   skills_has_user?: Prisma.skills_has_userCreateNestedManyWithoutSkillsInput
 }
 
@@ -283,7 +279,6 @@ export type skillsUncheckedCreateInput = {
   description: string
   created_at?: Date | string
   updated_at?: Date | string
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedCreateNestedManyWithoutSkillsInput
   skills_has_user?: Prisma.skills_has_userUncheckedCreateNestedManyWithoutSkillsInput
 }
 
@@ -292,7 +287,6 @@ export type skillsUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  mission_needs_skill?: Prisma.mission_needs_skillUpdateManyWithoutSkillsNestedInput
   skills_has_user?: Prisma.skills_has_userUpdateManyWithoutSkillsNestedInput
 }
 
@@ -302,7 +296,6 @@ export type skillsUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedUpdateManyWithoutSkillsNestedInput
   skills_has_user?: Prisma.skills_has_userUncheckedUpdateManyWithoutSkillsNestedInput
 }
 
@@ -327,11 +320,6 @@ export type skillsUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type SkillsScalarRelationFilter = {
-  is?: Prisma.skillsWhereInput
-  isNot?: Prisma.skillsWhereInput
 }
 
 export type skillsOrderByRelevanceInput = {
@@ -372,18 +360,9 @@ export type skillsSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
-export type skillsCreateNestedOneWithoutMission_needs_skillInput = {
-  create?: Prisma.XOR<Prisma.skillsCreateWithoutMission_needs_skillInput, Prisma.skillsUncheckedCreateWithoutMission_needs_skillInput>
-  connectOrCreate?: Prisma.skillsCreateOrConnectWithoutMission_needs_skillInput
-  connect?: Prisma.skillsWhereUniqueInput
-}
-
-export type skillsUpdateOneRequiredWithoutMission_needs_skillNestedInput = {
-  create?: Prisma.XOR<Prisma.skillsCreateWithoutMission_needs_skillInput, Prisma.skillsUncheckedCreateWithoutMission_needs_skillInput>
-  connectOrCreate?: Prisma.skillsCreateOrConnectWithoutMission_needs_skillInput
-  upsert?: Prisma.skillsUpsertWithoutMission_needs_skillInput
-  connect?: Prisma.skillsWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.skillsUpdateToOneWithWhereWithoutMission_needs_skillInput, Prisma.skillsUpdateWithoutMission_needs_skillInput>, Prisma.skillsUncheckedUpdateWithoutMission_needs_skillInput>
+export type SkillsScalarRelationFilter = {
+  is?: Prisma.skillsWhereInput
+  isNot?: Prisma.skillsWhereInput
 }
 
 export type skillsCreateNestedOneWithoutSkills_has_userInput = {
@@ -400,62 +379,11 @@ export type skillsUpdateOneRequiredWithoutSkills_has_userNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.skillsUpdateToOneWithWhereWithoutSkills_has_userInput, Prisma.skillsUpdateWithoutSkills_has_userInput>, Prisma.skillsUncheckedUpdateWithoutSkills_has_userInput>
 }
 
-export type skillsCreateWithoutMission_needs_skillInput = {
-  name: string
-  description: string
-  created_at?: Date | string
-  updated_at?: Date | string
-  skills_has_user?: Prisma.skills_has_userCreateNestedManyWithoutSkillsInput
-}
-
-export type skillsUncheckedCreateWithoutMission_needs_skillInput = {
-  id?: number
-  name: string
-  description: string
-  created_at?: Date | string
-  updated_at?: Date | string
-  skills_has_user?: Prisma.skills_has_userUncheckedCreateNestedManyWithoutSkillsInput
-}
-
-export type skillsCreateOrConnectWithoutMission_needs_skillInput = {
-  where: Prisma.skillsWhereUniqueInput
-  create: Prisma.XOR<Prisma.skillsCreateWithoutMission_needs_skillInput, Prisma.skillsUncheckedCreateWithoutMission_needs_skillInput>
-}
-
-export type skillsUpsertWithoutMission_needs_skillInput = {
-  update: Prisma.XOR<Prisma.skillsUpdateWithoutMission_needs_skillInput, Prisma.skillsUncheckedUpdateWithoutMission_needs_skillInput>
-  create: Prisma.XOR<Prisma.skillsCreateWithoutMission_needs_skillInput, Prisma.skillsUncheckedCreateWithoutMission_needs_skillInput>
-  where?: Prisma.skillsWhereInput
-}
-
-export type skillsUpdateToOneWithWhereWithoutMission_needs_skillInput = {
-  where?: Prisma.skillsWhereInput
-  data: Prisma.XOR<Prisma.skillsUpdateWithoutMission_needs_skillInput, Prisma.skillsUncheckedUpdateWithoutMission_needs_skillInput>
-}
-
-export type skillsUpdateWithoutMission_needs_skillInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  skills_has_user?: Prisma.skills_has_userUpdateManyWithoutSkillsNestedInput
-}
-
-export type skillsUncheckedUpdateWithoutMission_needs_skillInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  description?: Prisma.StringFieldUpdateOperationsInput | string
-  created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  skills_has_user?: Prisma.skills_has_userUncheckedUpdateManyWithoutSkillsNestedInput
-}
-
 export type skillsCreateWithoutSkills_has_userInput = {
   name: string
   description: string
   created_at?: Date | string
   updated_at?: Date | string
-  mission_needs_skill?: Prisma.mission_needs_skillCreateNestedManyWithoutSkillsInput
 }
 
 export type skillsUncheckedCreateWithoutSkills_has_userInput = {
@@ -464,7 +392,6 @@ export type skillsUncheckedCreateWithoutSkills_has_userInput = {
   description: string
   created_at?: Date | string
   updated_at?: Date | string
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedCreateNestedManyWithoutSkillsInput
 }
 
 export type skillsCreateOrConnectWithoutSkills_has_userInput = {
@@ -488,7 +415,6 @@ export type skillsUpdateWithoutSkills_has_userInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  mission_needs_skill?: Prisma.mission_needs_skillUpdateManyWithoutSkillsNestedInput
 }
 
 export type skillsUncheckedUpdateWithoutSkills_has_userInput = {
@@ -497,7 +423,6 @@ export type skillsUncheckedUpdateWithoutSkills_has_userInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   created_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updated_at?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  mission_needs_skill?: Prisma.mission_needs_skillUncheckedUpdateManyWithoutSkillsNestedInput
 }
 
 
@@ -506,12 +431,10 @@ export type skillsUncheckedUpdateWithoutSkills_has_userInput = {
  */
 
 export type SkillsCountOutputType = {
-  mission_needs_skill: number
   skills_has_user: number
 }
 
 export type SkillsCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  mission_needs_skill?: boolean | SkillsCountOutputTypeCountMission_needs_skillArgs
   skills_has_user?: boolean | SkillsCountOutputTypeCountSkills_has_userArgs
 }
 
@@ -528,13 +451,6 @@ export type SkillsCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
 /**
  * SkillsCountOutputType without action
  */
-export type SkillsCountOutputTypeCountMission_needs_skillArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.mission_needs_skillWhereInput
-}
-
-/**
- * SkillsCountOutputType without action
- */
 export type SkillsCountOutputTypeCountSkills_has_userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.skills_has_userWhereInput
 }
@@ -546,7 +462,6 @@ export type skillsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   description?: boolean
   created_at?: boolean
   updated_at?: boolean
-  mission_needs_skill?: boolean | Prisma.skills$mission_needs_skillArgs<ExtArgs>
   skills_has_user?: boolean | Prisma.skills$skills_has_userArgs<ExtArgs>
   _count?: boolean | Prisma.SkillsCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["skills"]>
@@ -563,7 +478,6 @@ export type skillsSelectScalar = {
 
 export type skillsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "created_at" | "updated_at", ExtArgs["result"]["skills"]>
 export type skillsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  mission_needs_skill?: boolean | Prisma.skills$mission_needs_skillArgs<ExtArgs>
   skills_has_user?: boolean | Prisma.skills$skills_has_userArgs<ExtArgs>
   _count?: boolean | Prisma.SkillsCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -571,7 +485,6 @@ export type skillsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type $skillsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "skills"
   objects: {
-    mission_needs_skill: Prisma.$mission_needs_skillPayload<ExtArgs>[]
     skills_has_user: Prisma.$skills_has_userPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -920,7 +833,6 @@ readonly fields: skillsFieldRefs;
  */
 export interface Prisma__skillsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  mission_needs_skill<T extends Prisma.skills$mission_needs_skillArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.skills$mission_needs_skillArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$mission_needs_skillPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   skills_has_user<T extends Prisma.skills$skills_has_userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.skills$skills_has_userArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$skills_has_userPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1301,30 +1213,6 @@ export type skillsDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many skills to delete.
    */
   limit?: number
-}
-
-/**
- * skills.mission_needs_skill
- */
-export type skills$mission_needs_skillArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the mission_needs_skill
-   */
-  select?: Prisma.mission_needs_skillSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the mission_needs_skill
-   */
-  omit?: Prisma.mission_needs_skillOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.mission_needs_skillInclude<ExtArgs> | null
-  where?: Prisma.mission_needs_skillWhereInput
-  orderBy?: Prisma.mission_needs_skillOrderByWithRelationInput | Prisma.mission_needs_skillOrderByWithRelationInput[]
-  cursor?: Prisma.mission_needs_skillWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.Mission_needs_skillScalarFieldEnum | Prisma.Mission_needs_skillScalarFieldEnum[]
 }
 
 /**

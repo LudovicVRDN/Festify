@@ -53,19 +53,15 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   adress: 'adress',
   artist: 'artist',
-  artist_has_schedule: 'artist_has_schedule',
   artist_has_stage: 'artist_has_stage',
   festival: 'festival',
   festival_has_artist: 'festival_has_artist',
   festival_has_stage: 'festival_has_stage',
   inscription: 'inscription',
   mission: 'mission',
-  mission_has_schedule: 'mission_has_schedule',
-  mission_needs_skill: 'mission_needs_skill',
   notification: 'notification',
   notification_has_user: 'notification_has_user',
   profile: 'profile',
-  schedule: 'schedule',
   skills: 'skills',
   skills_has_user: 'skills_has_user',
   stage: 'stage',
@@ -104,22 +100,13 @@ export type AdressScalarFieldEnum = (typeof AdressScalarFieldEnum)[keyof typeof 
 export const ArtistScalarFieldEnum = {
   id: 'id',
   artist_name: 'artist_name',
-  is_coming: 'is_coming',
+  show_duration: 'show_duration',
+  time_start: 'time_start',
   created_at: 'created_at',
   updated_at: 'updated_at'
 } as const
 
 export type ArtistScalarFieldEnum = (typeof ArtistScalarFieldEnum)[keyof typeof ArtistScalarFieldEnum]
-
-
-export const Artist_has_scheduleScalarFieldEnum = {
-  schedule_id: 'schedule_id',
-  artist_id: 'artist_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type Artist_has_scheduleScalarFieldEnum = (typeof Artist_has_scheduleScalarFieldEnum)[keyof typeof Artist_has_scheduleScalarFieldEnum]
 
 
 export const Artist_has_stageScalarFieldEnum = {
@@ -182,32 +169,14 @@ export const MissionScalarFieldEnum = {
   volunteer_needed: 'volunteer_needed',
   description: 'description',
   is_full: 'is_full',
+  time_start: 'time_start',
+  time_end: 'time_end',
   created_at: 'created_at',
   updated_at: 'updated_at',
   festival_id: 'festival_id'
 } as const
 
 export type MissionScalarFieldEnum = (typeof MissionScalarFieldEnum)[keyof typeof MissionScalarFieldEnum]
-
-
-export const Mission_has_scheduleScalarFieldEnum = {
-  schedule_id: 'schedule_id',
-  mission_id: 'mission_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type Mission_has_scheduleScalarFieldEnum = (typeof Mission_has_scheduleScalarFieldEnum)[keyof typeof Mission_has_scheduleScalarFieldEnum]
-
-
-export const Mission_needs_skillScalarFieldEnum = {
-  skills_id: 'skills_id',
-  mission_id: 'mission_id',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type Mission_needs_skillScalarFieldEnum = (typeof Mission_needs_skillScalarFieldEnum)[keyof typeof Mission_needs_skillScalarFieldEnum]
 
 
 export const NotificationScalarFieldEnum = {
@@ -240,17 +209,6 @@ export const ProfileScalarFieldEnum = {
 } as const
 
 export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
-
-
-export const ScheduleScalarFieldEnum = {
-  id: 'id',
-  time_start: 'time_start',
-  time_end: 'time_end',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-} as const
-
-export type ScheduleScalarFieldEnum = (typeof ScheduleScalarFieldEnum)[keyof typeof ScheduleScalarFieldEnum]
 
 
 export const SkillsScalarFieldEnum = {

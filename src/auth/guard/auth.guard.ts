@@ -30,8 +30,8 @@ export class AuthGuard implements CanActivate {
                     secret: process.env.access_token
                 }
             );
-            //Si valide retourne le playload qu'on attacheà request['user']
-            request['user'] = payload.sub;
+            //Si valide retourne le playload qu'on attache à request['user']
+            request['user'] = payload;
             
         } catch {
             //Si pas valide ou expiré renvoie une 401
