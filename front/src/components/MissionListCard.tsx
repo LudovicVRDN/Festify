@@ -5,12 +5,12 @@ import Button from "./ui/button";
 import MissionIcon from "./MissionIcon";
 import type { IMission } from "../types/misison.type";
 
-
 interface cardProps {
   mission: IMission;
   button: boolean;
-  role: string
+  role: string;
   modify: boolean;
+  currentUserId?: number;
   status?: string;
   showMore?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
   handleDelete?: (
@@ -19,9 +19,7 @@ interface cardProps {
   handleRegister?: (
     e: React.MouseEvent<HTMLButtonElement>,
   ) => void | Promise<void>;
-
 }
-
 
 const MissionListCard = ({
   mission,
@@ -29,12 +27,17 @@ const MissionListCard = ({
   status,
   role,
   modify,
+  currentUserId,
   showMore,
   handleDelete,
   handleRegister
 }: cardProps) => {
   const isPast = status === "past";
   const isOrganisateur = role === "organisateur";
+
+  const isRegistered = mission.volunteers?.some(
+    (volunteer: any) => volunteer.id === currentUserId
+  ) ?? false;
 
   return (
     <div
@@ -65,24 +68,32 @@ const MissionListCard = ({
             <IconFestivalCard
               icon="map-pin"
               label={
-                mission.festival.name + ", " + mission.festival.adress.city
+                mission.festival.name + ", " + (mission.festival.adress?.city || "Ville non renseignée")
               }
             />
-            <p
-              className={`text-[11px] text-[#555]`}
-            >Volontaire requis: {mission.volunteer_needed}</p>
+            <p className="text-[11px] text-[#555]">
+              Volontaires requis: {mission.volunteer_needed}
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="flex  gap-2 shrink-0 ml-auto">
+      <div className="flex gap-2 shrink-0 ml-auto">
         {button && (
           <Button textButton={modify ? 'Modifier' : 'Voir plus'} variant="grey" onClick={showMore} />
         )}
+
         {isOrganisateur ? (
           <Button textButton="Supprimer" variant="red" onClick={handleDelete} />
         ) : (
-          <Button textButton="S'inscrire" variant="red" onClick={handleRegister} />
+          /* On affiche le bouton "S'inscrire" uniquement si l'utilisateur n'est PAS encore inscrit */
+          !isRegistered && (
+            <Button
+              textButton="S'inscrire"
+              variant="red"
+              onClick={handleRegister}
+            />
+          )
         )}
       </div>
 
