@@ -116,54 +116,55 @@ const VolunteerHomePage = () => {
         </div>
       </section>
       <section className="flex flex-col  bg-black justify-center items-center gap-10">
-        <ul className=" overflow-auto scrollbar-hide px-4 pb-2 h-80 w-90 md:w-150  lg:w-225 xl:min-w-330 rounded-2xl">
+        <ul className="overflow-auto scrollbar-hide px-4 pb-2 h-80 w-90 md:w-150 lg:w-225 xl:min-w-330 rounded-2xl">
           {missionsIsPending ? (
             <span>Chargement...</span>
-          ) : (missions?.slice()
-            .sort((a, b) => a.festival.name.localeCompare(b.festival.name))
-            .map((mission) => (
-              <li>
-                <div
-                  className={`clipped-card w-full relative flex flex-col xl:flex-row items-center gap-4 
-      p-4 mb-2 transition-colors
-      bg-[#111] hover:border-2
-      border-l-2 ${isPast ? "border-[#2a2a2a] opacity-70" : "border-red-700"}`}
-                >
-                  <div className="flex gap-5">
-                    <div className="clipped-icon w-10 h-10 flex items-center justify-center bg-[#1e0808] border border-[#2f1010] shrink-0">
-                      <MissionIcon
-                        className={`w-5 h-5 ${isPast ? "text-[#444]" : "text-red-400"}`}
-                      />
-                    </div>
+          ) : (
+            missions?.slice()
+              .sort((a, b) => a.festival.name.localeCompare(b.festival.name))
+              .map((mission) => (
+                // 1. Ajout de la 'key' unique sur le li
+                <li key={mission.id}>
+                  <div
+                    className={`clipped-card w-full relative flex flex-col xl:flex-row items-center gap-4 
+            p-4 mb-2 transition-colors bg-[#111] hover:border-2 border-l-2 
+            ${isPast ? "border-[#2a2a2a] opacity-70" : "border-red-700"}`}
+                  >
+                    <div className="flex gap-5 w-full"> {/* Ajout de w-full pour l'alignement */}
+                      <div className="clipped-icon w-10 h-10 flex items-center justify-center bg-[#1e0808] border border-[#2f1010] shrink-0">
+                        <MissionIcon
+                          className={`w-5 h-5 ${isPast ? "text-[#444]" : "text-red-400"}`}
+                        />
+                      </div>
 
-                    <div className="flex-1 min-w-0">
-                      <p
-                        className={`text-sm font-bold uppercase tracking-widest ${isPast ? "text-[#555]" : "text-[#e0e0e0]"}`}
-                      >
-                        {mission.title}
-                        {status && <StatusBadge status={status} />}
-                      </p>
-                      <div className="flex gap-3 mt-1">
-                        <IconFestivalCard
-                          icon="calendar"
-                          label={new Date(mission.time_start).toLocaleDateString("fr-FR")}
-                        />
-                        <IconFestivalCard
-                          icon="map-pin"
-                          label={
-                            mission.festival.name + ", " + mission.festival.adress.city
-                          }
-                        />
+                      <div className="flex-1 min-w-0">
                         <p
-                          className={`text-[11px] text-[#555]`}
-                        >Volontaire requis: {mission.volunteer_needed}</p>
+                          className={`text-sm font-bold uppercase tracking-widest ${isPast ? "text-[#555]" : "text-[#e0e0e0]"}`}
+                        >
+                          {mission.title}
+                          {status && <StatusBadge status={status} />}
+                        </p>
+                        <div className="flex gap-3 mt-1">
+                          <IconFestivalCard
+                            icon="calendar"
+                            label={new Date(mission.time_start).toLocaleDateString("fr-FR")}
+                          />
+                          <IconFestivalCard
+                            icon="map-pin"
+                            // 2. Sécurisation de l'accès à l'adresse avec '?.'
+                            label={
+                              mission.festival.name + ", " + (mission.festival.adress?.city || "Ville non renseignée")
+                            }
+                          />
+                          <p className="text-[11px] text-[#555]">
+                            Volontaire requis: {mission.volunteer_needed}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                />
-              </li>
-            ))
+                  </div> {/* 3. Fermeture correcte de la div 'clipped-card' */}
+                </li>
+              ))
           )}
         </ul>
         <div className="flex flex-col gap-2">
