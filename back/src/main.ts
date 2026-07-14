@@ -16,10 +16,10 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  app.enableCors({
-    origin: 'http://localhost:5173', 
-    credentials: true, 
-  });
+ app.enableCors({
+  origin: ['https://festify2.duckdns.org'],
+  credentials: true,
+});
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new PrismaExceptionFilter(), new HttpExceptionFilter());
