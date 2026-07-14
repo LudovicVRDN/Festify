@@ -8,6 +8,7 @@ import Button from "./ui/button";
 interface cardProps {
   name: string;
   date: string;
+  role: string,
   city: string | undefined;
   status: string;
   showMore?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
@@ -19,18 +20,20 @@ interface cardProps {
 const FestivalListCard = ({
   name,
   date,
+  role,
   city,
   status,
   showMore,
   handleDelete,
 }: cardProps) => {
   const isPast = status === "past";
+  const isOrganisateur = role === "organisateur";
 
   return (
     <div
       className={`clipped-card w-full relative flex flex-col md:flex-row items-center gap-4
       p-4 mb-2 transition-colors
-      bg-[#111] hover:bg-[#161616]
+      bg-[#111] hover:border-2
       border-l-2 ${isPast ? "border-[#2a2a2a] opacity-70" : "border-red-700"}`}
     >
       <div className="flex gap-5">
@@ -59,7 +62,11 @@ const FestivalListCard = ({
 
       <div className="flex gap-2 shrink-0 ml-auto">
         <Button textButton="Plus d'infos" variant="grey" onClick={showMore} />
-        <Button textButton="Supprimer" variant="red" onClick={handleDelete} />
+        {isOrganisateur ? (
+          <Button textButton="Supprimer" variant="red" onClick={handleDelete} />
+        ) : (
+          <Button textButton="Les missions" variant="red" onClick={showMore}/>
+        )}
       </div>
     </div>
   );

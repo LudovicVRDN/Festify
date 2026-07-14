@@ -2,6 +2,7 @@ import type { Path, RegisterOptions } from "react-hook-form";
 import type { IFestival } from "./festival.type";
 
 export interface IMission {
+    id?:number,
     title: string;
     volunteer_needed : number;
     description : string;
@@ -9,6 +10,7 @@ export interface IMission {
     time_start: string;
     time_end: string
     festival:IFestival;
+    inscription?: { user_id: number }[];
 }
 
 export interface IMissionInputs {

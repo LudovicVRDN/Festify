@@ -4,7 +4,7 @@ import Button from "../../components/ui/button";
 import api from "../../api/axios.instance";
 import { useAuthStore } from "../../stores/auth.store";
 import type { IFestival } from "../../types/festival.type";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Modal from "../../components/ui/modal";
 import FestivalListCard from "../../components/FestivalListCard";
 import MissionListCard from "../../components/MissionListCard";
@@ -13,8 +13,10 @@ import type { IMission } from "../../types/misison.type";
 import { getStatus } from "../../utils/getStatus";
 
 const OrganizerHomePage = () => {
+  const role = useAuthStore((state) => state.user?.role);
   const id = useAuthStore((state) => state.user?.id);
   const [status, setStatus] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
   const navigate = useNavigate();
 
@@ -30,6 +32,15 @@ const OrganizerHomePage = () => {
       enabled: !!id,
     });
 
+  const deleteFestival = async (festivalId: number | undefined) => {
+    try {
+      await api.delete(`http://localhost:3000/festival/${festivalId}`);
+      queryClient.invalidateQueries({ queryKey: ["festival"] });
+    } catch (error) {
+      console.error("Error deleting festival:", error);
+    }
+  };
+
   const {
     data: missions,
     isPending: missionsIsPending,
@@ -43,6 +54,16 @@ const OrganizerHomePage = () => {
       },
     });
 
+  const deleteMission = async (missionId: number | undefined) => {
+    try {
+      await api.delete(`http://localhost:3000/missions/${missionId}`);
+      queryClient.invalidateQueries({ queryKey: ["mission"] });
+
+    } catch (error) {
+      console.error("Error deleting festival:", error);
+    }
+  };
+
   useEffect(() => {
     console.log(missions)
     if (data) {
@@ -54,8 +75,8 @@ const OrganizerHomePage = () => {
   }, [missions]);
 
 
-  if (isPending) return <span>Loading...</span>;
-  if (error)
+  if (isPending || missionsIsPending) return <span>Loading...</span>;
+  if (error || missionsError)
     return (
       <Modal
         buttonText="Un soucis"
@@ -64,114 +85,6 @@ const OrganizerHomePage = () => {
       />
     );
 
-  // const missionList: IMission[] = [
-  //   {
-  //     title: "Gestion de la scène principale",
-  //     volunteer_needed: 10,
-  //     is_full: false,
-  //     time_start: "2026-07-10",
-  //     time_end: "2026-07-15",
-  //     description:
-  //       "Aider à l'installation et à la gestion du matériel scénique.",
-  //     festival: {
-  //       name: "Hellfest Open Air",
-  //       start_date: "2026-06-18",
-  //       adress: {
-  //         city: "clisson",
-  //         postalCode: "25252",
-  //         street: "Rue machin",
-  //       },
-  //     },
-  //   },
-  //   {
-  //     title: "Accueil du public",
-  //     volunteer_needed: 15,
-  //     is_full: true,
-  //     description:
-  //       "Accueillir et orienter les festivaliers à l'entrée du site.",
-  //     time_start: "2026-07-10",
-  //     time_end: "2026-07-15",
-  //     festival: {
-  //       name: "Hellfest Open Air",
-  //       start_date: "2026-06-18",
-  //       adress: {
-  //         city: "clisson",
-  //         postalCode: "25252",
-  //         street: "Rue machin",
-  //       },
-  //     },
-  //   },
-  //   {
-  //     title: "Sécurité périmétrique",
-  //     volunteer_needed: 8,
-  //     is_full: false,
-  //     description: "Surveiller les accès et assurer la sécurité du périmètre.",
-  //     time_start: "2026-07-10",
-  //     time_end: "2026-07-15",
-  //     festival: {
-  //       name: "Hellfest Open Air",
-  //       start_date: "2026-06-18",
-  //       adress: {
-  //         city: "clisson",
-  //         postalCode: "25252",
-  //         street: "Rue machin",
-  //       },
-  //     },
-  //   },
-  //   {
-  //     title: "Gestion des stands alimentaires",
-  //     volunteer_needed: 12,
-  //     is_full: true,
-  //     time_start: "2026-07-10",
-  //     time_end: "2026-07-15",
-  //     description:
-  //       "Aider à la distribution et à la gestion des stands de nourriture.",
-  //     festival: {
-  //       name: "Hellfest Open Air",
-  //       start_date: "2026-06-18",
-  //       adress: {
-  //         city: "clisson",
-  //         postalCode: "25252",
-  //         street: "Rue machin",
-  //       },
-  //     },
-  //   },
-  //   {
-  //     title: "Communication et réseaux sociaux",
-  //     volunteer_needed: 5,
-  //     is_full: false,
-  //     time_start: "2026-07-10",
-  //     time_end: "2026-07-15",
-  //     description: "Couvrir l'événement en temps réel sur les réseaux sociaux.",
-  //     festival: {
-  //       name: "Hellfest Open Air",
-  //       start_date: "2026-06-18",
-  //       adress: {
-  //         city: "clisson",
-  //         postalCode: "25252",
-  //         street: "Rue machin",
-  //       },
-  //     },
-  //   },
-  //   {
-  //     title: "Nettoyage et éco-responsabilité",
-  //     volunteer_needed: 20,
-  //     is_full: false,
-  //     time_start: "2026-06-10",
-  //     time_end: "2026-06-15",
-  //     description:
-  //       "Assurer la propreté du site et sensibiliser au tri des déchets.",
-  //     festival: {
-  //       name: "Hellfest Open Air",
-  //       start_date: "2026-06-18",
-  //       adress: {
-  //         city: "clisson",
-  //         postalCode: "25252",
-  //         street: "Rue machin",
-  //       },
-  //     },
-  //   },
-  // ];
 
   return (
     <div className="bg-metal-dark bg-metal-grid min-h-screen">
@@ -205,8 +118,11 @@ const OrganizerHomePage = () => {
                 <FestivalListCard
                   name={festival.name}
                   city={festival.adress.city}
+                  role={role!}
                   date={festival.start_date}
                   status={getStatus(festival.start_date, festival.end_date)}
+                  showMore={() => navigate(`/festival/${festival.id}/edit`)}
+                  handleDelete={() => deleteFestival(festival.id)}
                 />
               </li>
             ))}
@@ -224,15 +140,20 @@ const OrganizerHomePage = () => {
           <ul className=" overflow-auto scrollbar-hide px-4 pb-2 h-80 w-90 md:w-150  lg:w-225 xl:min-w-330 rounded-2xl">
             {missionsIsPending ? (
               <span>Chargement...</span>
-            ) : (missions?.map((mission) => (
-              <li>
-                <MissionListCard
-                  mission={mission}
-                  status={getStatus(mission.time_start, mission.time_end)}
-                  button={true}
-                />
-              </li>
-            ))
+            ) : (missions?.slice()
+              .sort((a, b) => a.festival.name.localeCompare(b.festival.name))
+              .map((mission) => (
+                <li>
+                  <MissionListCard
+                    mission={mission}
+                    status={getStatus(mission.time_start, mission.time_end)}
+                    button={false}
+                    role={role!}
+                    handleDelete={() => deleteMission(mission.id)}
+                    modify={false}
+                  />
+                </li>
+              ))
             )}
           </ul>
         </section>

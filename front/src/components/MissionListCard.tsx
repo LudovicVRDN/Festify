@@ -8,28 +8,39 @@ import type { IMission } from "../types/misison.type";
 
 interface cardProps {
   mission: IMission;
-  button: boolean
+  button: boolean;
+  role: string
+  modify: boolean;
   status?: string;
   showMore?: (e: React.MouseEvent<HTMLButtonElement>) => void | Promise<void>;
   handleDelete?: (
     e: React.MouseEvent<HTMLButtonElement>,
   ) => void | Promise<void>;
+  handleRegister?: (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => void | Promise<void>;
+
 }
+
 
 const MissionListCard = ({
   mission,
   button,
   status,
+  role,
+  modify,
   showMore,
   handleDelete,
+  handleRegister
 }: cardProps) => {
   const isPast = status === "past";
+  const isOrganisateur = role === "organisateur";
 
   return (
     <div
-      className={`clipped-card w-full relative flex flex-col md:flex-row items-center gap-4 lg:min-w-150
+      className={`clipped-card w-full relative flex flex-col xl:flex-row items-center gap-4 
       p-4 mb-2 transition-colors
-      bg-[#111] hover:bg-[#161616]
+      bg-[#111] hover:border-2
       border-l-2 ${isPast ? "border-[#2a2a2a] opacity-70" : "border-red-700"}`}
     >
       <div className="flex gap-5">
@@ -64,11 +75,15 @@ const MissionListCard = ({
         </div>
       </div>
 
-      <div className="flex flex-col xl:flex-row gap-2 shrink-0 ml-auto">
+      <div className="flex  gap-2 shrink-0 ml-auto">
         {button && (
-          <Button textButton="Plus d'infos" variant="grey" onClick={showMore} />
+          <Button textButton={modify ? 'Modifier' : 'Voir plus'} variant="grey" onClick={showMore} />
         )}
-        <Button textButton="Supprimer" variant="red" onClick={handleDelete} />
+        {isOrganisateur ? (
+          <Button textButton="Supprimer" variant="red" onClick={handleDelete} />
+        ) : (
+          <Button textButton="S'inscrire" variant="red" onClick={handleRegister} />
+        )}
       </div>
 
     </div>

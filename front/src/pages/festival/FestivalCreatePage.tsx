@@ -44,20 +44,41 @@ const FestivalCreatePage = () => {
       label: "Date de début",
       placeholder: "Date de début",
       type: "date",
-      rules: { required: "La date de début est requise" },
+      rules: {
+        required: "La date de début est requise",
+        validate: (value: any) => {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          return (
+            new Date(value) >= today ||
+            "Le festival ne peut pas commencer dans le passé"
+          );
+        },
+      },
     },
     {
       name: "end_date",
       label: "Date de fin",
       placeholder: "Date de fin",
       type: "date",
-      rules: { required: "La date de fin est requise" },
+      rules: {
+        required: "La date de fin est requise",
+        validate: (value: any) => {
+          const start = getValues("start_date");
+          if (!start) return true;
+          return (
+            new Date(value) >= new Date(start) ||
+            "La date de fin doit être après la date de début"
+          );
+        },
+      },
     },
   ];
   const {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm<IFestival>({
     mode: "onChange",

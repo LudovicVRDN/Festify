@@ -16,9 +16,11 @@ import SkillsPage from "./pages/skills/SkillsPage";
 import SkillDetailPage from "./pages/skills/SkillDetailPage";
 import ResetPassword from "./pages/auth/ResetPassword";
 import FestivalCreatePage from "./pages/festival/FestivalCreatePage";
-import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
 import FestivalListPage from "./pages/festival/FestivalListPage";
 import MissionCreatePage from "./pages/mission/MissionCreatePage";
+import FestivalEditPage from "./pages/festival/FestivalEditPage";
+import FestivalDetailPage from "./pages/festival/FestivalDetailPage";
+
 
 function App() {
   const id = useAuthStore((state) => state.user?.id);
@@ -56,6 +58,10 @@ function App() {
             path={`/profile/${id}/update`}
             element={<ProfileEditPage userId={id} />}
           ></Route>
+          <Route
+            path="/festival/:festivalId/details"
+            element={<FestivalDetailPage />}
+          ></Route>
         </Route>
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>
@@ -73,9 +79,10 @@ function App() {
             element={<FestivalListPage />}
           ></Route>
           <Route
-            path="/festival/:festivalId/details"
-            element={<FestivalDetailPage />}
+            path="/festival/:festivalId/edit"
+            element={<FestivalEditPage />}
           ></Route>
+
           <Route
             path="/missions/create"
             element={<MissionCreatePage />}

@@ -26,60 +26,7 @@ const PrivateNavbar = ({ id, role }: INavProps) => {
   return (
     <div className="navbar bg-black  w-full ">
       <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              {" "}
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />{" "}
-            </svg>
-          </div>
-          {role === "organisateur" && (
-          <ul
-            tabIndex={-1}
-            className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-1 mt-3 w-50 p-2 shadow "
-          >
-            <li>
-              <Link to={`/organisateur/festivals`} className=" text-xl">
-              Mes Festivals
-              </Link>
-            </li>
-            <li>
-              <Link to={`/organisateur/missions`} className=" text-xl">
-                Mes Missions
-              </Link>
-            </li>
-            </ul>
-          )}
-            {role === "benevole" && (
-              <ul
-                tabIndex={-1}
-                className="menu menu-sm  dropdown-content bg-base-100 rounded-box z-1 mt-3 w-50 p-2 shadow "
-              >
-                <li>
-                  <Link to={`/skills/${id}`}  className=" text-xl">
-                   Tes compétences
-                  </Link>
-                </li>
-                <li>
-                  <Link to={`/benevole/missions`} className=" text-xl">
-                    Mes missions
-                  </Link>
-                </li>
-              </ul>
-            )}
 
-        </div>
       </div>
       <div className="navbar-center">
         <Link to="/">

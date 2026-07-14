@@ -8,8 +8,10 @@ import TornEdge from "../../components/TornEdge";
 import Button from "../../components/ui/button";
 import { useAuthStore } from "../../stores/auth.store";
 import FestivalListCard from "../../components/FestivalListCard";
+import { getStatus } from "../../utils/getStatus";
 
 const FestivalListPage = () => {
+  const role = useAuthStore((state) => state.user?.role);
   const navigate = useNavigate();
   const params = useParams();
   const id = useAuthStore((state) => state.user?.id);
@@ -19,24 +21,6 @@ const FestivalListPage = () => {
     queryFn: () =>
       api.get(`http://localhost:3000/user/${id}/festival`).then((r) => r.data),
   });
-
-  function toDay(date: Date | string): Date {
-    const d = new Date(date);
-    return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  }
-
-  function getStatus(
-    startString: string,
-    endString: string | undefined,
-  ): string {
-    const now = toDay(new Date());
-    const start = toDay(startString);
-    const end = toDay(endString!);
-
-    if (now < start) return "future";
-    else if (now > end) return "past";
-    else return "ongoing";
-  }
 
   useEffect(() => {
     if (data) {
@@ -74,6 +58,7 @@ const FestivalListPage = () => {
             <FestivalListCard
               name={festival.name}
               city={festival.adress.city}
+              role={role!}
               date={festival.start_date}
               status={getStatus(festival.start_date, festival.end_date)}
             />

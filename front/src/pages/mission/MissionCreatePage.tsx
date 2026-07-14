@@ -10,8 +10,10 @@ import api from "../../api/axios.instance";
 import type { IFestival } from "../../types/festival.type";
 import Modal from "../../components/ui/modal";
 import { useNavigate } from "react-router";
+import { getMissionsInputs } from "../../utils/getMissionInputs";
 
 const MissionCreatePage = () => {
+  const role = useAuthStore((state) => state.user?.role);
   const [createdMissions, setCreatedMissions] = useState<IMission[]>([]);
   const id = useAuthStore((state) => state.user?.id);
   const navigate = useNavigate();
@@ -52,9 +54,6 @@ const MissionCreatePage = () => {
     }
   };
 
-
-
-
   const addToArray = (formData: IMission) => {
     const festival = festivals?.find((f) => f.id === Number(formData.festival));
     if (!festival) return;
@@ -76,6 +75,7 @@ const MissionCreatePage = () => {
     register,
     handleSubmit,
     reset,
+    getValues,
     formState: { errors },
   } = useForm<IMission>({
     mode: "onChange",
@@ -85,53 +85,7 @@ const MissionCreatePage = () => {
     setCreatedMissions((prev) => prev.filter((_, i) => i !== indexToRemove));
   };
 
-
-
-  const missionInputs: IMissionInputs[] = [
-    {
-      name: "festival",
-      label: "Festival",
-      placeholder: "Choisis un festival",
-      type: "select",
-      rules: { required: "Sélectionne un festival !" },
-      options: festivals?.map((f) => ({ label: f.name, value: f.id as number })),
-    },
-    {
-      name: "title",
-      label: "Titre de la mission",
-      placeholder: "Titre de la mission",
-      type: "text",
-      rules: { required: "Rentre le Titre de la mission !" },
-    },
-    {
-      name: "description",
-      label: "Description de la mission",
-      placeholder: "Description de la mission",
-      type: "text",
-      rules: { required: "Rentre la Description de la mission !" },
-    },
-    {
-      name: "time_start",
-      label: "Début de la mission",
-      placeholder: "Début de la mission",
-      type: "date",
-      rules: { required: "Rentre le Titre de la mission !" },
-    },
-    {
-      name: "time_end",
-      label: "Fin de la mission",
-      placeholder: "Titre de la mission",
-      type: "date",
-      rules: { required: "Rentre le Titre de la mission !" },
-    },
-    {
-      name: "volunteer_needed",
-      label: "Nombre de volontaires nécéssaires",
-      placeholder: "Nombre de volontaires nécéssaires",
-      type: "number",
-      rules: { required: "De combien de volontaires as-tu besoin?" },
-    },
-  ];
+  const missionInputs: IMissionInputs[] = getMissionsInputs(getValues, festivals!)
 
   if (isPending) return <span>Loading...</span>;
   if (error)
@@ -217,7 +171,7 @@ const MissionCreatePage = () => {
             {createdMissions.map((mission, index) => {
               return (
                 <li key={index} data-key={index}>
-                  <MissionListCard mission={mission} button={false} handleDelete={() => removeMission(index)} />
+                  <MissionListCard mission={mission} button={false} handleDelete={() => removeMission(index)} modify={false} role={role!} />
                 </li>
               );
             })}
