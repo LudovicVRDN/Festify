@@ -90,15 +90,7 @@ function App() {
 
         <Route element={<PrivateRoute allowedRoles="benevole" />}>
           <Route path="/benevole" element={<VolunteerHomePage />}></Route>
-          <Route
-            path={`/skills/${id}`}
-            element={<SkillsPage id={id} />}
-          ></Route>
 
-          <Route
-            path="/skills/:skillId/details"
-            element={<SkillDetailPage />}
-          ></Route>
         </Route>
 
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
