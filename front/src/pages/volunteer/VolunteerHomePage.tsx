@@ -136,7 +136,7 @@ const VolunteerHomePage = () => {
         </ul>
         <div className="flex flex-col gap-2">
           <Button textButton="Voir tes missions" variant="red" />
-          <Button textButton="Voir tes compétences" variant="grey" />
+          
         </div>
       </section>
 
