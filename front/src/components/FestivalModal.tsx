@@ -29,7 +29,7 @@ const FestivalEditModal = forwardRef<FestivalEditModalHandle, Props>(
 
         const mutation = useMutation({
             mutationFn: (updatedData: IUpdateFestival) =>
-                api.patch(`http://localhost:3000/festival/${festivalId}`, updatedData),
+                api.patch(`/festival/${festivalId}`, updatedData),
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: ["festival", festivalId] });
                 dialogRef.current?.close();

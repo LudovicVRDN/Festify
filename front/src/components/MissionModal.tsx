@@ -34,7 +34,7 @@ const MissionEditModal = forwardRef<MissionEditModalHandle, Props>(
         const mutation = useMutation({
             mutationFn: (updatedMission: IMission) =>
                 api.patch(
-                    `http://localhost:3000/missions/${festivalId}/mission/${selectedMissionId.current}`,
+                    `/missions/${festivalId}/mission/${selectedMissionId.current}`,
                     updatedMission
                 ),
             onSuccess: () => {
