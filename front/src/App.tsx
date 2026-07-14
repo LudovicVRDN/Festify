@@ -12,8 +12,7 @@ import { useAuthStore } from "./stores/auth.store";
 import { useEffect, useState } from "react";
 import api from "./api/axios.instance";
 import PublicLayout from "./guards/layout/PublicLayout";
-import SkillsPage from "./pages/skills/SkillsPage";
-import SkillDetailPage from "./pages/skills/SkillDetailPage";
+
 import ResetPassword from "./pages/auth/ResetPassword";
 import FestivalCreatePage from "./pages/festival/FestivalCreatePage";
 import FestivalListPage from "./pages/festival/FestivalListPage";
