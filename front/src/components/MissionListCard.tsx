@@ -35,8 +35,8 @@ const MissionListCard = ({
   const isPast = status === "past";
   const isOrganisateur = role === "organisateur";
 
-  const isRegistered = mission.volunteers?.some(
-    (volunteer: any) => volunteer.id === currentUserId
+  const isRegistered = mission.inscription?.some(
+    (jointure: any) => jointure.user_id === currentUserId || jointure.userId === currentUserId
   ) ?? false;
 
   return (
