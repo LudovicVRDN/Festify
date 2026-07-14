@@ -129,34 +129,34 @@ export class FestivalService {
 }
 
 
-  async update(id: number, updateFestivalDto: UpdateFestivalDto, existingAdress: adress | null): Promise<festival | undefined> {
-    const { adress, ...rest } = updateFestivalDto
-    const { id: _id, created_at, updated_at, role, is_validated, ...safeRest } = rest as any
+async update(id: number, updateFestivalDto: UpdateFestivalDto, existingAdress: adress | null): Promise<festival | undefined> {
+  // On extrait ici 'adress' ET 'adress_id' pour ne pas les laisser dans 'rest'
+  const { adress, adress_id, ...rest } = updateFestivalDto as any;
+  const { id: _id, created_at, updated_at, role, is_validated, ...safeRest } = rest;
 
-    const updatedFestival = await this.prisma.festival.update({
-      where: { id },
-      data: {
-        ...safeRest,
-        ...(adress && {
-          adress: {
-            connectOrCreate: {
-              where: {
-                id: existingAdress?.id ?? 0
-              },
-              create: {
-                street: adress.street,
-                city: adress.city,
-                postalCode: adress.postalCode
-              }
+  const updatedFestival = await this.prisma.festival.update({
+    where: { id },
+    data: {
+      ...safeRest, // Ne contient plus 'adress_id'
+      ...(adress && {
+        adress: {
+          connectOrCreate: {
+            where: {
+              id: existingAdress?.id ?? 0
+            },
+            create: {
+              street: adress.street,
+              city: adress.city,
+              postalCode: adress.postalCode
             }
           }
-        })
+        }
+      })
+    }
+  });
 
-      }
-    })
-    return updatedFestival
-
-  }
+  return updatedFestival;
+}
 
   async countFestivalById(id: number): Promise<number> {
     return await this.prisma.festival.count({
