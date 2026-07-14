@@ -34,7 +34,7 @@ const RegisteringPage = () => {
         validate: {
           hasUpperCase: (v: any) =>
             /[A-Z]/.test(v) || "Doit contenir une majuscule",
-          hasLowerCase: (v: any) => 
+          hasLowerCase: (v: any) =>
             /[a-z]/.test(v) || "Doit contenir une minuscule",
           hasNumber: (v: any) => /[0-9]/.test(v) || "Doit contenir un chiffre",
           hasSpecial: (v: any) =>
@@ -107,28 +107,28 @@ const RegisteringPage = () => {
     watch,
     formState: { errors },
   } = useForm<IUser>({
-  mode: "onChange" 
-});
+    mode: "onChange"
+  });
 
   const handleForm: SubmitHandler<IUser> = async (data: IUser) => {
     console.log(`Data envoyées : ${data}`);
     if (data.password === data.confirmPassword) {
       const { confirmPassword, ...userToSend } = data;
-      try{
-      await api.post<String>(
-        "http://localhost:3000/auth/register",
-        userToSend,
-      )
-      navigate("/")
-      }catch (error: any) {
-      if (error.response) {
-        console.log("Erreur :", error.response.status);
-        alert(error.response.data.message || "Identifiants incorrects");
-      } else {
-        console.log("Erreur réseau (vérifie si NestJS est lancé)");
+      try {
+        await api.post<String>(
+          "/auth/register",
+          userToSend,
+        )
+        navigate("/")
+      } catch (error: any) {
+        if (error.response) {
+          console.log("Erreur :", error.response.status);
+          alert(error.response.data.message || "Identifiants incorrects");
+        } else {
+          console.log("Erreur réseau (vérifie si NestJS est lancé)");
+        }
       }
-    }
-      
+
     }
   };
   const password = watch("password");
@@ -144,7 +144,7 @@ const RegisteringPage = () => {
           <div className="flex flex-col lg:flex-row justify-center lg:min-h-115">
             <form
               onSubmit={handleSubmit(handleForm)}
-             className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-12 lg:gap-y-8 justify-center items-start bg-black lg:w-150 p-5"
+              className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-x-12 lg:gap-y-8 justify-center items-start bg-black lg:w-150 p-5"
             >
               {formFields.map((field) => {
                 const fieldError = field.name
@@ -168,7 +168,7 @@ const RegisteringPage = () => {
                             <input
                               type="radio"
                               value={option.value}
-                            
+
                               {...register(field.name, field.rules)}
                             />
                             <span className="text-sm">{option.label}</span>

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "../stores/auth.store";
 
 const api = axios.create({
-    baseURL: '/api',//NestJS baseURL 
+    baseURL: '/api',
     withCredentials: true, //Needed for send/receive cookies 
 });
 
