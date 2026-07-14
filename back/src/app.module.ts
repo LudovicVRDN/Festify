@@ -7,13 +7,13 @@ import { ProfileModule } from './profile/profile.module';
 import { ConfigModule } from '@nestjs/config';
 import { FestivalModule } from './festival/festival.module';
 import { AdressModule } from './adress/adress.module';
-import { SkillsModule } from './skills/skills.module';
+
 import { MailingModule } from './mailing/mailing.module';
 import { MissionsModule } from './missions/missions.module';
 
 
 @Module({
-  imports: [UserModule,PrismaModule, AuthModule, ProfileModule,ConfigModule.forRoot({isGlobal:true}), FestivalModule, AdressModule, SkillsModule, MailingModule, MissionsModule],
+  imports: [UserModule,PrismaModule, AuthModule, ProfileModule,ConfigModule.forRoot({isGlobal:true}), FestivalModule, AdressModule, MailingModule, MissionsModule],
   providers: [ProfileService],
 })
 export class AppModule {}
