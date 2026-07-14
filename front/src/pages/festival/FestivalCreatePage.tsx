@@ -88,7 +88,7 @@ const FestivalCreatePage = () => {
   const handleForm: SubmitHandler<IFestival> = async (data: IFestival) => {
     console.log(data);
     try {
-      await api.post(`http://localhost:3000/festival`, data);
+      await api.post(`/festival`, data);
       reset();
       navigate("/");
     } catch (error) {

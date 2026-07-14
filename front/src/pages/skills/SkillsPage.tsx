@@ -22,7 +22,7 @@ const SkillsPage = ({ id }: ISkillProps) => {
   const fetchSkills = async () => {
     try {
       const skillDB = await api.get<ISkill[]>(
-        `http://localhost:3000/user/${id}/skills`,
+        `/user/${id}/skills`,
       );
       setSkills(skillDB.data);
       console.log(skillDB);
@@ -37,7 +37,7 @@ const SkillsPage = ({ id }: ISkillProps) => {
   const handleClick = async (id: number) => {
     try {
       console.log("Data supprimée");
-      await api.delete(`http://localhost:3000/skills/${id}/delete`);
+      await api.delete(`/skills/${id}/delete`);
     } catch (error) {
       console.error("Erreur lors de la récupération:", error);
     }
@@ -55,7 +55,7 @@ const SkillsPage = ({ id }: ISkillProps) => {
 
   const handleForm: SubmitHandler<ISkill> = async (data: ISkill) => {
     try {
-      await api.post(`http://localhost:3000/skills`, data);
+      await api.post(`/skills`, data);
       await fetchSkills();
       reset();
     } catch (error) {

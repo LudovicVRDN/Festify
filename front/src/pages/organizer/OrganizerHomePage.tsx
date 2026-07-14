@@ -34,7 +34,7 @@ const OrganizerHomePage = () => {
 
   const deleteFestival = async (festivalId: number | undefined) => {
     try {
-      await api.delete(`http://localhost:3000/festival/${festivalId}`);
+      await api.delete(`/festival/${festivalId}`);
       queryClient.invalidateQueries({ queryKey: ["festival"] });
     } catch (error) {
       console.error("Error deleting festival:", error);
@@ -56,7 +56,7 @@ const OrganizerHomePage = () => {
 
   const deleteMission = async (missionId: number | undefined) => {
     try {
-      await api.delete(`http://localhost:3000/missions/${missionId}`);
+      await api.delete(`/missions/${missionId}`);
       queryClient.invalidateQueries({ queryKey: ["mission"] });
 
     } catch (error) {

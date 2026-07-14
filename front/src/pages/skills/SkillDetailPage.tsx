@@ -51,7 +51,7 @@ const SkillDetailPage = () => {
   const handleForm: SubmitHandler<ISkill> = async (data: ISkill) => {
     try {
       const skillDB = await api.patch<ISkill>(
-        `http://localhost:3000/skills/${params.skillId}/update`,
+        `/skills/${params.skillId}/update`,
         data,
       );
       console.log(skillDB);
@@ -66,7 +66,7 @@ const SkillDetailPage = () => {
   const fetchSkill = async () => {
     try {
       const skillDB = await api.get<ISkill>(
-        `http://localhost:3000/user/${params.skillId}/skills/details`,
+        `/user/${params.skillId}/skills/details`,
       );
       console.log(skillDB);
       setSkill(skillDB.data);
@@ -77,7 +77,7 @@ const SkillDetailPage = () => {
   const deleteSkill = async () => {
     try {
       console.log("Data supprimée");
-      await api.delete(`http://localhost:3000/skills/${params.skillId}/delete`);
+      await api.delete(`/skills/${params.skillId}/delete`);
       navigate(`/skills/${params.skillId}`);
     } catch (error) {
       console.error("Erreur lors de la récupération:", error);

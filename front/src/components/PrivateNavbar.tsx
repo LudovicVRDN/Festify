@@ -15,7 +15,7 @@ const PrivateNavbar = ({ id, role }: INavProps) => {
   const logOut = async () => {
     try {
       console.log('déconnexion');
-      await api.post("http://localhost:3000/auth/logout");
+      await api.post("/auth/logout");
       useAuthStore.getState().logout()
       navigate('/')
     } catch (error) {

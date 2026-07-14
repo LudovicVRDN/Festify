@@ -22,13 +22,13 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
   const fetchProfile = async () => {
     try {
       const profileDB = await api.get<IProfile>(
-        `http://localhost:3000/profile/${userId}`,
+        `/profile/${userId}`,
       );
       const adresseDB = await api.get<IAdresse>(
-        `http://localhost:3000/adress/${userId}`,
+        `/adress/${userId}`,
       );
       const userDB = await api.get<IUser>(
-        `http://localhost:3000/user/${userId}`,
+        `/user/${userId}`,
       );
       setProfile(profileDB.data);
       setAdresse(adresseDB.data);
@@ -122,7 +122,7 @@ const ProfileEditPage = ({ userId }: ProfileEditProps) => {
       : userWithoutPasswords;
     try {
       await api.patch<Date>(
-        `http://localhost:3000/user/${userId}/update`,
+        `/user/${userId}/update`,
         userToSend,
       );
       navigate(`/profile/${userId}`);

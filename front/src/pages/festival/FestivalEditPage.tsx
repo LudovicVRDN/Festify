@@ -41,7 +41,7 @@ const FestivalEditPage = () => {
     error
   } = useQuery<IFestival>({
     queryKey: ['festival', params.festivalId],
-    queryFn: () => api.get(`http://localhost:3000/user/${params.festivalId}/festival/details`).then(r => r.data)
+    queryFn: () => api.get(`/user/${params.festivalId}/festival/details`).then(r => r.data)
   })
 
   const {
@@ -50,12 +50,12 @@ const FestivalEditPage = () => {
     error: errorsMissions
   } = useQuery<IMission[]>({
     queryKey: ['missions', data?.id],
-    queryFn: () => api.get(`http://localhost:3000/missions/${params.festivalId}`).then(r => r.data)
+    queryFn: () => api.get(`/missions/${params.festivalId}`).then(r => r.data)
   })
 
   const deleteFestival = async () => {
     try {
-      await api.delete(`http://localhost:3000/festival/${params.festivalId}`);
+      await api.delete(`/festival/${params.festivalId}`);
       navigate('/');
     } catch (error) {
       console.error("Error deleting festival:", error);
@@ -64,7 +64,7 @@ const FestivalEditPage = () => {
 
   const deleteMission = async (missionId: number | undefined) => {
     try {
-      await api.delete(`http://localhost:3000/missions/${missionId}`);
+      await api.delete(`/missions/${missionId}`);
       queryClient.invalidateQueries({ queryKey: ["missions"] });
     } catch (error) {
       console.error("Error deleting festival:", error);

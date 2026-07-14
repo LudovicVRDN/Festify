@@ -19,7 +19,7 @@ const FestivalListPage = () => {
   const { data, isPending, error } = useQuery<IFestival[]>({
     queryKey: ["festival", params.festivalId],
     queryFn: () =>
-      api.get(`http://localhost:3000/user/${id}/festival`).then((r) => r.data),
+      api.get(`/user/${id}/festival`).then((r) => r.data),
   });
 
   useEffect(() => {
