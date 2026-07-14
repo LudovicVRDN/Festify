@@ -136,6 +136,8 @@ async findAllMissionForVolunteer(userId: number) {
           festival: {
             include: { adress: true },
           },
+          // 1. On inclut les inscriptions de la mission dans l'objet retourné
+          inscription: true, 
         },
       },
     },
