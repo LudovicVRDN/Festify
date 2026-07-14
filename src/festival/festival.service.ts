@@ -18,6 +18,18 @@ export class FestivalService {
 
   async create(createFestivalDto: CreateFestivalDto, existingAdress: adress |null) {
     const { adress, ...rest } = createFestivalDto;
+     const startDate = new Date(createFestivalDto.start_date);
+  const endDate = new Date(createFestivalDto.end_date);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // ignore l'heure pour comparer juste les jours
+
+  if (startDate < today) {
+    throw new BadRequestException("Le festival ne peut pas commencer dans le passé");
+  }
+
+  if (endDate < startDate) {
+    throw new BadRequestException("La date de fin doit être après la date de début");
+  }
 
     const festival = await this.prisma.festival.create({
       data: {
@@ -154,12 +166,13 @@ export class FestivalService {
 
 
   async findOne(id: number): Promise<festival> {
-    const festival = await this.prisma.festival.findUnique({
-      where: { id }
-    })
-    if (!festival) throw new NotFoundException('Pas de festival trouvé')
-    return festival
-  }
+  const festival = await this.prisma.festival.findUnique({
+    where: { id },
+    include: { adress: true },
+  });
+  if (!festival) throw new NotFoundException('Pas de festival trouvé');
+  return festival;
+}
 
 
   async remove(id: number, userID: number) {

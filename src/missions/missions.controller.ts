@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, Req, UnauthorizedException, UseGuards, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, NotFoundException, Req, UnauthorizedException, UseGuards, ParseIntPipe, ConflictException } from '@nestjs/common';
 import { MissionsService } from './missions.service';
 import { CreateMissionDto } from './dto/create-mission.dto';
 import { UpdateMissionDto } from './dto/update-mission.dto';
@@ -28,17 +28,62 @@ export class MissionsController {
     const mission = await this.missionsService.create(createMissionDto, festivalid);
     return mission;
   }
+
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(['benevole'])
+  @Post(':missionid/inscription')
+  async linkVolunteerMission(
+    @Param('missionid', ParseIntPipe) missionid: number,
+    @Req() req: any,
+  ){
+     const mission = await this.missionsService.findOneById(missionid);
+  if (!mission) {
+    throw new NotFoundException('Mission introuvable');
+  }
+  if (mission.volunteer_needed <= 0) {
+    throw new ConflictException('Mission complète');
+  }
+    return this.missionsService.createLinkVolunteerMission(req.user.sub,missionid)
+  }
   
   @UseGuards(AuthGuard,RolesGuard)
   @Roles(['organisateur'])
   @Get("")
-  async findAll(
+  async findAllByUserID(
     @Req() req: any
   ) {
     return this.missionsService.findAllMissionsByUserID(req.user.sub);
   }
 
-    @UseGuards(AuthGuard,RolesGuard)
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles(['benevole'])
+  @Get('mine')
+  async findAllVolunteersMissions(
+    @Req() req:any
+  ){
+    const missions= await  this.missionsService.findAllMissionForVolunteer(req.user.sub)
+    if(!missions) throw new NotFoundException("Pas de missions trouvées")
+
+      return missions
+  }
+
+
+  @UseGuards(AuthGuard)
+  @Get('/all')
+  async findAll(){
+    return this.missionsService.findAll()
+  }
+
+  @UseGuards(AuthGuard)
+  @Get(":festivalid")
+  async findAllByFestivalID(
+     @Param('festivalid', ParseIntPipe) festivalid: number,
+    @Req() req: any
+  ) {
+    return this.missionsService.findAllMissionsByFestivalID(festivalid);
+  }
+
+  @UseGuards(AuthGuard,RolesGuard)
   @Roles(['organisateur'])
   @Get(':festivalid/missions/:id')
   async findOne(
@@ -54,7 +99,7 @@ export class MissionsController {
 
     @UseGuards(AuthGuard,RolesGuard)
   @Roles(['organisateur'])
-  @Patch(':festivalid/missions/:id')
+  @Patch(':festivalid/mission/:id')
   async update
     (@Param('festivalid', ParseIntPipe) festivalid: number,
       @Req() req: any,
@@ -63,19 +108,16 @@ export class MissionsController {
     if (!await this.missionsService.isFestivalIsValid(festivalid, req.user.sub)) {
       throw new NotFoundException('Tu n\'as pas accès à ce festival ou il n\'existe pas');
     }
-    return this.missionsService.update(id, updateMissionDto);
+    return this.missionsService.update(id, festivalid, updateMissionDto);
   }
 
   @UseGuards(AuthGuard,RolesGuard)
   @Roles(['organisateur'])
-  @Delete(':festivalid/missions/:id')
+  @Delete(':id')
   async remove(
-    @Param('festivalid', ParseIntPipe) festivalid: number,
     @Req() req: any,
     @Param('id', ParseIntPipe) id: number) {
-    if (!await this.missionsService.isFestivalIsValid(festivalid, req.user.sub)) {
-      throw new NotFoundException('Tu n\'as pas accès à ce festival ou il n\'existe pas');
-    }
-    return this.missionsService.remove(id);
+ 
+    return this.missionsService.remove(id,req.user.sub);
   }
 }

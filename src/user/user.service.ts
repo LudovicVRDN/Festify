@@ -67,13 +67,13 @@ export class UserService {
         }
       }
     })
-    console.log(user)
+    
     return user
   }
 
   async findAll(): Promise<user[]> {
     const users = await this.prisma.user.findMany()
-    console.log(users)
+  
     return users
   }
 

@@ -37,15 +37,14 @@ export class FestivalController {
     return myFestival
   }
 
-  @UseGuards(AuthGuard,RolesGuard)
-  @Roles(['organisateur'])
+  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.festivalService.findOne(+id);
   }
 
-  @UseGuards(AuthGuard,RolesGuard)
-  @Roles(['organisateur'])
+  @UseGuards(AuthGuard)
+  
   @Get()
   async findAll(){
     return this.festivalService.findAll()
